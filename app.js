@@ -384,8 +384,6 @@ async function publishDataToNetlify(nextSnippets = snippets) {
             alert(`Falha ao publicar no Netlify (${response.status}). ${detail || ""}`);
             return false;
         }
-
-        alert("Publicação no Netlify concluída!");
         return true;
     } catch (error) {
         alert("Erro ao publicar no Netlify.");

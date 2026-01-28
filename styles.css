@@ -305,6 +305,8 @@ iframe { width: 100%; height: 100%; border: none; }
 .btn-primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
 .btn-ghost { background: transparent; border: none; color: var(--text-light); }
 .btn-ghost:hover { background: rgba(255,255,255,0.05); color: var(--text-main); }
+.btn-danger { background: #ef4444; color: white; border-color: #ef4444; }
+.btn-danger:hover { background: #dc2626; border-color: #dc2626; }
 
 .form-select { padding: 0.4rem; border: 1px solid var(--border); border-radius: 6px; font-size: 0.85rem; background: var(--bg-input); color: var(--text-main); }
 
