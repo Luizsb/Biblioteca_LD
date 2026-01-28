@@ -1,0 +1,107 @@
+/******
+
+Folha de estilo: Filosofia;
+Nível de ensino: EF2;
+
+Cliente: SAE Digital;
+
+*******/
+
+/**** Texto, títulos e listas ****/
+
+h1, .enunciadoNumero .numeracao,
+.nivelUm .numeracao,
+.nivelDois .numeracao,
+.tituloExSol .numeracao,
+.textoExSol .numeracao,
+p.enunciadoNumero .layout_bold_disciplina,
+p.enunciadoNumero .segunda_cor,
+.alternativaLetra span, .textoLegenda, .destaque2, 
+.textoCitado, .textoReferenciaCor {
+    color: #13828a;
+}
+h2 {
+    color: #13828a;
+}
+h3 {
+    color: #54999f;
+}
+h4 {
+    color: #82b1b6;
+}
+
+/**** Tabelas ****/
+
+table {
+    background-color: #a1d4cd;
+}
+.cabecalho {
+    background-color: #a1d4cd;
+    width: 25%;
+}
+
+/**** Cabeçalho ****/
+
+header {
+    background: #6ac0b7;
+	color: #FFF;
+}
+body.ef2 header::after {
+    background-position: -5px -293px;
+}
+
+@media
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px){
+    td:before { 
+        background-color: #6ac0b7;
+    }
+}
+
+/**** Blocos da disciplina ****/
+
+.disciplina {
+    background-color: #fce6ea;
+}
+
+.nesteCapitulo {
+    background-color: #6ac0b7;
+}
+body.ef2 blockquote.pagina {
+    border-color: #6ac0b7 #6ac0b7 transparent #6ac0b7; /* CSS disciplina */
+}
+body.ef2 blockquote.fio {
+    border: 3px solid #6ac0b7;
+}
+/** OD Abas **/
+
+.od .abas,
+.od .abas:before,
+.od .abas:after {
+    background-color: #D5CDD2;
+}
+.od .abas > ul > li > a {
+    background-color: #83757E;
+    color: white;
+}
+.od .abas > ul > li > a.active,
+.od .abas > ul > li > a:hover {
+	background-color: white;
+    color: #83757E;
+}
+
+    /* Input texto */
+
+input[type="text"]{
+    color: #13828a;
+    background-color: #f9f9f9;
+    border: 2px solid #13828a;
+}
+
+label > span.check {
+        border: 2px solid #13828a;
+    }
+
+            .featherlight .featherlight-content {
+    border-left: 15px solid #13828a;
+}

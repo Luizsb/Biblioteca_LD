@@ -1,0 +1,440 @@
+/******
+
+Folha de estilo: Ajustes para dispositivos entre 641px e 1024px de largura;
+
+Cliente: SAE Digital;
+
+*******/
+
+@media only screen and (min-width: 40.063em) and (max-width: 64em) {
+    /**** Texto, títulos e listas ****/
+    body.ef1 blockquote .tituloQuote {
+        font-size: 1.0em;
+    }
+    p {
+        font-size: 0.5em;
+        line-height: 1.25em;
+        /*text-indent: 1.6em;*/
+    }
+    h1 {
+        font-size: 1.4em;
+    }
+    h2 {
+        font-size: 1.2em;
+    }
+    h3 {
+        font-size: 1.0em;
+    }
+    h4 {
+        font-size: 0.8em;
+    }
+    .colunas {
+        -webkit-column-count: 2 !important;
+        -moz-column-count: 2 !important;
+        column-count: 2 !important;
+    }
+    /**** Imagens e Objetos ****/
+    figure.maxQuarto,
+    iframe.maxQuarto,
+    object.maxQuarto,
+    figure.maxTresQuartos,
+    iframe.maxTresQuartos,
+    object.maxTresQuartos {
+        max-width: calc(50% - 1.4em);
+    }
+    /**** Blockquote ****/
+    blockquote {
+        margin: 3.4em 0 1.4em;
+    }
+    blockquote.maxMetade {
+        max-width: calc(50% - 3.4em);
+    }
+    blockquote.maxQuarto {
+        padding: 1em 0.5em;
+        max-width: calc(100% - 2.4em);
+    }
+    body.ef2 blockquote.boxCinza h1.tituloQuote {
+    	padding: 1em 0 0.7em 2.5em;
+    }
+    body.ef2 blockquote.boxCinza h1.tituloQuote span.inner:before {
+    	top: 7px;
+    }
+    body.ef2 blockquote.boxCinza:before {
+        height: 80px;
+    }
+    body.ef2 blockquote.boxCinza h1.tituloQuote , body.ef2 blockquote.boxCinza h1.tituloQuote span.inner:before {
+    	top: -5px;
+    }
+    body.ef2 blockquote.boxCinza h1.tituloQuote span.inner:before {
+    	top: 5px;
+        left: 0;
+    }
+    body.ef2 blockquote.box h1.tituloQuote {
+    	width: 508px;
+    	height: 44px;
+        background-size: 508px;
+        background-position: 0 0;
+        background-repeat: no-repeat;
+    }
+    body.ef2 blockquote.box h1.tituloQuote span.inner {
+    	font-size: 0.65em;
+        top: -0.4em;
+        position: relative;
+        left: 110px;
+    }
+    body.ef1 blockquote.disciplina.maxMetade {
+        max-width: calc(50% - 3.4em - 8px);
+    }
+    body.ef1 blockquote.disciplina.maxQuarto {
+        padding: 1em 0.5em;
+        max-width: calc(100% - 2.4em - 8px);
+    }
+    blockquote .tituloQuote {
+        top: -2.6em;
+    }
+
+    body.ef1 blockquote.vocejaSabe2:after{
+        content: '';
+        position: absolute;
+        left: 1rem;
+        top: -57px;
+        width: 600px;
+        height: 150px;
+        background: transparent url('../image/box_vocejasabe.png') no-repeat;
+        background-size: 200%;
+    }
+
+    blockquote.conversaVem blockquote.postit{
+        height: 13rem;
+        padding-left: 7rem;
+        padding-right: 10rem;
+        padding-top: 5rem;
+    }
+
+    /**** Cabeçalho ****/
+    header p.abertura {
+        width: 90%;
+        padding: 0 5%;
+        font-size: 0.8em;
+    }
+    /**** Formatação dos blocos principais ****/
+    figure.imagemPrincipal {
+        height: 22em;
+    }
+    figure.imagemPrincipal figcaption {
+        /*width: 90%;*/
+        padding: 2em 5% 1em;
+        font-size: 0.8em;
+    }
+    figure.imagemPrincipal figcaption p.textoCredito {
+        font-size: 0.6em;
+    }
+    main {
+        width: 90%;
+    }
+    /**** Professor ****/
+    .janelaProfessor .janelaProfessor-content {
+        max-width: 70%;
+    }
+    .janelaProfessor .janelaProfessor-close-icon {
+        right: 2%;
+    }
+
+
+    div.rankEstrela button#botao1{
+    border: none;
+    background-color: transparent;
+    width: 5em;
+    height: 5em;
+    padding: 0;
+    background-image: url(../image/estrela_cheia1.png);
+    background-repeat: no-repeat;
+    outline: none;
+    background-size: contain;
+}
+div.rankEstrela button#botao2{
+    border: none;
+    background-color: transparent;
+    width: 5em;
+    height: 5em;
+    padding: 0;
+    background-image: url(../image/estrela_cheia2.png);
+    background-repeat: no-repeat;
+    outline: none;
+    background-size: contain;
+}
+div.rankEstrela button#botao3{
+    border: none;
+    background-color: transparent;
+    width: 5em;
+    height: 5em;
+    padding: 0;
+    background-image: url(../image/estrela_cheia3.png);
+    background-repeat: no-repeat;
+    outline: none;
+    background-size: contain;
+}
+div.rankEstrela button#botao4{
+    border: none;
+    background-color: transparent;
+    width: 5em;
+    height: 5em;
+    padding: 0;
+    background-image: url(../image/estrela_cheia4.png);
+    background-repeat: no-repeat;
+    outline: none;
+    background-size: contain;
+}
+div.rankEstrela button#botao5{
+    border: none;
+    background-color: transparent;
+    width: 5em;
+    height: 5em;
+    padding: 0;
+    background-image: url(../image/estrela_cheia5.png);
+    background-repeat: no-repeat;
+    outline: none;
+    background-size: contain;
+}
+
+
+    /** ODs **/
+    .od .arrastar .areaArraste ul {
+        font-size: 0.65em;
+        line-height: 1.2em;
+    }
+    .od .arrastar .areaArraste ul.areaPegar li.texto {
+        padding: 0.1em 0.4em;
+    }
+    .od .lacunas .container p,
+    .od .relacionaveis .container p {
+        line-height: 1.6em;
+    }
+    div.od > div:not(.professor) {
+        padding-top: 100px;
+        border-radius: 1em;
+    }
+    div.od > div:not(.professor):before {
+        background-size: 1200px auto;
+        height: 100px;
+        border-top-left-radius: 1em;
+        border-top-right-radius: 1em;
+    }
+    div.od .abas:before {
+        background-position: 0 -22px;
+    }
+    div.od .video:before {
+        background-position: 0 -158px;
+    }
+    div.od .lacunas:before {
+        background-position: 0 -292px;
+    }
+    div.od .infografico:before {
+        background-position: 0 -427px;
+    }
+    div.od .slideShow:before {
+        background-position: 0 -962px;
+    }
+    div.od .arrastar:before,
+    div.od .ordenar:before {
+        height: 100px !important;
+        background-position: 0 -560px;
+    }
+    div.od .quiz:before {
+        background-position: 0 -695px;
+    }
+    div.od .relacionaveis:before {
+        background-position: 0 -830px;
+    }
+    #od1, #od2, #od3, #od4, #od5, #od6, #od7 {
+      width: 100%;
+      height: auto;
+  }
+  .od .infograficoF .areaInfografico ul li a {
+    background-color: white;
+    border-radius: 0.5em;
+    line-height: 0.5em;
+    padding: 0.25em 0.5em;
+    color: #F26522;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    font-size: 0.6em;
+}
+.od .infografico .areaInfografico ul li .tooltip {
+    position: absolute;
+    z-index: 2;
+    padding: 1em;
+    min-width: 150%;
+    border-radius: 1em;
+    background-color: rgba(0, 0, 0, 0.9);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    text-align: left;
+    color: white;
+    font-size: 0.7em;
+    display: none;
+}
+
+
+img.qrAbertura {
+  width: 97px;
+  border-radius: 7px;
+}
+
+h1.numeroModulo {
+  font-size: 1.8em;
+}
+
+body.extensivo .moduloConteudo {
+    margin: 0;
+}
+
+h1.tituloModulo {
+  font-size: 2em;
+}
+
+body.extensivo .exEnem, body.extensivo .exSistematizacao {
+    width: calc(100% - 55px);
+}
+
+body.extensivo .fixar {
+    margin: 0 -5.6% !important;
+}
+
+body.extensivo main blockquote.boxFixar {
+    width: 100%;
+    margin: 2em 0 !important;
+}
+
+#svgFixar {
+    margin-top: -160px !important;
+}
+
+body.medio header {
+    height: auto !important;
+    border-radius: 0 0 1.7em 1.7em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;  
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.25);  
+}
+
+#medioSvgStart {
+    visibility: visible;
+    position: relative;
+    top: 18px;
+}
+
+body.medio .imagemCirculos {
+    width: auto;
+    height: 45vw;
+    top: 0 !important;
+}
+
+img.imagemAberturaMedio {
+    position: absolute;
+    width: 43vw;
+    z-index: 1;
+    clear: none;
+    left: 50%;
+    top: 15.5vw;
+    transform: translateX(-50%);
+}
+
+body.medio .medioCirculoTexto {
+    font-size: 1.3em;
+}
+
+body.medio header .imagemCirculos {
+    position: relative !important;
+}
+
+body.medio header .blocoMod  {
+    position: relative !important;
+}
+
+body.medio header .blocoTitulo {
+    position: relative !important;
+    float: none !important;
+}
+
+body.medio blockquote.blocoMod {
+    top: auto !important;
+    left: calc(-50% + 2em) !important;
+    transform: translateX(50%) !important;
+}
+
+body.medio blockquote.blocoTitulo div.tituloBloco {
+    max-width: none !important;
+    right: none !important;
+    height: auto !important;
+    padding: 0 2em;
+}
+
+body.medio blockquote.blocoTitulo div.linhaPonto {
+    width: calc(100% - 2em);
+}
+
+body.medio header .medioQrCodes {
+    margin: 2em;
+    flex-wrap: wrap;
+}
+
+body.medio header .medioQrCodes .qrCodeAbertura {
+    margin-top: 1em !important;
+}
+
+body.medio header .medioQrCodes .qrCodeAbertura img {
+    width: 6em;
+}
+
+body.medio header .medioQrCodes .qrCodeAbertura .tituloQRabertura {
+    margin: 0 0.6em 0 1.3em;
+    max-width: 5em;
+}
+
+body.medio blockquote.blocoTitulo h1.tituloModulo {
+    font-size: 3em;
+}
+
+img.imagemAberturaMedio.medioEsquerda {
+    left: calc(50% + 2.3vw) !important;
+}
+
+.janelacolunaFalsa .janelacolunaFalsa-content {
+    max-width: 80%;
+}
+
+body.medio main p.enunciadoNumero.iconeExclusiva:before {
+    left: -10px;
+}
+body.medio main p.enunciadoNumero.iconeEnem:before {
+    left: -10px;
+}
+body.medio main p.enunciadoNumero.iconeDiscursiva:before {
+    left: -10px;
+}
+body.medio main p.enunciadoNumero.iconeDesafio:before {
+    left: -10px;
+}
+body.medio main p.enunciadoNumero.iconeConexoes:before {
+    left: -10px;
+}
+body.medio main p.enunciadoNumero{
+    margin-left: 2%;
+}
+body.extensivo main p.enunciadoNumero.iconeFacil:before {
+    left: -10px!important;
+}
+body.extensivo main p.enunciadoNumero.iconeMedio:before {
+    left: -10px!important;
+}
+body.extensivo main p.enunciadoNumero.iconeDificil:before {
+    left: -10px!important;
+}
+body.extensivo main p.enunciadoNumero.iconeRedacao:before {
+    left: -10px!important;
+}
+}

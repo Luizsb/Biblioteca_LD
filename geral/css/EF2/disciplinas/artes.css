@@ -1,0 +1,110 @@
+/******
+
+Folha de estilo: Artes;
+Nível de ensino: EF2;
+
+Cliente: SAE Digital;
+
+*******/
+
+/**** Texto, títulos e listas ****/
+
+h1, .enunciadoNumero .numeracao,
+.nivelUm .numeracao,
+.nivelDois .numeracao,
+.tituloExSol .numeracao,
+.textoExSol .numeracao,
+p.enunciadoNumero .layout_bold_disciplina,
+p.enunciadoNumero .segunda_cor,
+.alternativaLetra span, .textoLegenda, .destaque2, 
+.textoCitado, .textoReferenciaCor {
+    color: #940065;
+}
+h2 {
+    color: #940065;
+}
+h3 {
+    color: #a5427e;
+}
+h4 {
+    color: #b8729d;
+}
+
+/**** Tabelas ****/
+
+table {
+    background-color: #008374;
+}
+.cabecalho {
+    background-color: #cf70a3;
+    width: 25%;
+}
+
+@media
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px){
+    td:before { 
+        background-color: #cf70a3;
+    }
+}
+
+/**** Cabeçalho ****/
+
+header {
+    background: #bf177d;
+    color: #FFF;
+}
+body.ef2 header::after {
+ background-position: -5px -77px;
+}
+
+/**** Blocos da disciplina ****/
+
+.disciplina {
+    background-color: #e6f3f0;
+}
+
+.nesteCapitulo {
+    background-color: #bf177d;
+}
+body.ef2 blockquote.pagina {
+    border-color: #bf177d #bf177d transparent #bf177d; /* CSS disciplina */
+}
+body.ef2 blockquote.fio {
+    border: 3px solid #bf177d;
+}
+
+
+/** OD Abas **/
+
+.od .abas,
+.od .abas:before,
+.od .abas:after {
+    background-color: #b3d1ca;
+}
+.od .abas > ul > li > a {
+    background-color: #008374;
+    color: white;
+}
+.od .abas > ul > li > a.active,
+.od .abas > ul > li > a:hover {
+	background-color: white;
+    color: #008374;
+}
+
+
+    /* Input texto */
+
+input[type="text"]{
+    color: #008374;
+    background-color: #f9f9f9;
+    border: 2px solid #008374;
+}
+
+label > span.check {
+        border: 2px solid #008374;
+    }
+
+                       .featherlight .featherlight-content {
+    border-left: 15px solid #008374;
+}

@@ -1,0 +1,5 @@
+{
+  "name": "Biblioteca de Códigos LD",
+  "description": "Uma ferramenta centralizada para desenvolvedores e produtores de conteúdo de Livro Digital localizarem, testarem e copiarem snippets de código com preview fiel ao ambiente do livro.",
+  "requestFramePermissions": []
+}

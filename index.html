@@ -1,0 +1,225 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca de Códigos LD | Dark Platform</title>
+    <!-- Prism for Code Highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/index.css">
+</head>
+<body class="dark-mode">
+
+    <header>
+        <div class="header-logo">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+            <span>PLATAFORMA LD <small style="font-weight:400; font-size:0.7rem; opacity:0.7;">
+                 v4.2</small></span>
+        </div>
+        <div class="header-actions">
+            <button class="btn btn-primary" onclick="requestAccess('create')">+ Novo Snippet</button>
+            <div style="width:1px; height:24px; background:rgba(255,255,255,0.2); margin:0 8px;"></div>
+            <button class="btn btn-ghost" style="color:white;" onclick="openJsonFile()">Abrir JSON</button>
+            <button class="btn btn-ghost" style="color:white;" onclick="saveJsonFile()">Salvar JSON</button>
+            <button class="btn btn-ghost" style="color:white;" onclick="publishDataToNetlify()">Publicar (Netlify)</button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Filters -->
+        <aside id="filters-col" class="column">
+            <div class="column-header">
+                <div class="search-container">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="global-search" class="search-input" placeholder="Buscar em tudo..." oninput="handleFilterChange()">
+                </div>
+                <div style="display:flex; justify-content:flex-end; align-items:center;">
+                    <button class="btn btn-ghost btn-sm" style="font-size:0.7rem;" onclick="clearFilters()">Limpar Filtros</button>
+                </div>
+            </div>
+            <div class="column-content">
+                <div class="filter-section">
+                    <span class="filter-label">Segmento</span>
+                    <div id="filter-segments" class="tag-cloud"></div>
+                </div>
+                <div id="discipline-box" class="filter-section hidden">
+                    <span class="filter-label">Disciplina</span>
+                    <select id="filter-discipline" class="form-select" style="width:100%" onchange="handleFilterChange()">
+                        <option value="">Todas as disciplinas</option>
+                        <option value="artes">Artes</option>
+                        <option value="biologia">Biologia</option>
+                        <option value="ciencias">Ciências</option>
+                        <option value="educacaofisica">Ed. Física</option>
+                        <option value="espanhol">Espanhol</option>
+                        <option value="filosofia">Filosofia</option>
+                        <option value="fisica">Física</option>
+                        <option value="geografia">Geografia</option>
+                        <option value="historia">História</option>
+                        <option value="ingles">Inglês</option>
+                        <option value="matematica">Matemática</option>
+                        <option value="portugues">Português</option>
+                        <option value="quimica">Química</option>
+                    </select>
+                </div>
+                <div class="filter-section">
+                    <span class="filter-label">Tipo</span>
+                    <div id="filter-types" class="tag-cloud"></div>
+                </div>
+                <div class="filter-section">
+                    <span class="filter-label">Tags Populares</span>
+                    <div id="filter-tags" class="tag-cloud"></div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- List -->
+        <section id="list-col" class="column">
+            <div class="column-header">
+                <div class="list-info">
+                    <span id="result-count" style="font-weight:700; font-size:0.85rem;">0 itens</span>
+                    <select id="sort-order" class="form-select" onchange="handleFilterChange()">
+                        <option value="newest">Recentes</option>
+                        <option value="az">A-Z</option>
+                    </select>
+                </div>
+            </div>
+            <div class="column-content" id="snippet-list"></div>
+        </section>
+
+        <!-- Details -->
+        <section id="details-col" class="column">
+            <div id="empty-view" class="empty-state">
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="margin-bottom:1rem; opacity:0.1;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                <p>Selecione um snippet para começar</p>
+            </div>
+
+            <div id="content-view" class="hidden" style="height:100%; display:flex; flex-direction:column;">
+                <div class="details-header">
+                    <div class="details-title-row">
+                        <h2 id="view-title">Título do Snippet</h2>
+                        <div style="display:flex; gap:8px;">
+                            <button class="btn btn-primary" onclick="copySnippetCode()">Copiar Código</button>
+                            <button class="btn" onclick="requestAccess('edit')">Editar (Adm)</button>
+                            <button class="btn btn-ghost" style="color:#ef4444" onclick="requestAccess('delete')">Excluir</button>
+                        </div>
+                    </div>
+                    <div id="view-badges" class="card-meta"></div>
+                </div>
+
+                <nav class="tab-nav">
+                    <a class="tab-link active" onclick="showTab('preview')">Como fica no livro</a>
+                    <a class="tab-link" onclick="showTab('code')">Código</a>
+                    <a class="tab-link" id="tab-link-notes" onclick="showTab('notes')">Notas</a>
+                </nav>
+
+                <div class="tab-panel active" id="panel-preview">
+                    <div class="preview-frame-container">
+                        <div class="ld-viewport" id="viewport-box">
+                            <iframe id="preview-iframe" title="Preview do Livro Digital"></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-panel" id="panel-code">
+                    <div class="code-wrapper">
+                        <pre><code id="code-view-block" class="language-html"></code></pre>
+                    </div>
+                </div>
+
+                <div class="tab-panel" id="panel-notes" style="padding:2rem; line-height:1.6;">
+                    <div id="notes-view-content"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal: Password Access -->
+    <div id="modal-password" class="modal-mask">
+        <div class="modal-content" style="width:400px;">
+            <div class="modal-header">
+                <h3>Acesso Restrito</h3>
+                <button class="btn btn-ghost" onclick="closeModal('modal-password')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size:0.85rem; margin-bottom:1rem; color: var(--text-light);">Apenas administradores podem realizar esta ação.</p>
+                <input type="password" id="access-pw-input" class="search-input" style="padding-left:1rem;" placeholder="Digite a senha Adm..." onkeydown="if(event.key==='Enter') verifyAccess()">
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="closeModal('modal-password')">Cancelar</button>
+                <button class="btn btn-primary" onclick="verifyAccess()">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Editor -->
+    <div id="modal-editor" class="modal-mask">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Editar Snippet</h3>
+                <button class="btn btn-ghost" onclick="closeModal('modal-editor')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="f-id">
+                
+                <div class="editor-grid-row">
+                    <div>
+                        <label class="filter-label">Título do Snippet</label>
+                        <input type="text" id="f-title" class="search-input" style="padding-left:1rem;">
+                    </div>
+                    <div>
+                        <label class="filter-label">Tipo de Componente</label>
+                        <select id="f-type" class="form-select" style="width:100%; padding:0.7rem;">
+                            <option>Estrutura</option>
+                            <option>Atividade</option>
+                            <option>Tabela</option>
+                            <option>Mídia</option>
+                            <option>Link/QR</option>
+                            <option>Estilo</option>
+                            <option>Outros</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label class="filter-label">Descrição Breve</label>
+                    <input type="text" id="f-desc" class="search-input" style="padding-left:1rem;">
+                </div>
+
+                <div class="editor-grid-row-equal">
+                    <div>
+                        <label class="filter-label">Selecionar Segmentos</label>
+                        <div id="f-segments-container" class="segment-selector">
+                            <!-- Checkboxes gerados via JS -->
+                        </div>
+                    </div>
+                    <div>
+                        <label class="filter-label">Tags (separadas por vírgula)</label>
+                        <input type="text" id="f-tags" class="search-input" style="padding-left:1rem;" placeholder="Ex: tab, grid, fix">
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label class="filter-label">Código HTML</label>
+                    <textarea id="f-code" class="search-input" style="padding-left:1rem; min-height:150px; font-family:monospace;"></textarea>
+                </div>
+
+                <div>
+                    <label class="filter-label">Notas / Instruções (Uma por linha)</label>
+                    <textarea id="f-notes" class="search-input" style="padding-left:1rem; min-height:80px;"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="closeModal('modal-editor')">Cancelar</button>
+                <button class="btn btn-primary" onclick="saveSnippet()">Salvar Snippet</button>
+            </div>
+        </div>
+    </div>
+
+    <button class="scroll-top" id="btn-up" onclick="goUp()">↑</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="app.js" defer></script>
+</body>
+</html>

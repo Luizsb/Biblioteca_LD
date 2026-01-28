@@ -1,0 +1,193 @@
+:root {
+	/* CORES */
+	--primario: #0078ab;
+	--primario-rgb: 0, 120, 171;
+	--secundario: #5f094b;
+}
+
+body.extensivo header, body.extensivo .blocoHeader {
+	background-color: #0078ab;
+}
+
+
+/***************************************************************** ODs ***************************************************************/
+.objetoDigital{
+	background-color: rgba(0,120,171,0.64);
+}
+.janelaProfessorExtensivo .janelaProfessorExtensivo-content h2{
+color: #5f094b;
+}
+.telaMenu #od_tit {
+	background-color: rgba(95,9,75,0.85);
+	}
+/***********************************************************************************/
+
+
+body.extensivo main h2{
+	color: #0078ab;
+}
+body.extensivo main blockquote.disciplinaExt{
+	background-color: #92B6C6;
+}
+body.extensivo.fa main h3{
+	color: #5f094b;
+}
+
+
+
+.corDois{
+	stroke:#0078ab;stroke-linecap:round;stroke-width:2px;
+}
+
+blockquote.boxFixar{
+	background-image: radial-gradient(#C8C8C8 20%, #fff 20%);
+	border: 3px solid #0078ab;
+}
+
+
+
+body.extensivo main p.textoLegenda{
+	border-top: 2px solid #0078ab;
+}
+
+body.extensivo main blockquote.fundoCor{
+	background-color: #0078ab;
+}
+
+body.extensivo main blockquote.fundoCor blockquote.fio{
+	background-color: #0078ab;
+}
+
+body.extensivo main blockquote.fixar p span.destaqueFixar{
+	background-color: #487F97;
+}
+
+
+/*********************Frente B*****************************************/
+
+
+
+
+body.extensivo.fb main h3{
+	color: #5f094b;
+}
+
+body.extensivo.fb main h4{
+	color: #5f094b;
+}
+
+body.extensivo.fb main p span.numeracao{
+	color: #5f094b;
+}
+body.extensivo.fb main blockquote.fixar{
+	background: radial-gradient(circle closest-side, 
+		hsla(  0, 80%, 80%, 0) 0%, 
+		hsla(  0, 80%, 80%, 0) 70%, 
+		#5f094b 70.5%,
+		#5f094b 70.6%,
+		hsla(  0, 80%, 80%, 0) 70.7%,
+		hsla(  0, 80%, 80%, 0) 80%,
+		#5f094b 80.5%,
+		#5f094b 80.6%,
+		hsla(  0, 80%, 80%, 0) 80.7%,
+		hsla(  0, 80%, 80%, 0) 90%,
+		#5f094b 90.5%,
+		#5f094b 90.6%,
+		hsla(  0, 80%, 80%, 0) 90.7%,
+		hsla(  0, 80%, 80%, 0) 100%,
+		#5f094b 100.5%,
+		#5f094b 100.6%,
+		hsla(  0, 80%, 80%, 0) 100.7%,
+		hsla(  0, 80%, 80%, 0) 110%,
+		#5f094b 110.5%,
+		#5f094b 110.6%,
+		hsla(  0, 80%, 80%, 0) 110.7%,
+		hsla(  0, 80%, 80%, 0) 120%,
+		#5f094b 120.5%,
+		#5f094b 120.6%,
+		hsla(  0, 80%, 80%, 0) 120.7%,
+		hsla(  0, 80%, 80%, 0) 130%,
+		#5f094b 130.5%,
+		#5f094b 130.6%,
+		hsla(  0, 80%, 80%, 0) 130.7%,
+		hsla(  0, 80%, 80%, 0) 140%,
+		#5f094b 140.5%,
+		#5f094b 140.6%,
+		hsla(  0, 80%, 80%, 0) 140.7%,
+		hsla(  0, 80%, 80%, 0) 150%,
+		#5f094b 150.5%,
+		#5f094b 150.6%,
+		hsla(  0, 80%, 80%, 0) 150.7%,
+		hsla(  0, 80%, 80%, 0) 160%
+
+
+
+		)
+	;
+	background-color: #0078ab;
+}
+body.extensivo.fb main h1.fixarTitulo{
+	color: #5f094b;
+}
+body.extensivo.fb .corUm{
+	fill:#5f094b;
+}
+body.extensivo.fb main blockquote.fio{
+	border: 3px solid #5f094b;
+}
+
+.extensivo.fb h4.exInteracao{
+	background-color: #5f094b;
+}
+
+body.extensivo.fb main blockquote.fixar p.alternativaLetra span{
+	color: #5f094b;
+}
+body.extensivo.fb main p.alternativaLetra span{
+	color:#5f094b;
+}
+body.extensivo.fb main label > span.check {
+	border: 2px solid #5f094b;
+}
+
+body.extensivo.fb main label > input[type="radio"]:checked + .check:before {
+	background-color: #5f094b;
+}
+body.extensivo.fb main button.gabarito {
+	background-color: #5f094b;
+	box-shadow: 0 9px #470437;
+}
+
+body.extensivo.fb main button.gabarito:not(:active):hover{
+	background-color: #521243;
+	box-shadow: 0 9px #3D0C32;
+}
+body.extensivo.fb main button.gabarito:active{
+	background-color: #460C39;
+	box-shadow: 0 3px #34082A;
+	transform: translateY(4px);
+
+}
+body.extensivo.fb main blockquote.pagina:before {
+	height: 37px;
+	top: 70%;
+	background: linear-gradient(-135deg, #5f094b 17.5px, transparent 0) 0 17.5px, linear-gradient(135deg, #5f094b 17.5px, transparent 0) 0 17.5px;
+	background-position: top left;
+	background-repeat: repeat-x;
+	background-size: 25px 25px;
+	z-index: 2;
+}
+
+body.extensivo.fb main blockquote.pontuacao p.tituloResposta{
+	color: #5f094b;
+}
+
+
+body.extensivo .textoRA .fundoRA {
+	fill: #0078ab
+}
+body.extensivo blockquote.pontilhadoExt{
+	border: 3px solid #0078ab;
+	border-style: dotted;
+	border-radius: 2em;
+}

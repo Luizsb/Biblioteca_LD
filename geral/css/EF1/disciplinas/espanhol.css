@@ -1,0 +1,221 @@
+/******
+
+Folha de estilo: Artes;
+Nível de ensino: EF1;
+
+Cliente: SAE Digital;
+
+*******/
+
+
+/**** Texto, títulos e listas ****/
+
+h1 {
+    color: #ca0a22;
+}
+h1 span.numeroCapitulo{
+    padding: 15px 35px 10px 35px;
+    border-radius: 0.8em;
+    display: inline-block;
+    background-color: #ca0a22;
+    font: 90pt Folktale, light;
+    color: #FFF;
+    font-size: 70pt;
+    line-height: 1.3em;
+    margin-right: 5px;
+    text-align: center;
+    width: 1.6em; 
+}
+h2{
+    color: #ca0a22;
+}
+.destaque2,
+.textoCitado{
+    color: #00537f;
+}
+.textoReferenciaCor {
+    color: #00537f;
+}
+h3 {
+    color: #00537f;
+}
+h4 {
+    color: #fcd2a0;
+}
+
+.numeracao,
+.alternativaLetra span {
+    color: #ec9831!important;
+}
+
+/**** Imagens ****/
+
+body.ef1 figure img {
+    border-color: #efbf17;
+}
+figure:not(.imagemPrincipal) p.textoLegenda {
+    color: #efbf17;
+}
+
+/**** Tabelas ****/
+
+table {
+    /*background-color: #cca878;*/
+}
+tr:nth-child(odd) {
+    background-color: #fff2e3;
+}
+tr:nth-child(even) {
+    background-color: #fbe1c4;
+}
+.cabecalho {
+    background-color: #f3b972;
+}
+
+@media
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px){
+    td:before { 
+        background-color: #f3b972;
+    }
+}
+
+/**** Cabeçalho ****/
+
+header {
+    background-color: #ec9830;
+}
+
+/**** Blocos da disciplina ****/
+
+.disciplina,
+.disciplina:before,
+.disciplina:after {
+    background-color: #fde3d7;
+}
+body.ef1 blockquote.disciplina {
+    border-color: #ffdd5a;
+}
+body.ef1 blockquote.aprenderBrincando, body.ef1 blockquote.calculadora,
+body.ef1 blockquote.conhecaQuem, body.ef1 blockquote.conhecaQuem2, body.ef1 blockquote.conversaVaiVem,
+body.ef1 blockquote.deOlhoLocal, body.ef1 blockquote.emGrupo, body.ef1 blockquote.entenderTexto,
+body.ef1 blockquote.euCientista, body.ef1 blockquote.generoTextual, body.ef1 blockquote.glossario,
+body.ef1 blockquote.iconeAR, body.ef1 blockquote.iconeRA, body.ef1 blockquote.lupanaMao,
+body.ef1 blockquote.maonaMassa, body.ef1 blockquote.olharGeografico,
+body.ef1 blockquote.oralidade, body.ef1 blockquote.saberMais, body.ef1 blockquote.tremdaHistoria,
+body.ef1 blockquote.valeaPena, body.ef1 blockquote.vamosProduzir, body.ef1 blockquote.vocejaSabe, body.ef1 blockquote.fio {
+    border-color: #ec9830;
+}
+
+body.ef1 blockquote.vocejaSabe2{
+border-color: #ec9830;
+}
+
+body.ef1 blockquote.vocejaSabe2:after {
+background-position: -750px -668px; 
+    }
+
+body.ef1 blockquote.conversaVaiVem > .tituloQuote:after {
+    width: 100px;
+    height: 100px;
+    background-position: -100px -100px;
+}
+body.ef1 blockquote span.inner {
+	background: #ec9830; /* CSS disciplina */
+}
+body.ef1 blockquote span.detalhe {
+    border-color: #ec9830 transparent #ec9830 #ec9830; /* CSS disciplina */
+}
+body.ef1 blockquote.pagina {
+    border-color: #ec9830 #ec9830 transparent #ec9830; /* CSS disciplina */
+}
+body.ef1 blockquote.disciplina, body.ef1 blockquote.glossario, body.ef1 blockquote.valeaPena, body.ef1 blockquote.saberMais {
+	background: #fcebd8;
+    border: none;
+}
+body.ef1 blockquote.conversaVai {
+    background: #3f7097;
+}
+body.ef1 blockquote.conversaVem{
+    background-color: #ca0921;
+}
+body.ef1 blockquote.conversaVem:before {
+    background-position: -223px 0px;
+}
+body.ef1 blockquote.conversaVai span.inner {
+	color: #ca0921;
+}
+body.ef1 blockquote.conversaVem span.inner {
+	color: #00547f;
+}
+body.ef1 blockquote.conversaVai .tituloQuote:after {
+    width: 100px;
+    height: 100px;
+    background-position: -400px -600px;
+}
+
+body.ef1 blockquote.conversaVem .tituloQuote:after {
+    width: 100px;
+    height: 100px;
+    background-position: -500px -600px;
+}
+/** OD Abas **/
+
+.od .abas {
+    background-color: #dfeffb;
+    border-color: #ffdd5a;
+}
+.od .abas > ul > li > a {
+    background-color: #deebe8;
+    color: #efbf17;
+}
+.od .abas > ul > li.active > a {
+    color: #ffdd5a;
+}
+.od .abas > ul > li > a:hover {
+    background-color: #ffdd5a;
+    color: white;
+}
+/** Box para saber mais **/
+body.ef1 blockquote.saberMaisbox {
+	background: #fde3d8;
+}
+/* Alternativa Box */
+label > span.check {
+        border: 2px solid #ec9830;
+    }
+
+        /* Input texto */
+
+input[type="text"]{
+    color: #ca0a22;
+    background-color: #f9f9f9;
+    border: 2px solid #ca0a22;
+}
+
+label > span.check {
+        border: 2px solid #ca0a22;
+    }
+
+    .featherlight .featherlight-content {
+    border-left: 15px solid #ca0a22;
+}
+/***** Fichas de Atividade ****/
+.numeroFicha::before{
+    color: #ec9830;
+}
+blockquote.numeroFicha p{
+    background-color: #ca0a22;
+}
+blockquote.aberturaFicha{
+    background-color: #ec9830;
+    box-shadow: 5px 6px  #AA6817;
+}
+p.tituloUni{
+}
+p.tituloCap{
+    background-color: #efbf17;
+}
+span.numeroCapituloFicha{
+    background-color:#ca0a22;
+}

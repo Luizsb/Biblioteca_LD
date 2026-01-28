@@ -1,0 +1,108 @@
+/******
+
+Folha de estilo: Física;
+Nível de ensino: EF2;
+
+Cliente: SAE Digital;
+
+*******/
+
+/**** Texto, títulos e listas ****/
+
+h1, .enunciadoNumero .numeracao,
+.nivelUm .numeracao,
+.nivelDois .numeracao,
+.tituloExSol .numeracao,
+.textoExSol .numeracao,
+p.enunciadoNumero .layout_bold_disciplina,
+p.enunciadoNumero .segunda_cor,
+.alternativaLetra span, .textoLegenda, .destaque2, 
+.textoCitado, .textoReferenciaCor {
+    color: #73c4c4;
+}
+h2 {
+    color: #73c4c4;
+}
+h3 {
+    color: #97d1d1;
+}
+h4 {
+    color: #b5dddd;
+}
+
+/**** Tabelas ****/
+
+table {
+    background-color: #909fbc;
+}
+.cabecalho {
+    background-color: #909fbc;
+    width: 25%;
+}
+
+/**** Cabeçalho ****/
+
+header {
+    background: #5b7ba2;
+	color: #FFF;
+}
+body.ef2 header::after {
+    background-position: -5px -365px;
+}
+
+@media
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px){
+    td:before { 
+        background-color: #5b7ba2;
+    }
+}
+
+/**** Blocos da disciplina ****/
+
+.disciplina {
+    background-color: #cecad7;
+}
+
+.nesteCapitulo {
+    background-color: #5b7ba2;
+}
+body.ef2 blockquote.pagina {
+    border-color: #5b7ba2 #5b7ba2 transparent #5b7ba2; /* CSS disciplina */
+}
+body.ef2 blockquote.fio {
+    border: 3px solid #5b7ba2;
+}
+
+/** OD Abas **/
+
+.od .abas,
+.od .abas:before,
+.od .abas:after {
+    background-color: #D4F3FF;
+}
+.od .abas > ul > li > a {
+    background-color: #00A4E2;
+    color: white;
+}
+.od .abas > ul > li > a.active,
+.od .abas > ul > li > a:hover {
+	background-color: white;
+    color: #00A4E2;
+}
+
+    /* Input texto */
+
+input[type="text"]{
+    color: #00A4E2;
+    background-color: #f9f9f9;
+    border: 2px solid #00A4E2;
+}
+
+label > span.check {
+        border: 2px solid #00A4E2;
+    }
+
+                .featherlight .featherlight-content {
+    border-left: 15px solid #00A4E2;
+}

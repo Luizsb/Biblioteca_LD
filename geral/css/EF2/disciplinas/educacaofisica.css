@@ -1,0 +1,107 @@
+/******
+
+Folha de estilo: Educação física;
+Nível de ensino: EF2;
+
+Cliente: SAE Digital;
+
+*******/
+
+/**** Texto, títulos e listas ****/
+
+h1,
+h2,
+h3, .textoLegenda {
+    color: #6d5a9c;
+}
+
+/**** Imagens ****/
+
+span.layout_fio_legenda {
+    color: #6d5a9c;
+}
+
+/**** Tabelas ****/
+
+table {
+    background-color: #38354f;
+}
+tr:nth-child(odd) {
+    background-color: #e9e7c4;
+}
+tr:nth-child(even) {
+    background-color: #fefce2;
+}
+.cabecalho {
+    background-color: #38354f;
+    width: 25%;
+}
+
+@media
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px){
+    td:before { 
+        background-color: #38354f;
+    }
+}
+
+/**** Cabeçalho ****/
+
+header {
+    background: #38354f;
+    color: #FFF;
+}
+body.ef2 header::after {
+    background-position: -842px -90px;
+}
+
+/**** Blocos da disciplina ****/
+
+.disciplina,
+.disciplina:before,
+.disciplina:after {
+    background-color: #80969f;
+}
+
+.nesteCapitulo {
+    background-color: #38354f;
+}
+body.ef2 blockquote.pagina {
+    border-color: #38354f #38354f transparent #38354f; /* CSS disciplina */
+}
+body.ef2 blockquote.fio {
+    border: 3px solid #38354f;
+}
+
+/** OD Abas **/
+
+.od .abas,
+.od .abas:before,
+.od .abas:after {
+    background-color: #80969f;
+}
+.od .abas > ul > li > a {
+    background-color: #80969f;
+    color: white;
+}
+.od .abas > ul > li > a.active,
+.od .abas > ul > li > a:hover {
+	background-color: white;
+    color: #80969f;
+}
+
+    /* Input texto */
+
+input[type="text"]{
+    color: #80969f;
+    background-color: #f9f9f9;
+    border: 2px solid #80969f;
+}
+
+label > span.check {
+        border: 2px solid #80969f;
+    }
+
+    .featherlight .featherlight-content {
+    border-left: 15px solid #80969f;
+}

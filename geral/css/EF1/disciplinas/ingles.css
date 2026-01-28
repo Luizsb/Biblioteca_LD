@@ -1,0 +1,214 @@
+/******
+
+Folha de estilo: Artes;
+Nível de ensino: EF1;
+
+Cliente: SAE Digital;
+
+*******/
+
+
+/**** Texto, títulos e listas ****/
+
+h1 {
+    color: #005d8d;
+}
+h1 span.numeroCapitulo{
+    padding: 15px 35px 10px 35px;
+    border-radius: 0.8em;
+    display: inline-block;
+    background-color: #005d8d;
+    font: 90pt Folktale, light;
+    color: #FFF;
+    font-size: 70pt;
+    line-height: 1.3em;
+    margin-right: 5px;
+    text-align: center;
+    width: 1.6em; 
+}
+h2,
+.destaque2,
+.textoCitado,
+.textoReferenciaCor {
+    color: #005d8d;
+}
+h3 {
+    color: #0084cb;
+}
+h4 {
+    color: #80bfea;
+}
+
+.numeracao,
+.alternativaLetra span {
+    color: #0084cb!important;
+}
+
+/**** Imagens ****/
+
+body.ef1 figure img {
+    border-color: #00abe4;
+}
+figure:not(.imagemPrincipal) p.textoLegenda {
+    color: #00abe4;
+}
+
+/**** Tabelas ****/
+
+table {
+    /*background-color: #deecfa;*/
+}
+tr:nth-child(odd) {
+    background-color: #deecfa;
+}
+tr:nth-child(even) {
+    background-color: #bcd7f2;
+}
+.cabecalho {
+    background-color: #3da5dd;
+}
+
+@media
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px){
+    td:before { 
+        background-color: #3da5dd;
+    }
+}
+
+/**** Cabeçalho ****/
+
+header {
+    background-color: #0083cb;
+}
+
+/**** Blocos da disciplina ****/
+
+.disciplina,
+.disciplina:before,
+.disciplina:after {
+    background-color: #dfeffb;
+}
+body.ef1 blockquote.disciplina {
+    border-color: #00abe4;
+}
+body.ef1 blockquote.aprenderBrincando, body.ef1 blockquote.calculadora,
+body.ef1 blockquote.conhecaQuem, body.ef1 blockquote.conhecaQuem2, body.ef1 blockquote.conversaVaiVem,
+body.ef1 blockquote.deOlhoLocal, body.ef1 blockquote.emGrupo, body.ef1 blockquote.entenderTexto,
+body.ef1 blockquote.euCientista, body.ef1 blockquote.generoTextual, body.ef1 blockquote.glossario,
+body.ef1 blockquote.iconeAR, body.ef1 blockquote.iconeRA, body.ef1 blockquote.lupanaMao,
+body.ef1 blockquote.maonaMassa, body.ef1 blockquote.olharGeografico,
+body.ef1 blockquote.oralidade, body.ef1 blockquote.saberMais, body.ef1 blockquote.tremdaHistoria,
+body.ef1 blockquote.valeaPena, body.ef1 blockquote.vamosProduzir, body.ef1 blockquote.vocejaSabe, body.ef1 blockquote.fio {
+    border-color: #0083cb;
+}
+
+body.ef1 blockquote.vocejaSabe2{
+border-color: #0083cb;
+}
+
+body.ef1 blockquote.vocejaSabe2:after{
+background-position: -750px -222px;
+}
+
+body.ef1 blockquote.conversaVaiVem > .tituloQuote:after {
+    width: 100px;
+    height: 100px;
+    background-position: 0 -200px;
+}
+body.ef1 blockquote span.inner {
+	background: #0083cb; /* CSS disciplina */
+}
+body.ef1 blockquote span.detalhe {
+    border-color: #0083cb transparent #0083cb #0083cb; /* CSS disciplina */
+}
+body.ef1 blockquote.pagina {
+    border-color: #0083cb #0083cb transparent #0083cb; /* CSS disciplina */
+}
+body.ef1 blockquote.disciplina, body.ef1 blockquote.glossario, body.ef1 blockquote.valeaPena, body.ef1 blockquote.saberMais {
+	background: #d4e5f7;
+    border: none;
+}
+body.ef1 blockquote.conversaVai {
+    background: #189fda;
+}
+body.ef1 blockquote.conversaVem{
+    background-color: #eb7c54;
+}
+body.ef1 blockquote.conversaVem:before {
+    background-position: -223px -0px;
+}
+body.ef1 blockquote.conversaVai span.inner {
+	color: #e3552c;
+}
+body.ef1 blockquote.conversaVem span.inner {
+	color: #0084cb;
+}
+body.ef1 blockquote.conversaVai .tituloQuote:after {
+    width: 100px;
+    height: 100px;
+    background-position: 0 -600px;
+}
+
+body.ef1 blockquote.conversaVem .tituloQuote:after {
+    width: 100px;
+    height: 100px;
+    background-position: -100px -600px;
+}
+
+/** OD Abas **/
+
+.od .abas {
+    background-color: #dfeffb;
+    border-color: #00abe4;
+}
+.od .abas > ul > li > a {
+    background-color: #dfeffb;
+    color: #296889;
+}
+.od .abas > ul > li.active > a {
+    color: #00abe4;
+}
+.od .abas > ul > li > a:hover {
+    background-color: #00abe4;
+    color: white;
+}
+/** Box para saber mais **/
+body.ef1 blockquote.saberMaisbox {
+	background: #e7f3fd;
+}
+/* Alternativa Box */
+label > span.check {
+    border: 2px solid #0083cb;
+}
+
+/* Input texto */
+
+input[type="text"]{
+    color: #0083cb;
+    background-color: #f9f9f9;
+    border: 2px solid #0083cb;
+}
+
+   .featherlight .featherlight-content {
+    border-left: 15px solid #0083cb;
+}
+/***** Fichas de Atividade ****/
+.numeroFicha::before{
+    color: #0083cb;
+}
+blockquote.numeroFicha p{
+    background-color: #e3552c;
+}
+blockquote.aberturaFicha{
+    background-color: #0083cb;
+    box-shadow: 5px 6px  #084B70;
+}
+p.tituloUni{
+}
+p.tituloCap{
+    background-color: #bcd7f2;
+}
+span.numeroCapituloFicha{
+    background-color: #e3552c;
+}

@@ -1,0 +1,69 @@
+/******
+
+Folha de estilo: 5 Anos;
+Nível de ensino: EI;
+
+Cliente: SAE Digital;
+
+*******/
+
+/**** Texto, títulos e listas ****/
+
+h1,
+h2,
+h3 {
+    color: #8c5f87;
+}
+
+/**** Imagens ****/
+
+span.layout_fio_legenda {
+    color: #8c5f87;
+}
+
+/**** Tabelas ****/
+
+table {
+    background-color: #8c5f87;
+}
+tr:nth-child(odd) {
+    background-color: #e1e0ea;
+}
+tr:nth-child(even) {
+    background-color: #b89ba9;
+}
+.cabecalho {
+    background-color: #8c5f87;
+    width: 25%;
+}
+
+/**** Blocos principais ****/
+
+body.ei section {
+	border-color: #8c5f87;
+}
+body.ei blockquote.pagina {
+    border-color: #8c5f87 #8c5f87 transparent #8c5f87; /* CSS disciplina */
+}
+body.ei blockquote.fio {
+    border: 3px dotted #8c5f87;
+}
+
+/**** Atividades ****/
+
+.numeracao,
+.alternativaLetra span {
+	color: #8c5f87!important;
+}
+
+/**** Blocos da disciplina ****/
+
+.disciplina,
+.disciplina:before,
+.disciplina:after {
+    background-color: #eae8ef;
+}
+
+                    .featherlight .featherlight-content {
+    border-left: 15px solid #8c5f87;
+}

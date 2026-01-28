@@ -1,0 +1,467 @@
+:root {
+	/* CORES */
+	--primario: #53af32;
+	--primario-rgb: 83, 175, 50;
+	--secundario: #005276;
+		
+	/* FRENTE B */
+	--primario-b: var(--primario);
+	--primario-rgb-b: var(--primario-rgb);
+	--secundario-b: #562372;
+		
+	/* FRENTE C */
+	--primario-c: var(--primario);
+	--primario-rgb-c: var(--primario-rgb);
+	--secundario-c: #0091b2;
+}
+
+body.extensivo header, body.extensivo .blocoHeader {
+	background-color: #58ab27;
+}
+
+/***************************************************************** ODs ***************************************************************/
+.objetoDigital{
+	background-color: rgba(88,171,39,0.64);
+}
+.janelaProfessorExtensivo .janelaProfessorExtensivo-content h2{
+color:#005278;
+}
+.telaMenu #od_tit {
+	background-color: rgba(0,82,120,0.85);
+	}
+/***********************************************************************************/
+
+
+body.extensivo main h2{
+	color: #58ab27;
+}
+body.extensivo main blockquote.disciplinaExt{
+	background-color: #9ABB87;
+}
+body.extensivo.fa main h3{
+	color: #005278;
+}
+
+body.extensivo.fa main h4{
+	color: #005278;
+}
+
+body.extensivo.fa main p span.numeracao{
+	color: #005278;
+}
+
+
+body.extensivo.fa main blockquote.fixar{
+	background: radial-gradient(circle closest-side, 
+		hsla(  0, 80%, 80%, 0) 0%, 
+		hsla(  0, 80%, 80%, 0) 70%, 
+		#005278 70.5%,
+		#005278 70.6%,
+		hsla(  0, 80%, 80%, 0) 70.7%,
+		hsla(  0, 80%, 80%, 0) 80%,
+		#005278 80.5%,
+		#005278 80.6%,
+		hsla(  0, 80%, 80%, 0) 80.7%,
+		hsla(  0, 80%, 80%, 0) 90%,
+		#005278 90.5%,
+		#005278 90.6%,
+		hsla(  0, 80%, 80%, 0) 90.7%,
+		hsla(  0, 80%, 80%, 0) 100%,
+		#005278 100.5%,
+		#005278 100.6%,
+		hsla(  0, 80%, 80%, 0) 100.7%,
+		hsla(  0, 80%, 80%, 0) 110%,
+		#005278 110.5%,
+		#005278 110.6%,
+		hsla(  0, 80%, 80%, 0) 110.7%,
+		hsla(  0, 80%, 80%, 0) 120%,
+		#005278 120.5%,
+		#005278 120.6%,
+		hsla(  0, 80%, 80%, 0) 120.7%,
+		hsla(  0, 80%, 80%, 0) 130%,
+		#005278 130.5%,
+		#005278 130.6%,
+		hsla(  0, 80%, 80%, 0) 130.7%,
+		hsla(  0, 80%, 80%, 0) 140%,
+		#005278 140.5%,
+		#005278 140.6%,
+		hsla(  0, 80%, 80%, 0) 140.7%,
+		hsla(  0, 80%, 80%, 0) 150%,
+		#005278 150.5%,
+		#005278 150.6%,
+		hsla(  0, 80%, 80%, 0) 150.7%,
+		hsla(  0, 80%, 80%, 0) 160%
+
+
+
+		)
+	;
+	background-color: #58ab27;
+}
+
+
+
+body.extensivo.fa main h1.fixarTitulo{
+	color: #005278;
+}
+
+
+body.extensivo.fa .corUm{
+	fill:#005278;
+}
+
+.corDois{
+	stroke:#58ab27;stroke-linecap:round;stroke-width:2px;
+}
+
+blockquote.boxFixar{
+	background-image: radial-gradient(#C8C8C8 20%, #fff 20%);
+	border: 3px solid #58ab27;
+}
+
+body.extensivo.fa blockquote.boxFixar p.textoBullet{
+	color: #3a3d8b;
+}
+
+body.extensivo.fa main blockquote.fio{
+	border: 3px solid #005278;
+}
+
+.extensivo.fa h4.exInteracao{
+	background-color: #005278;
+}
+
+body.extensivo.fa main blockquote.fixar p.alternativaLetra span{
+	color: #005278;
+}
+body.extensivo.fa blockquote.boxFixar p.fixarDois{
+	color: #005278;
+}
+body.extensivo.fa blockquote.boxFixar p.fixarTres{
+	color: #005278;
+}
+
+
+
+body.extensivo.fa blockquote.boxFixar p.textoBullet{
+	color: #3a3d8b;
+}
+
+
+
+
+
+body.extensivo.fa main p.alternativaLetra span{
+	color:#005278;
+}
+
+
+
+body.extensivo.fa main label > span.check {
+	border: 2px solid #005278;
+}
+
+body.extensivo.fa main label > input[type="radio"]:checked + .check:before {
+	background-color: #005278;
+}
+
+
+
+
+body.extensivo.fa main button.gabarito {
+	background-color: #005278;
+	box-shadow: 0 9px #04425F;
+}
+
+body.extensivo.fa main button.gabarito:not(:active):hover{
+	background-color: #083C54;
+	box-shadow: 0 9px #023045;
+}
+
+
+
+
+
+body.extensivo.fa main button.gabarito:active{
+	background-color: #023F5B;
+	box-shadow: 0 3px #01344B;
+	transform: translateY(4px);
+
+}
+
+
+
+body.extensivo.fa main blockquote.pontuacao{
+	border: 3px solid #58ab27;
+}
+body.extensivo.fa main blockquote.pontuacao p{
+	color: #58ab27;
+}
+
+
+
+body.extensivo.fa main blockquote.pontuacao p.tituloResposta{
+	color: #005278;
+}
+
+body.extensivo main p.textoLegenda{
+	border-top: 2px solid #58ab27;
+}
+
+body.extensivo main blockquote.fundoCor{
+	background-color: #58ab27;
+}
+
+body.extensivo main blockquote.fundoCor blockquote.fio{
+	background-color: #58ab27;
+}
+
+body.extensivo main blockquote.fixar p span.destaqueFixar{
+	background-color: #75A05B;
+}
+
+
+/*********************Frente B*****************************************/
+
+
+
+
+body.extensivo.fb main h3{
+	color: #512271;
+}
+
+body.extensivo.fb main h4{
+	color: #512271;
+}
+
+body.extensivo.fb main p span.numeracao{
+	color: #512271;
+}
+body.extensivo.fb main blockquote.fixar{
+	background: radial-gradient(circle closest-side, 
+		hsla(  0, 80%, 80%, 0) 0%, 
+		hsla(  0, 80%, 80%, 0) 70%, 
+		#512271 70.5%,
+		#512271 70.6%,
+		hsla(  0, 80%, 80%, 0) 70.7%,
+		hsla(  0, 80%, 80%, 0) 80%,
+		#512271 80.5%,
+		#512271 80.6%,
+		hsla(  0, 80%, 80%, 0) 80.7%,
+		hsla(  0, 80%, 80%, 0) 90%,
+		#512271 90.5%,
+		#512271 90.6%,
+		hsla(  0, 80%, 80%, 0) 90.7%,
+		hsla(  0, 80%, 80%, 0) 100%,
+		#512271 100.5%,
+		#512271 100.6%,
+		hsla(  0, 80%, 80%, 0) 100.7%,
+		hsla(  0, 80%, 80%, 0) 110%,
+		#512271 110.5%,
+		#512271 110.6%,
+		hsla(  0, 80%, 80%, 0) 110.7%,
+		hsla(  0, 80%, 80%, 0) 120%,
+		#512271 120.5%,
+		#512271 120.6%,
+		hsla(  0, 80%, 80%, 0) 120.7%,
+		hsla(  0, 80%, 80%, 0) 130%,
+		#512271 130.5%,
+		#512271 130.6%,
+		hsla(  0, 80%, 80%, 0) 130.7%,
+		hsla(  0, 80%, 80%, 0) 140%,
+		#512271 140.5%,
+		#512271 140.6%,
+		hsla(  0, 80%, 80%, 0) 140.7%,
+		hsla(  0, 80%, 80%, 0) 150%,
+		#512271 150.5%,
+		#512271 150.6%,
+		hsla(  0, 80%, 80%, 0) 150.7%,
+		hsla(  0, 80%, 80%, 0) 160%
+
+
+
+		)
+	;
+	background-color: #58ab27;
+}
+body.extensivo.fb main h1.fixarTitulo{
+	color: #512271;
+}
+body.extensivo.fb .corUm{
+	fill:#512271;
+}
+body.extensivo.fb main blockquote.fio{
+	border: 3px solid #512271;
+}
+
+.extensivo.fb h4.exInteracao{
+	background-color: #512271;
+}
+
+body.extensivo.fb main blockquote.fixar p.alternativaLetra span{
+	color: #512271;
+}
+body.extensivo.fb main p.alternativaLetra span{
+	color:#512271;
+}
+body.extensivo.fb main label > span.check {
+	border: 2px solid #512271;
+}
+
+body.extensivo.fb main label > input[type="radio"]:checked + .check:before {
+	background-color: #512271;
+}
+body.extensivo.fb main button.gabarito {
+	background-color: #512271;
+	box-shadow: 0 9px #3D1558;
+}
+
+body.extensivo.fb main button.gabarito:not(:active):hover{
+	background-color: #470C70;
+	box-shadow: 0 9px #2E044A;
+}
+body.extensivo.fb main button.gabarito:active{
+	background-color: #340455;
+	box-shadow: 0 3px #2E0A46;
+	transform: translateY(4px);
+
+}
+body.extensivo.fb main blockquote.pagina:before {
+	height: 37px;
+	top: 70%;
+	background: linear-gradient(-135deg, #512271 17.5px, transparent 0) 0 17.5px, linear-gradient(135deg, #512271 17.5px, transparent 0) 0 17.5px;
+	background-position: top left;
+	background-repeat: repeat-x;
+	background-size: 25px 25px;
+	z-index: 2;
+}
+
+body.extensivo.fb main blockquote.pontuacao p.tituloResposta{
+	color: #512271;
+}
+
+
+
+/**************************Frente C****************************************/
+
+body.extensivo.fc main h3{
+	color: #0090ae;
+}
+
+body.extensivo.fc main h4{
+	color: #0090ae;
+}
+
+body.extensivo.fc main p span.numeracao{
+	color: #0090ae;
+}
+body.extensivo.fc main blockquote.fixar{
+	background: radial-gradient(circle closest-side, 
+		hsla(  0, 80%, 80%, 0) 0%, 
+		hsla(  0, 80%, 80%, 0) 70%, 
+		#0090ae 70.5%,
+		#0090ae 70.6%,
+		hsla(  0, 80%, 80%, 0) 70.7%,
+		hsla(  0, 80%, 80%, 0) 80%,
+		#0090ae 80.5%,
+		#0090ae 80.6%,
+		hsla(  0, 80%, 80%, 0) 80.7%,
+		hsla(  0, 80%, 80%, 0) 90%,
+		#0090ae 90.5%,
+		#0090ae 90.6%,
+		hsla(  0, 80%, 80%, 0) 90.7%,
+		hsla(  0, 80%, 80%, 0) 100%,
+		#0090ae 100.5%,
+		#0090ae 100.6%,
+		hsla(  0, 80%, 80%, 0) 100.7%,
+		hsla(  0, 80%, 80%, 0) 110%,
+		#0090ae 110.5%,
+		#0090ae 110.6%,
+		hsla(  0, 80%, 80%, 0) 110.7%,
+		hsla(  0, 80%, 80%, 0) 120%,
+		#0090ae 120.5%,
+		#0090ae 120.6%,
+		hsla(  0, 80%, 80%, 0) 120.7%,
+		hsla(  0, 80%, 80%, 0) 130%,
+		#0090ae 130.5%,
+		#0090ae 130.6%,
+		hsla(  0, 80%, 80%, 0) 130.7%,
+		hsla(  0, 80%, 80%, 0) 140%,
+		#0090ae 140.5%,
+		#0090ae 140.6%,
+		hsla(  0, 80%, 80%, 0) 140.7%,
+		hsla(  0, 80%, 80%, 0) 150%,
+		#0090ae 150.5%,
+		#0090ae 150.6%,
+		hsla(  0, 80%, 80%, 0) 150.7%,
+		hsla(  0, 80%, 80%, 0) 160%
+
+
+
+		)
+	;
+	background-color: #58ab27;
+}
+body.extensivo.fc main h1.fixarTitulo{
+	color: #0090ae;
+}
+body.extensivo.fc .corUm{
+	fill:#0090ae;
+}
+body.extensivo.fc main blockquote.fio{
+	border: 3px solid #0090ae;
+}
+
+.extensivo.fc h4.exInteracao{
+	background-color: #0090ae;
+}
+
+body.extensivo.fc main blockquote.fixar p.alternativaLetra span{
+	color: #0090ae;
+}
+body.extensivo.fc main p.alternativaLetra span{
+	color:#0090ae;
+}
+body.extensivo.fc main label > span.check {
+	border: 2px solid #0090ae;
+}
+
+body.extensivo.fc main label > input[type="radio"]:checked + .check:before {
+	background-color: #0090ae;
+}
+body.extensivo.fc main button.gabarito {
+	background-color: #0090ae;
+	box-shadow: 0 9px #037B94;
+}
+
+body.extensivo.fc main button.gabarito:not(:active):hover{
+	background-color: #16788D;
+	box-shadow: 0 9px #1E5E6B;
+}
+body.extensivo.fc main button.gabarito:active{
+	background-color: #2D6D7A;
+	box-shadow: 0 3px #204F59;
+	transform: translateY(4px);
+
+}
+body.extensivo.fc main blockquote.pagina:before {
+	height: 37px;
+	top: 70%;
+	background: linear-gradient(-135deg, #0090ae 17.5px, transparent 0) 0 17.5px, linear-gradient(135deg, #0090ae 17.5px, transparent 0) 0 17.5px;
+	background-position: top left;
+	background-repeat: repeat-x;
+	background-size: 25px 25px;
+	z-index: 2;
+}
+body.extensivo.fc main blockquote.pontuacao p.tituloResposta{
+	color: #0090ae;
+}
+
+body.extensivo .textoRA .fundoRA {
+	fill: #4eae32
+}
+body.extensivo blockquote.pontilhadoExt{
+	border: 3px solid #4eae32;
+	border-style: dotted;
+	border-radius: 2em;
+}

@@ -1,0 +1,538 @@
+/******
+
+Folha de estilo: Ajustes para dispositivos com até 640px de largura;
+
+Cliente: SAE Digital;
+
+*******/
+
+@media only screen and (max-width: 640px) {
+    body.ef1 blockquote .tituloQuote {
+        font-size: 0.8em;
+    }
+    body.ef1 blockquote.conversaVai h1.tituloQuote, body.ef1 blockquote.conversaVem h1.tituloQuote {
+        top: 0.5em;
+    }
+    body.ef1 blockquote .tituloQuote span.inner {
+        border-radius: 1em;
+        padding-right: 1em;
+    }
+    body.ef1 blockquote .tituloQuote .detalhe {
+        display: none;
+    }
+    /**** Alinhamentos e Tamanhos ****/
+    .alinhaEsquerda, .alinhaDireita {
+        float: none;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    /**** Texto, títulos e listas ****/
+    p {
+        font-size: 0.8em;
+        line-height: 1.25em;
+        /*text-indent: 1.4em;*/
+    }
+    h1 {
+        font-size: 1.2em !important;
+    }
+    h2 {
+        font-size: 1.2em !important;
+    }
+    h3 {
+        font-size: 1em;
+    }
+    h4 {
+        font-size: .8em;
+    }
+    .colunas {
+        -webkit-column-count: 1 !important;
+        -moz-column-count: 1 !important;
+        column-count: 1 !important;
+    }
+    table tr td.cabecalho p {
+        font-size: 0.8em;
+    }
+    table tr td p {
+        font-size: 0.7em;
+    }
+    /**** Imagens e Objetos ****/
+    .maxMetade, .maxQuarto, .maxTresQuartos {
+        max-width: 100% !important;
+    }
+    figure.alinhaEsquerda, figure.alinhaDireita {
+        text-align: center;
+    }
+    figure.alinhaEsquerda figcaption, figure.alinhaDireita figcaption {
+        text-align: left;
+    }
+    /**** Blockquote ****/
+    blockquote {
+        margin: 3.4em 0 1.4em !important;
+    }
+    blockquote.maxMetade, blockquote.maxQuarto, blockquote.maxTresQuartos, .w10, .w20, .w30, .w40, .w50, .w60, .w70, .w80, .w90, .w100 {
+        /*padding: 0.5em 1em !important;*/
+        max-width: 100% !important;
+    }
+    body.ef2 blockquote.boxCinza h1.tituloQuote {
+        padding: 1em 0px 2.7em 3.5em;
+    }
+    body.ef2 blockquote.boxCinza h1.tituloQuote span.inner:before {
+        top: 0px;
+    }
+    body.ef2 blockquote.box h1.tituloQuote {
+        background-size: 450px;
+        background-repeat: no-repeat;
+        height: 39px;
+        width: 450px;
+    }
+    body.ef2 blockquote.box h1.tituloQuote span.inner {
+        font-size: 0.7em;
+        top: -0.3em;
+        line-height: 2em;
+        left: 90px;
+    }
+    blockquote .tituloQuote {
+        top: -3em;
+    }
+    body.ef2 blockquote.boxCinza:before {
+        height: 80px;
+    }
+    body.ef2 blockquote.boxCinza h1.tituloQuote, body.ef2 blockquote.boxCinza h1.tituloQuote span.inner:before {
+        top: -5px;
+    }
+    body.ef2 blockquote.boxCinza h1.tituloQuote span.inner:before {
+        top: 5px;
+        left: 5px;
+    }
+    blockquote.maxMetade .tituloQuote, blockquote.maxQuarto .tituloQuote, blockquote.maxTresQuartos .tituloQuote {
+        top: -1.8em;
+    }
+    blockquote.conversaVem blockquote.postit {
+        height: 8rem;
+        padding-left: 1rem;
+        padding-right: 3rem;
+        padding-top: 1.5rem;
+    }
+    body.novo-medio .zigzag{
+        display: none;
+    }
+	body.novo-medio header figure{
+		display: none !important;
+	}
+    /**** Cabeçalho ****/
+    header p.abertura {
+        width: 90%;
+        padding: 0 5%;
+        font-size: 0.8em;
+    }
+    /**** Formatação dos blocos principais ****/
+    figure.imagemPrincipal {
+        height: 16em;
+    }
+    figure.imagemPrincipal figcaption {
+        /*width: 90%;*/
+        padding: 2em 5% 1em;
+        font-size: 0.8em;
+    }
+    figure.imagemPrincipal figcaption p.textoCredito {
+        font-size: 0.5em;
+    }
+    main {
+        width: 90%;
+    }
+    body.ef1 blockquote.vocejaSabe2 {
+        background-color: #fff;
+        border-width: 30px;
+        border-style: solid;
+        border-radius: 2em;
+        padding-top: 6em;
+    }
+    body.ef1 blockquote.vocejaSabe2:after {
+        content: '';
+        position: absolute;
+        left: 20px;
+        top: -50px;
+        width: 430px;
+        height: 120px;
+        background: transparent url('../image/box_vocejasabe.png') no-repeat;
+        background-size: 200%;
+    }
+    /**** Professor ****/
+    a.professor {
+        float: none;
+        display: table;
+        margin: 1em auto 1.4em;
+    }
+    .janelaProfessor .janelaProfessor-content {
+        max-height: 80%;
+        padding: 1.8em 1.5em 1.5em;
+        min-width: 30%;
+        max-width: 68%;
+        margin: 0 5%;
+    }
+    .janelaProfessor .janelaProfessor-content:after {
+        left: -6px;
+        padding: 0.5em 1em;
+        -webkit-border-bottom-right-radius: 1em;
+        -moz-border-radius-bottomright: 1em;
+        border-bottom-right-radius: 1em;
+        font-size: 0.8em;
+        line-height: 1em;
+    }
+    .janelaProfessor .janelaProfessor-close-icon {
+        top: 1.5%;
+        right: 1.5%;
+        line-height: 25px;
+        width: 25px;
+        font-size: 1.4em;
+    }
+    div.rank h2 {
+        font-size: 16pt;
+    }
+    div.rankEstrela button#botao1{
+    border: none;
+    background-color: transparent;
+    width: 8em;
+    height: 8em;
+    padding: 0;
+    background-image: url(../image/estrela_cheia1.png);
+    background-repeat: no-repeat;
+    outline: none;
+    background-size: contain;
+}
+div.rankEstrela button#botao2{
+    border: none;
+    background-color: transparent;
+    width: 8em;
+    height: 8em;
+    padding: 0;
+    background-image: url(../image/estrela_cheia2.png);
+    background-repeat: no-repeat;
+    outline: none;
+    background-size: contain;
+}
+div.rankEstrela button#botao3{
+    border: none;
+    background-color: transparent;
+    width: 8em;
+    height: 8em;
+    padding: 0;
+    background-image: url(../image/estrela_cheia3.png);
+    background-repeat: no-repeat;
+    outline: none;
+    background-size: contain;
+}
+div.rankEstrela button#botao4{
+    border: none;
+    background-color: transparent;
+    width: 8em;
+    height: 8em;
+    padding: 0;
+    background-image: url(../image/estrela_cheia4.png);
+    background-repeat: no-repeat;
+    outline: none;
+    background-size: contain;
+}
+div.rankEstrela button#botao5{
+    border: none;
+    background-color: transparent;
+    width: 8em;
+    height: 8em;
+    padding: 0;
+    background-image: url(../image/estrela_cheia5.png);
+    background-repeat: no-repeat;
+    outline: none;
+    background-size: contain;
+}
+    /** ODs **/
+    .od .arrastar .areaArraste ul {
+        font-size: 0.6em;
+        line-height: 1em;
+    }
+    .od .arrastar .areaArraste ul.areaPegar li.texto {
+        padding: 0.15em 0.4em;
+    }
+    .od .lacunas .container p, .od .relacionaveis .container p {
+        line-height: 1.6em;
+    }
+    .od .relacionaveis ul.col {
+        display: block;
+        width: 100%;
+        margin: 1em auto 1.4em;
+    }
+    div.od>div:not(.professor) {
+        padding: 60px 0.7em 0.7em;
+        border-radius: 1em;
+    }
+    div.od>div:not(.professor):before {
+        background-size: 650px auto;
+        height: 60px;
+        border-top-left-radius: 1em;
+        border-top-right-radius: 1em;
+    }
+    div.od .abas:before {
+        background-position: 0 -10px;
+    }
+    div.od .video:before {
+        background-position: 0 -82px;
+    }
+    div.od .lacunas:before {
+        background-position: 0 -160px;
+    }
+    div.od .infografico:before {
+        background-size: 800px auto !important;
+        background-position: 0 -288px;
+    }
+    div.od .arrastar:before, div.od .ordenar:before, div.od .linhaTempo {
+        height: 65px !important;
+        background-size: 650px auto !important;
+    }
+    div.od .quiz:before {
+        background-size: 800px auto !important;
+        background-position: 0 -464px;
+    }
+    div.od .relacionaveis:before {
+        background-position: 0 -445px;
+    }
+    div.od .slideShow:before {
+        background-position: 0 -520px;
+    }
+    div.od .ordenar:before {
+        background-position: 0 -300px;
+    }
+    div.od .panorama:before {
+        height: 65px !important;
+        background-position: 0 -660px;
+    }
+    div.od .linhaTempo:before {
+        height: 65px !important;
+        background-position: 0 -590px;
+        border-top-left-radius: 1em;
+        border-top-right-radius: 1em;
+    }
+    div.od .arrastar:before {
+        background-position: 0 -300px;
+        width:
+    }
+    #od1, #od2, #od3, #od4, #od5, #od6, #od7 {
+        width: 100%;
+        height: auto;
+    }
+    .od .infografico .areaInfografico ul li a {
+        background-color: white;
+        border-radius: 0.5em;
+        line-height: 0.5em;
+        padding: 0.25em 0.5em;
+        color: #F26522;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        font-size: 0.6em;
+    }
+    .od .infografico .areaInfografico ul li .tooltip {
+        position: absolute;
+        z-index: 2;
+        padding: 1em;
+        min-width: 150%;
+        border-radius: 1em;
+        background-color: rgba(0, 0, 0, 0.9);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        text-align: left;
+        color: white;
+        font-size: 0.7em;
+        display: none;
+    }
+    .od figure img {
+        border-radius: 1em;
+    }
+    /* geral */
+    .textoReferencia {
+        overflow: hidden;
+    }
+    .slide_fim:after, .slide_fim_ingles:after, .slide_fim_espanhol:after {
+        width: 70px;
+        height: 40px;
+        left: calc(50% - 35px);
+        top: 5%;
+    }
+    .slide_fim:before, .slide_fim_ingles:before, .slide_fim_espanhol:before {
+        font-size: 1.4em;
+    }
+    label>input[type="radio"]:checked+.check:before {
+        margin-left: -1.8em;
+    }
+    body.extensivo .exEnem, body.extensivo .exSistematizacao {
+        width: calc(100% - 65px);
+    }
+    body.extensivo main blockquote.pagina {
+        margin-top: 6px !important;
+    }
+    body.extensivo header {
+        flex-direction: column;
+        height: auto;
+    }
+    body.extensivo header .imagemExtPrincipal {
+        max-width: 100%;
+        width: 100%;
+        min-width: 100%;
+	    height: 100%;
+        position: relative;
+    }
+    body.extensivo header .imagemExtPrincipal img {
+        width: 100%;
+        max-height: 55vh;
+    }
+    body.extensivo header .imagemExtPrincipal figcaption {
+        bottom: 3px;
+    }
+    blockquote.blocoHeader {
+        max-width: 100%;
+        flex-direction: row;
+        padding: 2.3em 0;
+    }
+    blockquote.blocoHeader .qrAbertura {
+        border-radius: 6px;
+        margin-left: 1em;
+    }
+
+    body.extensivo header .moduloConteudo {
+        text-align: left;
+        margin: 0 2.1em;
+    }
+
+    body.extensivo header .moduloConteudo p {
+        text-align: left !important;
+    }
+
+    body.extensivo h1.tituloModulo {
+        font-size: 2.6em;
+        padding: 1em 0.4em .2em .4em;
+    }
+
+    body.extensivo .zigzag {
+        position: relative;
+        height: 75px;
+        z-index: -1;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        margin: 1em 0;
+    }
+
+    body.extensivo main blockquote.fixar {
+        margin: 0 -5.8% !important;
+    }
+
+    body.extensivo main blockquote.fixarInner {
+        margin-left: auto !important;
+        margin-right: auto !important;
+        width: 96% !important;
+        margin-top: 5em !important;
+        padding: 3em 1.8em !important;
+    }
+
+    body.extensivo main blockquote.boxFixar {
+        width: 100%;
+        margin: 2em 0 !important;
+    }
+
+    /** ENSINO MEDIO **/
+
+    body.medio header {
+        height: auto !important;
+        border-radius: 0 0 1.7em 1.7em;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;  
+        box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.25);  
+    }
+
+    #medioSvgStart {
+        visibility: visible;
+        position: relative;
+        top: 18px;
+    }
+
+    body.medio .imagemCirculos {
+        width: auto;
+        height: 45vw;
+        top: 0 !important;
+    }
+
+    img.imagemAberturaMedio {
+        position: absolute;
+        width: 43vw;
+        z-index: 1;
+        clear: none;
+        left: 50%;
+        top: 15.5vw;
+        transform: translateX(-50%);
+    }
+
+    body.medio .medioCirculoTexto {
+        font-size: 1.3em;
+    }
+
+    body.medio header .imagemCirculos {
+        position: relative !important;
+    }
+
+    body.medio header .blocoMod  {
+        position: relative !important;
+    }
+
+    body.medio header .blocoTitulo {
+        position: relative !important;
+        float: none !important;
+    }
+
+    body.medio blockquote.blocoMod {
+        top: auto !important;
+        left: calc(-50% + 2em) !important;
+        transform: translateX(50%) !important;
+    }
+
+    body.medio blockquote.blocoTitulo div.tituloBloco {
+        max-width: none !important;
+        right: none !important;
+        height: auto !important;
+        padding: 0 2em;
+    }
+
+    body.medio blockquote.blocoTitulo div.linhaPonto {
+        width: calc(100% - 2em);
+    }
+
+    body.medio header .medioQrCodes {
+        margin: 2em;
+        flex-wrap: wrap;
+    }
+
+    body.medio header .medioQrCodes .qrCodeAbertura {
+        margin-top: 1em !important;
+    }
+
+    body.medio header .medioQrCodes .qrCodeAbertura img {
+        width: 6em;
+    }
+
+    body.medio header .medioQrCodes .qrCodeAbertura .tituloQRabertura {
+        margin: 0 0.6em 0 1.3em;
+        max-width: 5em;
+    }
+
+    body.medio blockquote.blocoTitulo h1.tituloModulo {
+        font-size: 3em;
+    }
+
+    img.imagemAberturaMedio.medioEsquerda {
+        left: calc(50% + 2.3vw) !important;
+    }
+
+    .janelacolunaFalsa .janelacolunaFalsa-content {
+        max-width: 97%;
+    }
+    
+}

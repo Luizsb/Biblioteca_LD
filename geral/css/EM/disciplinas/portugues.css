@@ -1,0 +1,184 @@
+:root {
+	/* CORES */
+	--primario: #561f79;
+	--secundario: #f7931d;
+	--terciario: #00aea1;
+
+	--header-1: #542668;
+	--header-2: #080809;
+	
+	--circulo-disciplina: Língua Portuguesa;
+	--circulo-1: #5a1d70;
+	--circulo-2: #f39200;
+	--header-linha: #32bef0;
+	--header-linha-light: #d4edfc;
+	--circulo-2-light: #fee0bc;
+}
+
+body.novo-medio header, body.novo-medio .blocoHeader {
+	background-color: var(--primario);
+}
+
+
+/***************************************************************** ODs ***************************************************************/
+.objetoDigital{
+	background-color: rgba(45,49,136,0.64);
+}
+.janelaProfessornovo-medio .janelaProfessornovo-medio-content h2{
+color: var(--terciario);
+}
+.telaMenu #od_tit {
+	background-color: rgba(221,113,15,0.85);
+	}
+/***********************************************************************************/
+
+
+body.novo-medio main h2{
+	color: var(--primario);
+}
+body.novo-medio main h2 .ponto-partida{
+	color: var(--secundario);
+}
+
+.corDois{
+	stroke:var(--primario);stroke-linecap:round;stroke-width:2px;
+}
+
+blockquote.boxFixar{
+	background-image: radial-gradient(#C8C8C8 20%, #fff 20%);
+	border: 3px solid var(--primario);
+}
+
+body.novo-medio main p.textoLegenda{
+	border-top: 2px solid var(--primario);
+}
+
+body.novo-medio main blockquote.fundoCor{
+	background-color: var(--primario);
+}
+
+body.novo-medio main blockquote.fundoCor blockquote.fio{
+	background-color: var(--primario);
+}
+
+body.novo-medio main h3{
+	color: var(--terciario);
+}
+
+body.novo-medio main h4{
+	color: var(--terciario);
+}
+
+body.novo-medio main p span.numeracao{
+	color: var(--terciario);
+}
+body.novo-medio main blockquote.fixar{
+	background: radial-gradient(circle closest-side, 
+		hsla(  0, 80%, 80%, 0) 0%, 
+		hsla(  0, 80%, 80%, 0) 70%, 
+		var(--terciario) 70.5%,
+		var(--terciario) 70.6%,
+		hsla(  0, 80%, 80%, 0) 70.7%,
+		hsla(  0, 80%, 80%, 0) 80%,
+		var(--terciario) 80.5%,
+		var(--terciario) 80.6%,
+		hsla(  0, 80%, 80%, 0) 80.7%,
+		hsla(  0, 80%, 80%, 0) 90%,
+		var(--terciario) 90.5%,
+		var(--terciario) 90.6%,
+		hsla(  0, 80%, 80%, 0) 90.7%,
+		hsla(  0, 80%, 80%, 0) 100%,
+		var(--terciario) 100.5%,
+		var(--terciario) 100.6%,
+		hsla(  0, 80%, 80%, 0) 100.7%,
+		hsla(  0, 80%, 80%, 0) 110%,
+		var(--terciario) 110.5%,
+		var(--terciario) 110.6%,
+		hsla(  0, 80%, 80%, 0) 110.7%,
+		hsla(  0, 80%, 80%, 0) 120%,
+		var(--terciario) 120.5%,
+		var(--terciario) 120.6%,
+		hsla(  0, 80%, 80%, 0) 120.7%,
+		hsla(  0, 80%, 80%, 0) 130%,
+		var(--terciario) 130.5%,
+		var(--terciario) 130.6%,
+		hsla(  0, 80%, 80%, 0) 130.7%,
+		hsla(  0, 80%, 80%, 0) 140%,
+		var(--terciario) 140.5%,
+		var(--terciario) 140.6%,
+		hsla(  0, 80%, 80%, 0) 140.7%,
+		hsla(  0, 80%, 80%, 0) 150%,
+		var(--terciario) 150.5%,
+		var(--terciario) 150.6%,
+		hsla(  0, 80%, 80%, 0) 150.7%,
+		hsla(  0, 80%, 80%, 0) 160%
+
+
+);
+	background-color: var(--primario);
+}
+body.novo-medio main h1.fixarTitulo{
+	color: var(--terciario);
+}
+body.novo-medio .corUm{
+	fill:var(--terciario);
+}
+body.novo-medio main blockquote.fio{
+	border: 3px solid var(--terciario);
+}
+
+.novo-medio h4.exInteracao{
+	background-color: var(--terciario);
+}
+
+body.novo-medio main blockquote.fixar p.alternativaLetra span{
+	color: var(--terciario);
+}
+body.novo-medio main p.alternativaLetra span{
+	color:var(--terciario);
+}
+body.novo-medio main label > span.check {
+	border: 2px solid var(--terciario);
+}
+
+body.novo-medio main label > input[type="radio"]:checked + .check:before {
+	background-color: var(--terciario);
+}
+body.novo-medio main button.gabarito {
+	background-color: var(--terciario);
+	box-shadow: 0 9px var(--secundario);
+}
+
+body.novo-medio main button.gabarito:not(:active):hover{
+	background-color: var(--secundario);
+	box-shadow: 0 9px var(--secundario);
+}
+body.novo-medio main button.gabarito:active{
+	background-color: var(--secundario);
+	box-shadow: 0 3px var(--secundario);
+	transform: translateY(4px);
+
+}
+body.novo-medio main blockquote.pagina:before {
+	height: 37px;
+	top: 70%;
+	background: linear-gradient(-135deg, #df7527 17.5px, transparent 0) 0 17.5px, linear-gradient(135deg, #df7527 17.5px, transparent 0) 0 17.5px;
+	background-position: top left;
+	background-repeat: repeat-x;
+	background-size: 25px 25px;
+	z-index: 2;
+}
+body.novo-medio main blockquote.pontuacao p.tituloResposta{
+	color: var(--terciario);
+}
+body.novo-medio blockquote.pontilhadoExt{
+	border: 3px solid var(--terciario);
+	border-style: dotted;
+	border-radius: 2em;
+}
+
+.box-citacao{
+	border-style: solid;
+    border-color: var(--primario);
+    border-width: 2px;
+}
