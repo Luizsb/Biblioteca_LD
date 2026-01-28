@@ -408,6 +408,7 @@ function getNetlifyToken() {
 }
 
 window.publishDataToNetlify = publishDataToNetlify;
+window.requestAccess = requestAccess;
 
 function clearFilters() {
     document.getElementById("global-search").value = "";
