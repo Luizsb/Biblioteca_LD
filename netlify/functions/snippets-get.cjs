@@ -2,7 +2,11 @@ const { getStore } = require("@netlify/blobs");
 
 exports.handler = async () => {
     try {
-        const store = getStore("snippets");
+        const store = getStore({
+            name: "snippets",
+            siteID: process.env.NETLIFY_SITE_ID,
+            token: process.env.NETLIFY_API_TOKEN,
+        });
         const data = await store.get("data", { type: "json" });
         const payload = data && Array.isArray(data.snippets) ? data : { snippets: [] };
         return {
