@@ -27,7 +27,9 @@ exports.handler = async (event) => {
             siteID: process.env.NETLIFY_SITE_ID,
             token: process.env.NETLIFY_API_TOKEN,
         });
-        await store.set("data", { snippets });
+        await store.set("data", JSON.stringify({ snippets }), {
+            metadata: { contentType: "application/json" },
+        });
 
         return {
             statusCode: 200,

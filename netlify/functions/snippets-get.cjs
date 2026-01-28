@@ -7,8 +7,18 @@ exports.handler = async () => {
             siteID: process.env.NETLIFY_SITE_ID,
             token: process.env.NETLIFY_API_TOKEN,
         });
-        const data = await store.get("data", { type: "json" });
-        const payload = data && Array.isArray(data.snippets) ? data : { snippets: [] };
+        const raw = await store.get("data");
+        let parsed = null;
+        if (raw && typeof raw === "string") {
+            try {
+                parsed = JSON.parse(raw);
+            } catch {
+                parsed = null;
+            }
+        } else if (raw && typeof raw === "object") {
+            parsed = raw;
+        }
+        const payload = parsed && Array.isArray(parsed.snippets) ? parsed : { snippets: [] };
         return {
             statusCode: 200,
             headers: {
