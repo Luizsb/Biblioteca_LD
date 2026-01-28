@@ -2,34 +2,35 @@ import { getStore } from "@netlify/blobs";
 
 const TOKEN_HEADER = "authorization";
 
-export default async (request) => {
-    if (request.method !== "POST") {
-        return new Response("Method Not Allowed", { status: 405 });
+export const handler = async (event) => {
+    if (event.httpMethod !== "POST") {
+        return { statusCode: 405, body: "Method Not Allowed" };
     }
 
     const expectedToken = process.env.ADMIN_TOKEN;
-    const authHeader = request.headers.get(TOKEN_HEADER) || "";
+    const authHeader = event.headers?.[TOKEN_HEADER] || event.headers?.Authorization || "";
     const incomingToken = authHeader.replace(/^Bearer\s+/i, "");
 
     if (!expectedToken || incomingToken !== expectedToken) {
-        return new Response("Unauthorized", { status: 401 });
+        return { statusCode: 401, body: "Unauthorized" };
     }
 
     try {
-        const body = await request.json();
+        const body = JSON.parse(event.body || "{}");
         const snippets = Array.isArray(body?.snippets) ? body.snippets : null;
         if (!snippets) {
-            return new Response("Bad Request", { status: 400 });
+            return { statusCode: 400, body: "Bad Request" };
         }
 
         const store = getStore("snippets");
         await store.set("data", { snippets });
 
-        return new Response(JSON.stringify({ ok: true }), {
-            status: 200,
+        return {
+            statusCode: 200,
             headers: { "Content-Type": "application/json" },
-        });
+            body: JSON.stringify({ ok: true }),
+        };
     } catch (error) {
-        return new Response("Server Error", { status: 500 });
+        return { statusCode: 500, body: "Server Error" };
     }
 };
