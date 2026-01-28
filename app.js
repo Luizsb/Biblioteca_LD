@@ -182,16 +182,17 @@ function updatePreview() {
     if (!currentItem) return;
     const iframe = document.getElementById("preview-iframe");
     const seg = currentItem.segment[0] || "EF2";
+    const previewCode = currentItem.code.replaceAll("resources/image/", "image/");
     const html = `
         <!DOCTYPE html>
         <html>
         <head>
             <base href="./geral/">
-            <link rel="stylesheet" href="./geral/css/html5reset.css">
-            <link rel="stylesheet" href="./geral/css/bootstrap.css">
-            <link rel="stylesheet" href="./geral/css/geral.css">
-            <link rel="stylesheet" href="./geral/css/geral1024.css">
-            <link rel="stylesheet" href="./geral/css/geral640.css">
+            <link rel="stylesheet" href="css/html5reset.css">
+            <link rel="stylesheet" href="css/bootstrap.css">
+            <link rel="stylesheet" href="css/geral.css">
+            <link rel="stylesheet" href="css/geral1024.css">
+            <link rel="stylesheet" href="css/geral640.css">
             <style>
                 body { padding: 40px; background: white; font-family: sans-serif; min-height: 100vh; color: #333; }
                 body::before {
@@ -207,10 +208,9 @@ function updatePreview() {
         </head>
         <body class="segmento-${seg.toLowerCase()}">
             <div class="container-fluid">
-                ${currentItem.code}
+                ${previewCode}
             </div>
-        <script type="module" src="/index.tsx"><\/script>
-</body>
+        </body>
         </html>
     `;
     iframe.srcdoc = html;
