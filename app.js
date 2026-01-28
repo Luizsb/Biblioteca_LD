@@ -85,6 +85,7 @@ function toggleTag(el) {
 function handleFilterChange() {
     const search = document.getElementById("global-search").value.toLowerCase();
     const sort = document.getElementById("sort-order").value;
+    const discipline = document.getElementById("filter-discipline")?.value;
     const activeSegs = Array.from(document.querySelectorAll("#filter-segments .active")).map(
         (el) => el.innerText
     );
@@ -100,9 +101,10 @@ function handleFilterChange() {
             s.code.toLowerCase().includes(search) ||
             s.tags.some((t) => t.toLowerCase().includes(search));
         const matchesSeg = activeSegs.length === 0 || s.segment.some((seg) => activeSegs.includes(seg));
+        const matchesDiscipline = !discipline || s.discipline === discipline;
         const matchesType = activeTypes.length === 0 || activeTypes.includes(s.type);
         const matchesTag = activeTags.length === 0 || s.tags.some((tag) => activeTags.includes(tag));
-        return matchesSearch && matchesSeg && matchesType && matchesTag;
+        return matchesSearch && matchesSeg && matchesDiscipline && matchesType && matchesTag;
     });
     if (sort === "az") filtered.sort((a, b) => a.title.localeCompare(b.title));
     else filtered.reverse();
@@ -143,6 +145,7 @@ function viewSnippet(id) {
     document.getElementById("view-badges").innerHTML = `
         <span class="badge badge-${currentItem.type.toLowerCase().replace("/", "").replace("í", "i")}">${currentItem.type}</span>
         ${currentItem.segment.map((seg) => `<span class="badge badge-segmento">${seg}</span>`).join("")}
+        ${currentItem.discipline ? `<span class="badge badge-segmento">${currentItem.discipline}</span>` : ""}
         ${currentItem.tags.map((t) => `<span class="badge badge-segmento" style="border-style:dashed;">#${t}</span>`).join("")}
     `;
 
@@ -187,6 +190,11 @@ function updatePreview() {
     if (!currentItem) return;
     const iframe = document.getElementById("preview-iframe");
     const seg = currentItem.segment[0] || "EF2";
+    const discipline = currentItem.discipline || document.getElementById("filter-discipline")?.value;
+    const disciplineLink =
+        discipline && ["EF1", "EF2", "EM", "EXT"].includes(seg)
+            ? `<link rel="stylesheet" href="/geral/css/${seg}/disciplinas/${discipline}.css">`
+            : "";
     const previewCode = currentItem.code
         .replaceAll("/resources/image/", "/geral/image/")
         .replaceAll("resources/image/", "/geral/image/");
@@ -199,6 +207,7 @@ function updatePreview() {
             <link rel="stylesheet" href="/geral/css/geral.css">
             <link rel="stylesheet" href="/geral/css/geral1024.css">
             <link rel="stylesheet" href="/geral/css/geral640.css">
+            ${disciplineLink}
             <style>
                 body { padding: 40px; background: white; font-family: sans-serif; min-height: 100vh; color: #333; }
                 body::before {
@@ -280,6 +289,7 @@ function openEditorModal() {
     document.getElementById("f-title").value = "";
     document.getElementById("f-type").value = "Estrutura";
     document.getElementById("f-desc").value = "";
+    document.getElementById("f-discipline").value = "";
     document.getElementById("f-tags").value = "";
     document.getElementById("f-code").value = "";
     document.getElementById("f-notes").value = "";
@@ -297,6 +307,7 @@ function openEditEditor() {
     document.getElementById("f-title").value = currentItem.title;
     document.getElementById("f-type").value = currentItem.type;
     document.getElementById("f-desc").value = currentItem.desc;
+    document.getElementById("f-discipline").value = currentItem.discipline || "";
     document.getElementById("f-tags").value = currentItem.tags.join(", ");
     document.getElementById("f-code").value = currentItem.code;
     document.getElementById("f-notes").value = currentItem.notes.join("\n");
@@ -320,6 +331,7 @@ async function saveSnippet() {
         title: document.getElementById("f-title").value || "Snippet Sem Título",
         type: document.getElementById("f-type").value,
         desc: document.getElementById("f-desc").value || "Nenhuma descrição fornecida.",
+        discipline: document.getElementById("f-discipline").value || "",
         segment: selectedSegs,
         tags: document
             .getElementById("f-tags")
