@@ -398,6 +398,7 @@ async function fetchNetlifySnippets() {
         if (!response.ok) return null;
         const payload = await response.json();
         if (!payload || !Array.isArray(payload.snippets)) return null;
+        if (payload.snippets.length === 0) return null;
         return payload.snippets;
     } catch (error) {
         return null;

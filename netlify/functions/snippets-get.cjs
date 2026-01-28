@@ -1,6 +1,6 @@
-import { getStore } from "@netlify/blobs";
+const { getStore } = require("@netlify/blobs");
 
-export const handler = async () => {
+exports.handler = async () => {
     try {
         const store = getStore("snippets");
         const data = await store.get("data", { type: "json" });

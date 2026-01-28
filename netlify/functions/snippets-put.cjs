@@ -1,8 +1,8 @@
-import { getStore } from "@netlify/blobs";
+const { getStore } = require("@netlify/blobs");
 
 const TOKEN_HEADER = "authorization";
 
-export const handler = async (event) => {
+exports.handler = async (event) => {
     if (event.httpMethod !== "POST") {
         return { statusCode: 405, body: "Method Not Allowed" };
     }

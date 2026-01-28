@@ -17,7 +17,7 @@
       "segment": ["EI", "EF1", "EF2", "EM"],
       "type": "Mídia",
       "tags": ["Image", "Figure"],
-      "code": "<figure class=\"figure-ld\">\n  <img src=\"resources/image/dummy.jpg\" class=\"img-fluid\" alt=\"Legenda\">\n  <figcaption>Fonte: Acervo do autor (2024).</figcaption>\n</figure>",
+      "code": "<figure class=\"figure-ld\">\n  <img src=\"/geral/image/web.jpg\" class=\"img-fluid\" alt=\"Legenda\">\n  <figcaption>Fonte: Acervo do autor (2024).</figcaption>\n</figure>",
       "notes": ["Usar imagens em JPG ou PNG"]
     },
     {
@@ -37,7 +37,7 @@
       "segment": ["EF1", "EF2"],
       "type": "Link/QR",
       "tags": ["ODA", "QR"],
-      "code": "<div class=\"oda-qr\">\n  <img src=\"resources/image/qr-code.png\" alt=\"QR Code\">\n  <p>Acesse o vídeo interativo.</p>\n</div>",
+      "code": "<div class=\"oda-qr\">\n  <img src=\"/geral/image/icon1.png\" alt=\"QR Code\">\n  <p>Acesse o vídeo interativo.</p>\n</div>",
       "notes": []
     },
     {
