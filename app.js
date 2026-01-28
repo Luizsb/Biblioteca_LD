@@ -198,6 +198,7 @@ function updatePreview() {
     const previewCode = currentItem.code
         .replaceAll("/resources/image/", "/geral/image/")
         .replaceAll("resources/image/", "/geral/image/");
+    const customCss = currentItem.css ? `<style>${currentItem.css}</style>` : "";
     const html = `
         <!DOCTYPE html>
         <html>
@@ -208,6 +209,7 @@ function updatePreview() {
             <link rel="stylesheet" href="/geral/css/geral1024.css">
             <link rel="stylesheet" href="/geral/css/geral640.css">
             ${disciplineLink}
+            ${customCss}
             <style>
                 body { padding: 40px; background: white; font-family: sans-serif; min-height: 100vh; color: #333; }
                 body::before {
@@ -293,6 +295,7 @@ function openEditorModal() {
     document.getElementById("f-tags").value = "";
     document.getElementById("f-code").value = "";
     document.getElementById("f-notes").value = "";
+    document.getElementById("f-css").value = "";
 
     // Reseta segmentos
     document.querySelectorAll(".f-seg-checkbox").forEach((cb) => (cb.checked = false));
@@ -311,6 +314,7 @@ function openEditEditor() {
     document.getElementById("f-tags").value = currentItem.tags.join(", ");
     document.getElementById("f-code").value = currentItem.code;
     document.getElementById("f-notes").value = currentItem.notes.join("\n");
+    document.getElementById("f-css").value = currentItem.css || "";
 
     // Marca os segmentos salvos
     document.querySelectorAll(".f-seg-checkbox").forEach((cb) => {
@@ -344,6 +348,7 @@ async function saveSnippet() {
             .value.split("\n")
             .map((n) => n.trim())
             .filter((n) => n),
+        css: document.getElementById("f-css").value.trim(),
     };
     const nextSnippets = [...snippets];
     const idx = nextSnippets.findIndex((s) => s.id === id);
