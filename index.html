@@ -19,9 +19,8 @@
                  v4.2</small></span>
         </div>
         <div class="header-actions">
-            <button class="btn btn-primary" onclick="requestAccess('create')">+ Novo Snippet</button>
+            <button class="btn btn-primary" onclick="requestAccess('create')">+ Novo Snippet (Adm)</button>
             <div style="width:1px; height:24px; background:rgba(255,255,255,0.2); margin:0 8px;"></div>
-            <button class="btn btn-ghost" style="color:white;" onclick="publishDataToNetlify()">Publicar (Netlify)</button>
         </div>
     </header>
 
@@ -115,7 +114,19 @@
                 <div class="tab-panel active" id="panel-preview">
                     <div class="preview-frame-container">
                         <div class="ld-viewport" id="viewport-box">
-                            <iframe id="preview-iframe" title="Preview do Livro Digital"></iframe>
+                            <div class="browser-mock">
+                                <div class="browser-bar">
+                                    <div class="browser-dots">
+                                        <span class="browser-dot red"></span>
+                                        <span class="browser-dot yellow"></span>
+                                        <span class="browser-dot green"></span>
+                                    </div>
+                                    <div class="browser-url">book-preview</div>
+                                </div>
+                                <div class="browser-body">
+                                    <iframe id="preview-iframe" title="Preview do Livro Digital"></iframe>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

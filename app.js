@@ -165,7 +165,7 @@ function viewSnippet(id) {
 
     // Sempre abre na aba 'preview' ao clicar num novo item
     showTab("preview");
-    renderList(snippets);
+    handleFilterChange();
 }
 
 function showTab(tab) {
