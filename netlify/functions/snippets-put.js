@@ -7,7 +7,7 @@ export default async (request) => {
         return new Response("Method Not Allowed", { status: 405 });
     }
 
-    const expectedToken = process.env.NETLIFY_BLOBS_TOKEN;
+    const expectedToken = process.env.ADMIN_TOKEN;
     const authHeader = request.headers.get(TOKEN_HEADER) || "";
     const incomingToken = authHeader.replace(/^Bearer\s+/i, "");
 

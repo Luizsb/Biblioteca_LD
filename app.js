@@ -7,7 +7,6 @@ const NETLIFY_GET_URL = "/.netlify/functions/snippets-get";
 const NETLIFY_PUT_URL = "/.netlify/functions/snippets-put";
 
 let snippets = [];
-let jsonFileHandle = null;
 let currentItem = null;
 let currentAction = null;
 
@@ -32,11 +31,6 @@ async function loadSnippets() {
         const netlifySnippets = await fetchNetlifySnippets();
         if (netlifySnippets) {
             snippets = netlifySnippets;
-            return;
-        }
-        const fileSnippets = await readSnippetsFromLinkedFile();
-        if (fileSnippets) {
-            snippets = fileSnippets;
             return;
         }
         const seedResponse = await fetch(SEED_JSON_URL, { cache: "no-store" });
@@ -333,11 +327,13 @@ async function saveSnippet() {
             .map((n) => n.trim())
             .filter((n) => n),
     };
-    const idx = snippets.findIndex((s) => s.id === id);
-    if (idx > -1) snippets[idx] = data;
-    else snippets.push(data);
-    const saved = await persistSnippets();
+    const nextSnippets = [...snippets];
+    const idx = nextSnippets.findIndex((s) => s.id === id);
+    if (idx > -1) nextSnippets[idx] = data;
+    else nextSnippets.push(data);
+    const saved = await publishDataToNetlify(nextSnippets);
     if (!saved) return;
+    snippets = nextSnippets;
     loadAndRefresh();
     closeModal("modal-editor");
     viewSnippet(id);
@@ -346,9 +342,10 @@ async function saveSnippet() {
 async function deleteCurrentSnippet() {
     if (!currentItem) return;
     const targetId = currentItem.id;
-    snippets = snippets.filter((s) => s.id !== targetId);
-    const saved = await persistSnippets();
+    const nextSnippets = snippets.filter((s) => s.id !== targetId);
+    const saved = await publishDataToNetlify(nextSnippets);
     if (!saved) return;
+    snippets = nextSnippets;
     currentItem = null;
     document.getElementById("content-view").classList.add("hidden");
     document.getElementById("empty-view").classList.remove("hidden");
@@ -362,67 +359,9 @@ async function loadAndRefresh() {
     handleFilterChange();
 }
 
-function exportData() {
-    const data = JSON.stringify({ snippets });
-    const blob = new Blob([data], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "snippets.json";
-    a.click();
-}
-
-async function openJsonFile() {
-    if (!window.showOpenFilePicker) {
-        alert("Seu navegador não permite abrir arquivos diretamente. Use o botão de salvar/baixar JSON.");
-        return;
-    }
-    try {
-        const [handle] = await window.showOpenFilePicker({
-            types: [{ description: "JSON", accept: { "application/json": [".json"] } }],
-            multiple: false,
-        });
-        jsonFileHandle = handle;
-        await loadAndRefresh();
-    } catch (err) {
-        if (err?.name !== "AbortError") {
-            alert("Não foi possível abrir o arquivo JSON.");
-        }
-    }
-}
-
-async function saveJsonFile() {
-    if (!window.showSaveFilePicker) {
-        exportData();
-        return;
-    }
-    try {
-        if (!jsonFileHandle) {
-            jsonFileHandle = await window.showSaveFilePicker({
-                suggestedName: "snippets.json",
-                types: [{ description: "JSON", accept: { "application/json": [".json"] } }],
-            });
-        }
-        await writeSnippetsToLinkedFile();
-    } catch (err) {
-        if (err?.name !== "AbortError") {
-            alert("Não foi possível salvar o arquivo JSON.");
-        }
-    }
-}
-
-async function persistSnippets() {
-    if (jsonFileHandle) {
-        await writeSnippetsToLinkedFile();
-        return true;
-    }
-    alert("Abra o arquivo JSON antes de salvar ou excluir.");
-    return false;
-}
-
-async function publishDataToNetlify() {
+async function publishDataToNetlify(nextSnippets = snippets) {
     const token = getNetlifyToken();
-    if (!token) return;
+    if (!token) return false;
 
     try {
         const response = await fetch(NETLIFY_PUT_URL, {
@@ -431,37 +370,20 @@ async function publishDataToNetlify() {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
             },
-            body: JSON.stringify({ snippets }),
+            body: JSON.stringify({ snippets: nextSnippets }),
         });
 
         if (!response.ok) {
             alert("Falha ao publicar no Netlify.");
-            return;
+            return false;
         }
 
         alert("Publicação no Netlify concluída!");
+        return true;
     } catch (error) {
         alert("Erro ao publicar no Netlify.");
+        return false;
     }
-}
-
-async function readSnippetsFromLinkedFile() {
-    if (!jsonFileHandle) return null;
-    try {
-        const file = await jsonFileHandle.getFile();
-        const text = await file.text();
-        const parsed = JSON.parse(text);
-        return Array.isArray(parsed.snippets) ? parsed.snippets : [];
-    } catch {
-        return null;
-    }
-}
-
-async function writeSnippetsToLinkedFile() {
-    if (!jsonFileHandle) return;
-    const writable = await jsonFileHandle.createWritable();
-    await writable.write(JSON.stringify({ snippets }, null, 2));
-    await writable.close();
 }
 
 async function fetchNetlifySnippets() {
@@ -479,11 +401,13 @@ async function fetchNetlifySnippets() {
 function getNetlifyToken() {
     const cached = sessionStorage.getItem("LD_NETLIFY_TOKEN");
     if (cached) return cached;
-    const token = prompt("Token Netlify (NETLIFY_BLOBS_TOKEN):");
+    const token = prompt("Token Netlify (ADMIN_TOKEN):");
     if (!token) return null;
     sessionStorage.setItem("LD_NETLIFY_TOKEN", token);
     return token;
 }
+
+window.publishDataToNetlify = publishDataToNetlify;
 
 function clearFilters() {
     document.getElementById("global-search").value = "";

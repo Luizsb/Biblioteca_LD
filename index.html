@@ -7,8 +7,7 @@
     <title>Biblioteca de Códigos LD | Dark Platform</title>
     <!-- Prism for Code Highlighting -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="/index.css">
+    <link rel="stylesheet" href="./styles.css">
 </head>
 <body class="dark-mode">
 
@@ -21,8 +20,6 @@
         <div class="header-actions">
             <button class="btn btn-primary" onclick="requestAccess('create')">+ Novo Snippet</button>
             <div style="width:1px; height:24px; background:rgba(255,255,255,0.2); margin:0 8px;"></div>
-            <button class="btn btn-ghost" style="color:white;" onclick="openJsonFile()">Abrir JSON</button>
-            <button class="btn btn-ghost" style="color:white;" onclick="saveJsonFile()">Salvar JSON</button>
             <button class="btn btn-ghost" style="color:white;" onclick="publishDataToNetlify()">Publicar (Netlify)</button>
         </div>
     </header>
@@ -220,6 +217,6 @@
     <button class="scroll-top" id="btn-up" onclick="goUp()">↑</button>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-    <script src="app.js" defer></script>
+    <script src="./app.js" defer></script>
 </body>
 </html>
