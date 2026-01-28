@@ -380,7 +380,8 @@ async function publishDataToNetlify(nextSnippets = snippets) {
         });
 
         if (!response.ok) {
-            alert("Falha ao publicar no Netlify.");
+            const detail = await response.text();
+            alert(`Falha ao publicar no Netlify (${response.status}). ${detail || ""}`);
             return false;
         }
 
@@ -395,7 +396,11 @@ async function publishDataToNetlify(nextSnippets = snippets) {
 async function fetchNetlifySnippets() {
     try {
         const response = await fetch(NETLIFY_GET_URL, { cache: "no-store" });
-        if (!response.ok) return null;
+        if (!response.ok) {
+            const detail = await response.text();
+            console.error("Netlify GET error", response.status, detail);
+            return null;
+        }
         const payload = await response.json();
         if (!payload || !Array.isArray(payload.snippets)) return null;
         if (payload.snippets.length === 0) return null;

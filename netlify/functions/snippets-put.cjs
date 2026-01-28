@@ -31,6 +31,14 @@ exports.handler = async (event) => {
             body: JSON.stringify({ ok: true }),
         };
     } catch (error) {
-        return { statusCode: 500, body: "Server Error" };
+        console.error("snippets-put failed", error);
+        return {
+            statusCode: 500,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                error: "server_error",
+                message: error?.message || "unknown_error",
+            }),
+        };
     }
 };

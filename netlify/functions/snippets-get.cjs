@@ -14,10 +14,15 @@ exports.handler = async () => {
             body: JSON.stringify(payload),
         };
     } catch (error) {
+        console.error("snippets-get failed", error);
         return {
             statusCode: 500,
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ snippets: [], error: "failed_to_load" }),
+            body: JSON.stringify({
+                snippets: [],
+                error: "failed_to_load",
+                message: error?.message || "unknown_error",
+            }),
         };
     }
 };
