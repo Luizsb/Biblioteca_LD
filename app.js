@@ -3,6 +3,7 @@ const TYPE_LIST = ["Estrutura", "Atividade", "Tabela", "Mídia", "Link/QR", "Est
 const SEED_JSON_URL = "./snippets.json";
 const NETLIFY_GET_URL = "/.netlify/functions/snippets-get";
 const NETLIFY_PUT_URL = "/.netlify/functions/snippets-put";
+const NETLIFY_VERIFY_URL = "/.netlify/functions/snippets-verify";
 
 let snippets = [];
 let currentItem = null;
@@ -40,11 +41,33 @@ function refreshAdminUI() {
     if (deleteBtn) deleteBtn.style.display = isAdmin ? "inline-flex" : "none";
 }
 
-function adminLogin() {
+async function adminLogin() {
     const token = prompt("Digite o token de administrador (ADMIN_TOKEN do Netlify):");
     if (!token || !token.trim()) return;
-    sessionStorage.setItem("LD_NETLIFY_TOKEN", token.trim());
+    const t = token.trim();
+    const valid = await validateAdminToken(t);
+    if (!valid) {
+        alert("Token invalido. Verifique o ADMIN_TOKEN configurado no Netlify.");
+        return;
+    }
+    sessionStorage.setItem("LD_NETLIFY_TOKEN", t);
     refreshAdminUI();
+}
+
+/** Valida o token na API do Netlify (snippets-verify); nao altera dados. */
+async function validateAdminToken(token) {
+    try {
+        const response = await fetch(NETLIFY_VERIFY_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return response.status === 200;
+    } catch {
+        return false;
+    }
 }
 
 function adminLogout() {
