@@ -26,8 +26,30 @@ function serveGeralRaw() {
   return {
     name: 'serve-geral-raw',
     configureServer(server) {
-      // Coloca nosso middleware no início para rodar ANTES do Vite processar o CSS
       (server.middlewares as any).stack.unshift({ route: '', handle: handler });
+    },
+  };
+}
+
+function copyPagesAssets() {
+  return {
+    name: 'copy-pages-assets',
+    closeBundle() {
+      const cwd = process.cwd();
+      const dest = path.join(cwd, 'dist');
+      const geralSrc = path.join(cwd, 'geral');
+      const snippetsSrc = path.join(cwd, 'snippetsNetlify.json');
+      try {
+        if (fs.existsSync(geralSrc) && fs.statSync(geralSrc).isDirectory()) {
+          fs.cpSync(geralSrc, path.join(dest, 'geral'), { recursive: true });
+        }
+        if (fs.existsSync(snippetsSrc)) {
+          fs.copyFileSync(snippetsSrc, path.join(dest, 'snippetsNetlify.json'));
+        }
+      } catch (e) {
+        console.error('copyPagesAssets error:', e);
+        throw e;
+      }
     },
   };
 }
@@ -35,14 +57,15 @@ function serveGeralRaw() {
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
     return {
+      base: '/',
       server: {
         port: 3000,
         host: '0.0.0.0',
       },
-      plugins: [serveGeralRaw()],
+      plugins: [serveGeralRaw(), copyPagesAssets()],
       define: {
-        'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-        'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)
+        'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY || ''),
+        'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY || '')
       },
       resolve: {
         alias: {
