@@ -7022,8 +7022,8 @@ body.medio main label > input[type=radio]:checked + .check:before {
 		text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.5);
 		cursor: pointer;
 	}
-	.od .video .player > .controlBar input[type="range"]::-webkit-slider-runnable-track,
-	.od .video .player > .controlBar input[type="range"]::-ms-track {
+	.od .video .player > .controlBar input[type=range]::-webkit-slider-runnable-track,
+	.od .video .player > .controlBar input[type=range]::-ms-track {
 		width: 100%;
 		padding: 0;
 		background: rgba(255, 255, 255, 0.8);
@@ -7032,7 +7032,7 @@ body.medio main label > input[type=radio]:checked + .check:before {
 		color: transparent;
 		cursor: pointer;
 	}
-	.od .video .player > .controlBar input[type="range"]::-moz-range-track {
+	.od .video .player > .controlBar input[type=range]::-moz-range-track {
 		width: 100%;
 		padding: 0;
 		background: rgba(255, 255, 255, 0.8);
@@ -7041,16 +7041,16 @@ body.medio main label > input[type=radio]:checked + .check:before {
 		color: transparent;
 		cursor: pointer;
 	}
-	.od .video .player > .controlBar input[type="range"]:focus::-webkit-slider-runnable-track {
+	.od .video .player > .controlBar input[type=range]:focus::-webkit-slider-runnable-track {
 		background: rgba(255, 255, 255, 0.5);
 		border: 0;
 	}
-	.od .video .player > .controlBar input[type="range"]::-ms-fill-lower,
-	.od .video .player > .controlBar input[type="range"]::-ms-fill-upper {
+	.od .video .player > .controlBar input[type=range]::-ms-fill-lower,
+	.od .video .player > .controlBar input[type=range]::-ms-fill-upper {
 		background: white;
 	}
-	.od .video .player > .controlBar input[type="range"]::-webkit-slider-thumb,
-	.od .video .player > .controlBar input[type="range"]::-ms-thumb {
+	.od .video .player > .controlBar input[type=range]::-webkit-slider-thumb,
+	.od .video .player > .controlBar input[type=range]::-ms-thumb {
 		height: 15px;
 		width: 10px;
 		background: white;
@@ -7059,7 +7059,7 @@ body.medio main label > input[type=radio]:checked + .check:before {
 		cursor: pointer;
 		-webkit-appearance: none;
 	}
-	.od .video .player > .controlBar input[type="range"]::-moz-range-thumb {
+	.od .video .player > .controlBar input[type=range]::-moz-range-thumb {
 		height: 15px;
 		width: 10px;
 		background: white;
@@ -11063,8 +11063,8 @@ div.objetoDigital .video:before {
 	text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.5);
 	cursor: pointer;
 }
-.objetoDigital .video .player > .controlBar input[type="range"]::-webkit-slider-runnable-track,
-.objetoDigital .video .player > .controlBar input[type="range"]::-ms-track {
+.objetoDigital .video .player > .controlBar input[type=range]::-webkit-slider-runnable-track,
+.objetoDigital .video .player > .controlBar input[type=range]::-ms-track {
 	width: 100%;
 	padding: 0;
 	background: rgba(255, 255, 255, 0.8);
@@ -11073,7 +11073,7 @@ div.objetoDigital .video:before {
 	color: transparent;
 	cursor: pointer;
 }
-.objetoDigital .video .player > .controlBar input[type="range"]::-moz-range-track {
+.objetoDigital .video .player > .controlBar input[type=range]::-moz-range-track {
 	width: 100%;
 	padding: 0;
 	background: rgba(255, 255, 255, 0.8);
@@ -11082,16 +11082,16 @@ div.objetoDigital .video:before {
 	color: transparent;
 	cursor: pointer;
 }
-.objetoDigital .video .player > .controlBar input[type="range"]:focus::-webkit-slider-runnable-track {
+.objetoDigital .video .player > .controlBar input[type=range]:focus::-webkit-slider-runnable-track {
 	background: rgba(255, 255, 255, 0.5);
 	border: 0;
 }
-.objetoDigital .video .player > .controlBar input[type="range"]::-ms-fill-lower,
-.objetoDigital .video .player > .controlBar input[type="range"]::-ms-fill-upper {
+.objetoDigital .video .player > .controlBar input[type=range]::-ms-fill-lower,
+.objetoDigital .video .player > .controlBar input[type=range]::-ms-fill-upper {
 	background: white;
 }
-.objetoDigital .video .player > .controlBar input[type="range"]::-webkit-slider-thumb,
-.objetoDigital .video .player > .controlBar input[type="range"]::-ms-thumb {
+.objetoDigital .video .player > .controlBar input[type=range]::-webkit-slider-thumb,
+.objetoDigital .video .player > .controlBar input[type=range]::-ms-thumb {
 	height: 15px;
 	width: 10px;
 	background: white;
@@ -11100,7 +11100,7 @@ div.objetoDigital .video:before {
 	cursor: pointer;
 	-webkit-appearance: none;
 }
-.objetoDigital .video .player > .controlBar input[type="range"]::-moz-range-thumb {
+.objetoDigital .video .player > .controlBar input[type=range]::-moz-range-thumb {
 	height: 15px;
 	width: 10px;
 	background: white;
