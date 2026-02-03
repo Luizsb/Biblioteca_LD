@@ -31,6 +31,7 @@
                 <div class="search-container">
                     <span class="search-icon">🔍</span>
                     <input type="text" id="global-search" class="search-input" placeholder="Buscar em tudo..." oninput="handleFilterChange()">
+                    <button type="button" class="search-clear" id="search-clear" onclick="clearSearch()" aria-label="Limpar busca" title="Limpar">×</button>
                 </div>
                 <div style="display:flex; justify-content:flex-end; align-items:center;">
                     <button class="btn btn-ghost btn-sm" style="font-size:0.7rem;" onclick="clearFilters()">Limpar Filtros</button>
@@ -178,15 +179,16 @@
                         <input type="text" id="f-title" class="search-input" style="padding-left:1rem;">
                     </div>
                     <div>
-                        <label class="filter-label">Tipo de Componente</label>
-                        <select id="f-type" class="form-select" style="width:100%; padding:0.7rem;">
-                            <option>Estrutura</option>
-                            <option>Atividade</option>
-                            <option>Tabela</option>
-                            <option>Mídia</option>
-                            <option>Link/QR</option>
-                            <option>Estilo</option>
-                            <option>Outros</option>
+                        <label class="filter-label">Tipo de Componente <span style="color:#ef4444;">*</span></label>
+                        <select id="f-type" class="form-select" style="width:100%; padding:0.7rem;" required>
+                            <option value="">Selecione o tipo...</option>
+                            <option value="Estrutura">Estrutura</option>
+                            <option value="Atividade">Atividade</option>
+                            <option value="Tabela">Tabela</option>
+                            <option value="Mídia">Mídia</option>
+                            <option value="Link/QR">Link/QR</option>
+                            <option value="Estilo">Estilo</option>
+                            <option value="Outros">Outros</option>
                         </select>
                     </div>
                 </div>

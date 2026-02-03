@@ -84,7 +84,7 @@ main {
 .search-container { position: relative; margin-bottom: 1rem; }
 .search-input {
     width: 100%;
-    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    padding: 0.75rem 2rem 0.75rem 2.5rem;
     border: 1px solid var(--border);
     border-radius: 8px;
     font-size: 0.9rem;
@@ -93,7 +93,33 @@ main {
     transition: border-color 0.2s;
 }
 .search-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); }
-.search-icon { position: absolute; left: 0.8rem; top: 0.85rem; color: var(--text-light); }
+.search-icon { position: absolute; left: 0.8rem; top: 0.85rem; color: var(--text-light); pointer-events: none; }
+.search-clear {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: transparent;
+    color: var(--text-light);
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s, color 0.2s;
+}
+.search-container:has(.search-input:not(:placeholder-shown)) .search-clear {
+    opacity: 1;
+    pointer-events: auto;
+}
+.search-clear:hover { color: var(--text-main); background: rgba(255,255,255,0.08); }
 
 .filter-section { margin-bottom: 1.5rem; }
 .filter-label { font-weight: 700; font-size: 0.75rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; display: block; }

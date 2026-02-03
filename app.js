@@ -213,7 +213,7 @@ function updatePreview() {
             <style>
                 body { padding: 40px; background: white; font-family: sans-serif; min-height: 100vh; color: #333; }
                 body::before {
-                    content: "MOCKUP LD - SEGMENTO: ${seg}";
+                    content: "MOCKUP LD";
                     position: fixed; top: 0; left:0; right:0;
                     background: #f1f5f9; color: #94a3b8;
                     font-size: 10px; padding: 4px 10px;
@@ -296,7 +296,7 @@ function openEditorModal() {
     document.getElementById("modal-title").innerText = "Adicionar Novo Snippet";
     document.getElementById("f-id").value = "";
     document.getElementById("f-title").value = "";
-    document.getElementById("f-type").value = "Estrutura";
+    document.getElementById("f-type").value = "";
     document.getElementById("f-desc").value = "";
     document.getElementById("f-discipline").value = "";
     document.getElementById("f-tags").value = "";
@@ -332,6 +332,14 @@ function openEditEditor() {
 }
 
 async function saveSnippet() {
+    const typeEl = document.getElementById("f-type");
+    const typeVal = typeEl.value?.trim();
+    if (!typeVal) {
+        alert("Selecione o Tipo de Componente.");
+        typeEl.focus();
+        return;
+    }
+
     const id = document.getElementById("f-id").value || "sn-" + Date.now();
 
     // Captura segmentos selecionados
@@ -340,7 +348,7 @@ async function saveSnippet() {
     const data = {
         id,
         title: document.getElementById("f-title").value || "Snippet Sem Título",
-        type: document.getElementById("f-type").value,
+        type: typeVal,
         desc: document.getElementById("f-desc").value || "Nenhuma descrição fornecida.",
         discipline: document.getElementById("f-discipline").value || "",
         segment: selectedSegs,
@@ -443,6 +451,13 @@ function getNetlifyToken() {
 
 window.publishDataToNetlify = publishDataToNetlify;
 window.requestAccess = requestAccess;
+
+function clearSearch() {
+    const el = document.getElementById("global-search");
+    el.value = "";
+    el.focus();
+    handleFilterChange();
+}
 
 function clearFilters() {
     document.getElementById("global-search").value = "";
