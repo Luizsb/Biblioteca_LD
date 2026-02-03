@@ -4300,7 +4300,6 @@ body.novo-medio main figcaption p.textoReferencia{
 		html{
 			overflow-x:hidden;
 		}
-	}
 	body.extensivo{
 		width: 100%;
 	}
@@ -6403,7 +6402,7 @@ body.extensivo main figcaption p.textoReferencia{
 			margin-top: -0.25em;
 		}
 
-		body.medio main label > input[type="radio"]:checked + .check:before {
+body.medio main label > input[type=radio]:checked + .check:before {
 			display: inline-block;
 			content: "";
 			width:30px;
@@ -7138,8 +7137,7 @@ body.extensivo main figcaption p.textoReferencia{
 		-khtml-user-select: none; /* Konqueror HTML */
 		-moz-user-select: none; /* Firefox */
 		-ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
-            supported by Chrome and Opera */ rgba(0, 0, 0, 0.5);
+        user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
         }
         .od .infografico .areaInfografico ul li .tooltip {
         	position: absolute;
@@ -11290,7 +11288,7 @@ div.objetoDigital .video:before {
  	border: 2px solid  var(--circulo-2);
  }
 
- body.medio main label > input[type="radio"]:checked + .check:before {
+body.medio main label > input[type=radio]:checked + .check:before {
  	background-color: var(--circulo-2);
  }
 

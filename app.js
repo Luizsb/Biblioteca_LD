@@ -227,6 +227,13 @@ function updatePreview() {
             <div class="container-fluid">
                 ${previewCode}
             </div>
+            <script>
+                document.addEventListener("click", (event) => {
+                    const link = event.target.closest("a[href]");
+                    if (!link) return;
+                    event.preventDefault();
+                });
+            <\/script>
         </body>
         </html>
     `;
