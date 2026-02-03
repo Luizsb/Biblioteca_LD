@@ -398,18 +398,29 @@ async function loadAndRefresh() {
 }
 
 async function publishDataToNetlify(nextSnippets = snippets) {
-    const token = getNetlifyToken();
+    let token = getNetlifyToken();
     if (!token) return false;
 
     try {
-        const response = await fetch(NETLIFY_PUT_URL, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({ snippets: nextSnippets }),
-        });
+        const doPublish = async (t) => {
+            return await fetch(NETLIFY_PUT_URL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${t}`,
+                },
+                body: JSON.stringify({ snippets: nextSnippets }),
+            });
+        };
+
+        let response = await doPublish(token);
+        if (response.status === 401) {
+            sessionStorage.removeItem("LD_NETLIFY_TOKEN");
+            const newToken = prompt("Token invalido ou expirado. Digite o ADMIN_TOKEN configurado no Netlify:");
+            if (!newToken) return false;
+            sessionStorage.setItem("LD_NETLIFY_TOKEN", newToken);
+            response = await doPublish(newToken);
+        }
 
         if (!response.ok) {
             const detail = await response.text();
@@ -418,7 +429,7 @@ async function publishDataToNetlify(nextSnippets = snippets) {
         }
         return true;
     } catch (error) {
-        alert("Erro ao publicar no Netlify.");
+        alert("Erro ao publicar no Netlify: " + (error?.message || "Erro de rede"));
         return false;
     }
 }
