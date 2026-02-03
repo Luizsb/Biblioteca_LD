@@ -1,14 +1,11 @@
 const SEG_LIST = ["EI", "EF1", "EF2", "EM", "EXT"];
 const TYPE_LIST = ["Estrutura", "Atividade", "Tabela", "Mídia", "Link/QR", "Estilo", "Outros"];
-const ACCESS_PASSWORD = "PATO";
-
 const SEED_JSON_URL = "./snippets.json";
 const NETLIFY_GET_URL = "/.netlify/functions/snippets-get";
 const NETLIFY_PUT_URL = "/.netlify/functions/snippets-put";
 
 let snippets = [];
 let currentItem = null;
-let currentAction = null;
 
 window.onload = () => {
     initApp();
@@ -17,13 +14,42 @@ window.onload = () => {
 async function initApp() {
     await loadSnippets();
     renderFilters();
-    renderModalSegments(); // Inicializa o seletor no modal
+    renderModalSegments();
+    refreshAdminUI();
     handleFilterChange();
 
     const listDiv = document.querySelector("#list-col .column-content");
     listDiv.onscroll = () => {
         document.getElementById("btn-up").style.display = listDiv.scrollTop > 200 ? "block" : "none";
     };
+}
+
+function refreshAdminUI() {
+    const isAdmin = !!sessionStorage.getItem("LD_NETLIFY_TOKEN");
+    const loginEl = document.getElementById("btn-login");
+    const logoutEl = document.getElementById("btn-logout");
+    const sepEl = document.getElementById("header-sep-admin");
+    const newBtn = document.getElementById("btn-new-snippet");
+    const editBtn = document.getElementById("btn-edit-adm");
+    const deleteBtn = document.getElementById("btn-delete-adm");
+    if (loginEl) loginEl.style.display = isAdmin ? "none" : "inline-flex";
+    if (logoutEl) logoutEl.style.display = isAdmin ? "inline-flex" : "none";
+    if (sepEl) sepEl.style.display = isAdmin ? "block" : "none";
+    if (newBtn) newBtn.style.display = isAdmin ? "inline-flex" : "none";
+    if (editBtn) editBtn.style.display = isAdmin ? "inline-flex" : "none";
+    if (deleteBtn) deleteBtn.style.display = isAdmin ? "inline-flex" : "none";
+}
+
+function adminLogin() {
+    const token = prompt("Digite o token de administrador (ADMIN_TOKEN do Netlify):");
+    if (!token || !token.trim()) return;
+    sessionStorage.setItem("LD_NETLIFY_TOKEN", token.trim());
+    refreshAdminUI();
+}
+
+function adminLogout() {
+    sessionStorage.removeItem("LD_NETLIFY_TOKEN");
+    refreshAdminUI();
 }
 
 async function loadSnippets() {
@@ -140,6 +166,7 @@ function viewSnippet(id) {
 
     document.getElementById("empty-view").classList.add("hidden");
     document.getElementById("content-view").classList.remove("hidden");
+    refreshAdminUI();
 
     document.getElementById("view-title").innerText = currentItem.title;
     document.getElementById("view-badges").innerHTML = `
@@ -253,36 +280,8 @@ function copySnippetCode() {
     });
 }
 
-function requestAccess(action) {
-    currentAction = action;
-    if (sessionStorage.getItem("LD_ADMIN_AUTH") === "true") {
-        executeAdminAction(action);
-    } else {
-        document.getElementById("access-pw-input").value = "";
-        openModal("modal-password");
-        setTimeout(() => document.getElementById("access-pw-input").focus(), 100);
-    }
-}
-
-function executeAdminAction(action) {
-    if (action === "create") openEditorModal();
-    else if (action === "edit") openEditEditor();
-    else if (action === "delete") deleteCurrentSnippet();
-}
-
 function verifyAccess() {
-    const pw = document.getElementById("access-pw-input").value.trim();
-    if (pw.toUpperCase() === ACCESS_PASSWORD) {
-        sessionStorage.setItem("LD_ADMIN_AUTH", "true");
-        closeModal("modal-password");
-        const action = currentAction;
-        currentAction = null;
-        executeAdminAction(action);
-    } else {
-        alert("Acesso negado. Senha incorreta!");
-        document.getElementById("access-pw-input").value = "";
-        document.getElementById("access-pw-input").focus();
-    }
+    closeModal("modal-password");
 }
 
 function openModal(id) {
@@ -461,7 +460,6 @@ function getNetlifyToken() {
 }
 
 window.publishDataToNetlify = publishDataToNetlify;
-window.requestAccess = requestAccess;
 
 function clearSearch() {
     const el = document.getElementById("global-search");
