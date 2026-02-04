@@ -7,6 +7,7 @@ const SNIPPETS_JSON = BASE
     : "./snippetsNetlify.json";
 const ADMIN_KEY = "LD_ADMIN_LOGGED";
 const GH_TOKEN_KEY = "LD_GH_TOKEN";
+const GH_BRANCH = "master";
 const GH_API = "https://api.github.com/repos/Luizsb/Biblioteca_LD/contents/snippetsNetlify.json";
 
 let snippets = [];
@@ -310,27 +311,37 @@ function getGitHubToken() {
 
 async function saveToGitHub(nextSnippets) {
     const token = getGitHubToken();
-    if (!token) return false;
+    if (!token) {
+        alert(
+            "Para salvar no repositório, é necessário um token do GitHub.\n\n" +
+            "1. GitHub → Settings → Developer settings → Personal access tokens\n" +
+            "2. Gere um token com permissão 'repo'\n" +
+            "3. Cole o token quando solicitado (ao salvar ou excluir)"
+        );
+        return false;
+    }
     try {
         const headers = {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
         };
-        const getRes = await fetch(GH_API, { headers });
+        const getRes = await fetch(GH_API + "?ref=" + encodeURIComponent(GH_BRANCH), { headers });
         let sha = null;
         if (getRes.ok) {
             const file = await getRes.json();
             sha = file.sha;
         }
         const content = btoa(unescape(encodeURIComponent(JSON.stringify({ snippets: nextSnippets }))));
+        const putBody = {
+            message: "Atualizar snippets",
+            content,
+            branch: GH_BRANCH,
+        };
+        if (sha) putBody.sha = sha;
         const putRes = await fetch(GH_API, {
             method: "PUT",
             headers,
-            body: JSON.stringify({
-                message: "Atualizar snippets",
-                content,
-                sha: sha || undefined,
-            }),
+            body: JSON.stringify(putBody),
         });
         if (putRes.status === 401) {
             sessionStorage.removeItem(GH_TOKEN_KEY);
@@ -338,8 +349,12 @@ async function saveToGitHub(nextSnippets) {
             return false;
         }
         if (!putRes.ok) {
-            const err = await putRes.json();
-            alert("Erro ao salvar: " + (err?.message || putRes.status));
+            let msg = "Erro " + putRes.status;
+            try {
+                const err = await putRes.json();
+                msg = err?.message || msg;
+            } catch (_) {}
+            alert("Erro ao salvar no repositório: " + msg);
             return false;
         }
         return true;
