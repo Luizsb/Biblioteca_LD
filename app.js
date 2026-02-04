@@ -267,7 +267,7 @@ async function saveSnippet() {
     const ok = await saveToGitHub(next);
     if (!ok) return;
     snippets = next;
-    loadAndRefresh();
+    refreshUI();
     closeModal("modal-editor");
     viewSnippet(id);
 }
@@ -281,14 +281,20 @@ async function deleteCurrentSnippet() {
     currentItem = null;
     document.getElementById("content-view").classList.add("hidden");
     document.getElementById("empty-view").classList.remove("hidden");
-    loadAndRefresh();
+    refreshUI();
     alert("Snippet removido com sucesso!");
 }
 
-async function loadAndRefresh() {
-    await loadSnippets();
+/** Atualiza apenas a UI a partir do estado atual em memória (sem buscar no servidor). */
+function refreshUI() {
     renderFilters();
     handleFilterChange();
+}
+
+/** Recarrega do servidor e atualiza a UI (pode vir cache antigo). */
+async function loadAndRefresh() {
+    await loadSnippets();
+    refreshUI();
 }
 
 function getGitHubToken() {
