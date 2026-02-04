@@ -45,21 +45,11 @@ async function adminLogin() {
     refreshAdminUI();
 }
 
+// Sem servidor: usa checagem local. Troque a senha aqui se necessario.
+const ADMIN_PASSWORD = "pato";
+
 async function verifyAdminPassword(password) {
-    try {
-        const res = await fetch("/api/verify-admin", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ password }),
-        });
-        const text = await res.text();
-        let data = {};
-        try { data = JSON.parse(text); } catch {}
-        return data?.ok === true;
-    } catch {
-        if (location.hostname === "localhost") return password === "pato";
-        return false;
-    }
+    return password && String(password).trim() === ADMIN_PASSWORD;
 }
 
 function adminLogout() {

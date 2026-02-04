@@ -56,8 +56,10 @@ function copyPagesAssets() {
 
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
+    // GitHub Pages: https://luizsb.github.io/Biblioteca_LD/
+    const base = mode === 'production' ? '/Biblioteca_LD/' : '/';
     return {
-      base: '/',
+      base,
       server: {
         port: 3000,
         host: '0.0.0.0',
