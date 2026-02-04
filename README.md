@@ -1,9 +1,41 @@
 # Biblioteca LD
 
-Biblioteca de códigos e snippets para a Plataforma LD (Arco Educação).
+Biblioteca de códigos e snippets para a **Plataforma LD** (Arco Educação). Permite consultar, cadastrar, editar e excluir componentes reutilizáveis (HTML/CSS) usados nos livros digitais.
 
-- **Repositório:** [https://github.com/Luizsb/Biblioteca_LD](https://github.com/Luizsb/Biblioteca_LD)
-- **Site (GitHub Pages):** [https://luizsb.github.io/Biblioteca_LD/](https://luizsb.github.io/Biblioteca_LD/)
+- **Repositório:** [github.com/Luizsb/Biblioteca_LD](https://github.com/Luizsb/Biblioteca_LD)
+- **Site (GitHub Pages):** [luizsb.github.io/Biblioteca_LD](https://luizsb.github.io/Biblioteca_LD/)
+
+---
+
+## Linguagens e tecnologias
+
+| Camada        | Tecnologia |
+|---------------|------------|
+| Interface    | HTML5, CSS3 |
+| Lógica       | JavaScript (ES módulos) |
+| Build        | [Vite](https://vitejs.dev/) |
+| Deploy       | GitHub Pages + GitHub Actions |
+| Dados        | JSON (`snippetsNetlify.json`) |
+| Persistência | GitHub API (arquivo no repositório) |
+| Destaque de código | [Prism.js](https://prismjs.com/) (CDN) |
+
+---
+
+## Como funciona o fluxo
+
+1. **Leitura dos snippets**  
+   No site publicado (GitHub Pages), a lista é carregada pela **API do GitHub** (`/repos/.../contents/snippetsNetlify.json?ref=master`). Assim sempre se vê o conteúdo atual do repositório, sem depender do cache do “raw”.
+
+2. **Cadastro / edição / exclusão**  
+   Quem tem acesso de administrador faz **Login (Adm)** e usa os botões **Novo Snippet**, **Editar** e **Excluir**. Ao salvar ou excluir, o app chama a **API do GitHub** (PUT no mesmo arquivo) e grava direto no repositório, no branch `master`.
+
+3. **Token do GitHub**  
+   Para gravar no repositório é necessário um **Personal Access Token** com permissão `repo`. Na primeira vez que salvar ou excluir, o app pede o token e guarda na sessão (não é enviado para nenhum servidor além da API do GitHub).
+
+4. **Resumo**  
+   Os dados “oficiais” são os do arquivo **snippetsNetlify.json** no GitHub. A plataforma só **lê e escreve** esse arquivo via API; não há banco de dados separado. Qualquer pessoa que abrir o site vê os mesmos dados após atualizar a página.
+
+---
 
 ## Rodar localmente
 
@@ -14,65 +46,50 @@ npm install
 npm run dev
 ```
 
-Acesse [http://localhost:3000](http://localhost:3000).
+Acesse [http://localhost:3000](http://localhost:3000). Em desenvolvimento os snippets vêm do arquivo local `snippetsNetlify.json`.
 
-## Build para produção
+---
+
+## Build e deploy
+
+**Build:**
 
 ```bash
 npm run build
 ```
 
-A pasta `dist/` conterá os arquivos estáticos (usados pelo GitHub Pages).
+A pasta `dist/` contém os arquivos estáticos.
 
-## Publicar no GitHub e ativar GitHub Pages
+**Deploy (GitHub Pages):**
 
-### 1. Enviar o projeto para o repositório
+1. Envie o código para o repositório (ex.: `git push origin master`).
+2. No GitHub: **Settings** → **Pages** → **Build and deployment** → **Source:** **GitHub Actions**.
+3. O workflow `.github/workflows/deploy-pages.yml` roda a cada push em `master`: instala dependências, roda `npm run build` e publica o conteúdo de `dist/` no Pages.
 
-Se o repositório já existir e estiver vazio ou você quiser atualizar:
+O site fica em **https://luizsb.github.io/Biblioteca_LD/**.
 
-```bash
-git init
-git add .
-git commit -m "Estrutura simplificada para GitHub Pages"
-git remote add origin https://github.com/Luizsb/Biblioteca_LD.git
-git branch -M master
-git push -u origin master
-```
+---
 
-Se já tiver outro `remote` ou branch, ajuste conforme seu caso.
+## Snippets (arquivo de dados)
 
-### 2. Ativar GitHub Pages
+O arquivo **snippetsNetlify.json** é atualizado **pela própria plataforma** (via API). Evite sobrescrevê-lo ao fazer push de código:
 
-1. No GitHub: **Settings** → **Pages**
-2. Em **Build and deployment**:
-   - **Source:** **GitHub Actions**
-3. Ao dar push na branch `master`, o workflow **Deploy GitHub Pages** roda, faz o build e publica o site.
+- Rode **uma vez** no clone:  
+  `git update-index --assume-unchanged snippetsNetlify.json`
+- Antes de qualquer push, faça **`git pull`** para trazer alterações feitas pelo site.
 
-O site ficará em: **https://luizsb.github.io/Biblioteca_LD/**
-
-## Snippets (dados)
-
-O arquivo **snippetsNetlify.json** é a base de snippets. Ele é **atualizado pela própria plataforma** (cadastro/edição/exclusão via app, que grava no repositório pela API do GitHub). A versão que “vale” é a do repositório.
-
-- Para **não sobrescrever** as alterações feitas na plataforma quando você fizer `git push`, rode **uma vez** no seu clone:
-  ```bash
-  git update-index --assume-unchanged snippetsNetlify.json
-  ```
-  Assim o Git passa a ignorar alterações locais nesse arquivo e você não o envia por engano no push.
-
-- Sempre que for fazer push de outro código, dê **`git pull`** antes, para trazer as alterações de snippets feitas pela plataforma.
+---
 
 ## Estrutura do projeto
 
-- `index.html` – Página principal
-- `app.js` – Lógica da aplicação (filtros, lista, preview, admin)
-- `styles.css` – Estilos da interface
-- `snippetsNetlify.json` – Dados dos snippets (atualizado pelo app via API; ver seção acima)
-- `geral/` – CSS e imagens usados no preview dos snippets
-- `.github/workflows/deploy-pages.yml` – Publicação automática no GitHub Pages
-
-## Tecnologias
-
-- Vite (build e dev server)
-- HTML, CSS, JavaScript
-- Prism (destaque de código)
+```
+├── index.html          # Página principal
+├── app.js              # Lógica (filtros, lista, preview, admin, API GitHub)
+├── styles.css          # Estilos da interface
+├── snippetsNetlify.json # Dados dos snippets (atualizado pelo app)
+├── geral/              # CSS e imagens do preview “como fica no livro”
+├── .github/workflows/
+│   └── deploy-pages.yml # Deploy automático no GitHub Pages
+├── vite.config.ts      # Configuração do Vite (base, plugins)
+└── package.json
+```
