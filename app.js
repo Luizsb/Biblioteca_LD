@@ -356,3 +356,22 @@ function clearFilters() {
 function goUp() {
     document.querySelector("#list-col .column-content").scrollTo({ top: 0, behavior: "smooth" });
 }
+
+// Expor funções usadas por onclick/oninput/onchange no HTML (necessário com type="module")
+window.viewSnippet = viewSnippet;
+window.toggleTag = toggleTag;
+window.handleFilterChange = handleFilterChange;
+window.clearSearch = clearSearch;
+window.clearFilters = clearFilters;
+window.goUp = goUp;
+window.adminLogin = adminLogin;
+window.adminLogout = adminLogout;
+window.openEditorModal = openEditorModal;
+window.openEditEditor = openEditEditor;
+window.copySnippetCode = copySnippetCode;
+window.deleteCurrentSnippet = deleteCurrentSnippet;
+window.showTab = showTab;
+window.openModal = openModal;
+window.closeModal = closeModal;
+window.verifyAccess = verifyAccess;
+window.saveSnippet = saveSnippet;
