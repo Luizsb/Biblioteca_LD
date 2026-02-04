@@ -63,11 +63,17 @@ function adminLogout() {
 }
 
 async function loadSnippets() {
+    const url = SNIPPETS_JSON;
+    console.log("[LD] loadSnippets: buscando", url);
     try {
-        const resp = await fetch(SNIPPETS_JSON, { cache: "no-store" });
+        const resp = await fetch(url, { cache: "no-store" });
+        console.log("[LD] loadSnippets: status", resp.status, resp.statusText, "url:", resp.url);
         const json = resp.ok ? await resp.json() : { snippets: [] };
         snippets = Array.isArray(json?.snippets) ? json.snippets : [];
-    } catch {
+        console.log("[LD] loadSnippets: carregados", snippets.length, "snippets");
+        if (!resp.ok) console.warn("[LD] loadSnippets: resposta não ok, usando lista vazia");
+    } catch (e) {
+        console.error("[LD] loadSnippets: erro", e);
         snippets = [];
     }
 }
@@ -303,15 +309,21 @@ async function loadAndRefresh() {
 
 function getGitHubToken() {
     let t = sessionStorage.getItem(GH_TOKEN_KEY);
-    if (t) return t;
+    if (t) {
+        console.log("[LD] getGitHubToken: usando token da sessão");
+        return t;
+    }
+    console.log("[LD] getGitHubToken: pedindo token ao usuário");
     t = prompt("Token GitHub (permissoes repo):");
     if (t) sessionStorage.setItem(GH_TOKEN_KEY, t.trim());
     return t?.trim() || null;
 }
 
 async function saveToGitHub(nextSnippets) {
+    console.log("[LD] saveToGitHub: iniciando, branch=" + GH_BRANCH + ", snippets=" + nextSnippets.length);
     const token = getGitHubToken();
     if (!token) {
+        console.warn("[LD] saveToGitHub: sem token, abortando");
         alert(
             "Para salvar no repositório, é necessário um token do GitHub.\n\n" +
             "1. GitHub → Settings → Developer settings → Personal access tokens\n" +
@@ -325,11 +337,19 @@ async function saveToGitHub(nextSnippets) {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
         };
-        const getRes = await fetch(GH_API + "?ref=" + encodeURIComponent(GH_BRANCH), { headers });
+        const getUrl = GH_API + "?ref=" + encodeURIComponent(GH_BRANCH);
+        console.log("[LD] saveToGitHub: GET arquivo atual", getUrl);
+        const getRes = await fetch(getUrl, { headers });
+        console.log("[LD] saveToGitHub: GET status", getRes.status, getRes.statusText);
         let sha = null;
         if (getRes.ok) {
             const file = await getRes.json();
             sha = file.sha;
+            console.log("[LD] saveToGitHub: sha obtido, atualizando arquivo existente");
+        } else {
+            const getBody = await getRes.text();
+            console.log("[LD] saveToGitHub: GET falhou, body:", getBody.substring(0, 200));
+            if (getRes.status === 404) console.log("[LD] saveToGitHub: arquivo ainda não existe, será criado");
         }
         const content = btoa(unescape(encodeURIComponent(JSON.stringify({ snippets: nextSnippets }))));
         const putBody = {
@@ -338,27 +358,35 @@ async function saveToGitHub(nextSnippets) {
             branch: GH_BRANCH,
         };
         if (sha) putBody.sha = sha;
+        console.log("[LD] saveToGitHub: PUT enviando, branch=" + GH_BRANCH);
         const putRes = await fetch(GH_API, {
             method: "PUT",
             headers,
             body: JSON.stringify(putBody),
         });
+        console.log("[LD] saveToGitHub: PUT status", putRes.status, putRes.statusText);
         if (putRes.status === 401) {
             sessionStorage.removeItem(GH_TOKEN_KEY);
+            console.warn("[LD] saveToGitHub: 401 token inválido");
             alert("Token invalido. Tente novamente.");
             return false;
         }
         if (!putRes.ok) {
+            const putText = await putRes.text();
+            console.error("[LD] saveToGitHub: PUT falhou", putRes.status, putText);
             let msg = "Erro " + putRes.status;
             try {
-                const err = await putRes.json();
+                const err = JSON.parse(putText);
                 msg = err?.message || msg;
             } catch (_) {}
             alert("Erro ao salvar no repositório: " + msg);
             return false;
         }
+        const putJson = await putRes.json();
+        console.log("[LD] saveToGitHub: sucesso! commit", putJson?.commit?.sha || putJson?.content?.sha);
         return true;
     } catch (e) {
+        console.error("[LD] saveToGitHub: exceção", e);
         alert("Erro: " + (e?.message || "Rede"));
         return false;
     }
