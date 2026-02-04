@@ -63,9 +63,31 @@ function adminLogout() {
 }
 
 async function loadSnippets() {
-    const url = SNIPPETS_JSON;
-    console.log("[LD] loadSnippets: buscando", url);
     try {
+        if (BASE) {
+            const apiUrl = GH_API + "?ref=" + encodeURIComponent(GH_BRANCH) + "&t=" + Date.now();
+            console.log("[LD] loadSnippets: via API (sem cache)", apiUrl);
+            const resp = await fetch(apiUrl, { cache: "no-store" });
+            console.log("[LD] loadSnippets: status", resp.status, resp.statusText);
+            if (!resp.ok) {
+                if (resp.status === 404) {
+                    snippets = [];
+                    console.log("[LD] loadSnippets: arquivo não existe, 0 snippets");
+                    return;
+                }
+                throw new Error(resp.status + " " + resp.statusText);
+            }
+            const file = await resp.json();
+            const content = file.content && file.encoding === "base64"
+                ? decodeURIComponent(escape(atob(file.content.replace(/\s/g, ""))))
+                : "";
+            const json = content ? JSON.parse(content) : { snippets: [] };
+            snippets = Array.isArray(json?.snippets) ? json.snippets : [];
+            console.log("[LD] loadSnippets: carregados", snippets.length, "snippets (via API)");
+            return;
+        }
+        const url = SNIPPETS_JSON + "?t=" + Date.now();
+        console.log("[LD] loadSnippets: buscando", url);
         const resp = await fetch(url, { cache: "no-store" });
         console.log("[LD] loadSnippets: status", resp.status, resp.statusText, "url:", resp.url);
         const json = resp.ok ? await resp.json() : { snippets: [] };
