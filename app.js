@@ -58,7 +58,6 @@ async function verifyAdminPassword(password) {
 
 function adminLogout() {
     sessionStorage.removeItem(ADMIN_KEY);
-    sessionStorage.removeItem(GH_TOKEN_KEY);
     refreshAdminUI();
 }
 
@@ -330,14 +329,14 @@ async function loadAndRefresh() {
 }
 
 function getGitHubToken() {
-    let t = sessionStorage.getItem(GH_TOKEN_KEY);
+    let t = localStorage.getItem(GH_TOKEN_KEY);
     if (t) {
-        console.log("[LD] getGitHubToken: usando token da sessão");
+        console.log("[LD] getGitHubToken: usando token salvo (localStorage)");
         return t;
     }
     console.log("[LD] getGitHubToken: pedindo token ao usuário");
     t = prompt("Token GitHub (permissoes repo):");
-    if (t) sessionStorage.setItem(GH_TOKEN_KEY, t.trim());
+    if (t) localStorage.setItem(GH_TOKEN_KEY, t.trim());
     return t?.trim() || null;
 }
 
@@ -388,7 +387,7 @@ async function saveToGitHub(nextSnippets) {
         });
         console.log("[LD] saveToGitHub: PUT status", putRes.status, putRes.statusText);
         if (putRes.status === 401) {
-            sessionStorage.removeItem(GH_TOKEN_KEY);
+            localStorage.removeItem(GH_TOKEN_KEY);
             console.warn("[LD] saveToGitHub: 401 token inválido");
             alert("Token invalido. Tente novamente.");
             return false;
