@@ -50,12 +50,24 @@ Se já tiver outro `remote` ou branch, ajuste conforme seu caso.
 
 O site ficará em: **https://luizsb.github.io/Biblioteca_LD/**
 
+## Snippets (dados)
+
+O arquivo **snippetsNetlify.json** é a base de snippets. Ele é **atualizado pela própria plataforma** (cadastro/edição/exclusão via app, que grava no repositório pela API do GitHub). A versão que “vale” é a do repositório.
+
+- Para **não sobrescrever** as alterações feitas na plataforma quando você fizer `git push`, rode **uma vez** no seu clone:
+  ```bash
+  git update-index --assume-unchanged snippetsNetlify.json
+  ```
+  Assim o Git passa a ignorar alterações locais nesse arquivo e você não o envia por engano no push.
+
+- Sempre que for fazer push de outro código, dê **`git pull`** antes, para trazer as alterações de snippets feitas pela plataforma.
+
 ## Estrutura do projeto
 
 - `index.html` – Página principal
 - `app.js` – Lógica da aplicação (filtros, lista, preview, admin)
 - `styles.css` – Estilos da interface
-- `snippetsNetlify.json` – Dados dos snippets (também usado pela API do GitHub para edição)
+- `snippetsNetlify.json` – Dados dos snippets (atualizado pelo app via API; ver seção acima)
 - `geral/` – CSS e imagens usados no preview dos snippets
 - `.github/workflows/deploy-pages.yml` – Publicação automática no GitHub Pages
 

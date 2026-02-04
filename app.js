@@ -1,7 +1,10 @@
 const SEG_LIST = ["EI", "EF1", "EF2", "EM", "EXT"];
 const TYPE_LIST = ["Estrutura", "Atividade", "Tabela", "Mídia", "Link/QR", "Estilo", "Outros"];
 const BASE = location.pathname.startsWith("/Biblioteca_LD") ? "/Biblioteca_LD" : "";
-const SNIPPETS_JSON = BASE ? `${BASE}/snippetsNetlify.json` : "./snippetsNetlify.json";
+// No GitHub Pages: carregar do repositório (raw) para refletir saves/exclusões em tempo real
+const SNIPPETS_JSON = BASE
+    ? "https://raw.githubusercontent.com/Luizsb/Biblioteca_LD/master/snippetsNetlify.json"
+    : "./snippetsNetlify.json";
 const ADMIN_KEY = "LD_ADMIN_LOGGED";
 const GH_TOKEN_KEY = "LD_GH_TOKEN";
 const GH_API = "https://api.github.com/repos/Luizsb/Biblioteca_LD/contents/snippetsNetlify.json";

@@ -23,3 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 Biblioteca LD.zip
+
+# Atualizado apenas pelo app (API); não commitar versão local para não sobrescrever
+snippetsNetlify.json

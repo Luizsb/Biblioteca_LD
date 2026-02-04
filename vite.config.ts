@@ -43,6 +43,7 @@ function copyPagesAssets() {
         if (fs.existsSync(geralSrc) && fs.statSync(geralSrc).isDirectory()) {
           fs.cpSync(geralSrc, path.join(dest, 'geral'), { recursive: true });
         }
+        // Snippets são carregados do repositório (raw) no app; cópia opcional para fallback
         if (fs.existsSync(snippetsSrc)) {
           fs.copyFileSync(snippetsSrc, path.join(dest, 'snippetsNetlify.json'));
         }
