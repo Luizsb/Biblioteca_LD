@@ -7,6 +7,7 @@
     <title>Biblioteca LD | Arco Educação</title>
     <!-- Prism for Code Highlighting -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/introjs.min.css">
     <link rel="stylesheet" href="./styles.css">
     <link rel="icon" href="./geral/image/icon1.png">
 </head>
@@ -19,6 +20,7 @@
                  v4.2</small></span>
         </div>
         <div class="header-actions">
+            <button type="button" class="btn btn-ghost" id="btn-onboarding" onclick="startOnboarding()" title="Ver tour de uso">Como usar</button>
             <button type="button" class="btn btn-ghost" id="btn-login" onclick="adminLogin()">Login (Adm)</button>
             <button type="button" class="btn btn-ghost" id="btn-logout" onclick="adminLogout()" style="display:none;">Sair</button>
             <div style="width:1px; height:24px; background:rgba(255,255,255,0.2); margin:0 8px; display:none;" id="header-sep-admin"></div>
@@ -256,6 +258,7 @@
     <button class="scroll-top" id="btn-up" onclick="goUp()">↑</button>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/intro.min.js"></script>
     <script src="./app.js" type="module"></script>
 </body>
 </html>

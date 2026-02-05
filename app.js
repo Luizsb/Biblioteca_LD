@@ -9,11 +9,68 @@ const ADMIN_KEY = "LD_ADMIN_LOGGED";
 const GH_TOKEN_KEY = "LD_GH_TOKEN";
 const GH_BRANCH = "master";
 const GH_API = "https://api.github.com/repos/Luizsb/Biblioteca_LD/contents/snippetsNetlify.json";
+const ONBOARDING_KEY = "LD_ONBOARDING_SEEN";
 
 let snippets = [];
 let currentItem = null;
 
 window.onload = () => initApp();
+
+function startOnboarding() {
+    if (typeof introJs === "undefined") return;
+    const tour = introJs();
+    tour.setOptions({
+        nextLabel: "Próximo",
+        prevLabel: "Voltar",
+        skipLabel: "Sair",
+        doneLabel: "Concluir",
+        exitOnOverlayClick: false,
+        showStepNumbers: true,
+        showProgress: false,
+        stepNumbersOfLabel: " de ",
+        tooltipClass: "ld-intro-tooltip",
+        scrollTo: "tooltip",
+        steps: [
+            {
+                intro: "Bem-vindo à <strong>Biblioteca LD</strong>! Aqui você encontra e consulta snippets de código para usar nos livros digitais. Este tour mostra como usar a plataforma.",
+                title: "Bem-vindo"
+            },
+            {
+                element: document.querySelector("#filters-col"),
+                intro: "Use os <strong>filtros</strong> para encontrar o que precisa: busque por texto, escolha Segmento (EI, EF1, EF2, EM), Tipo de componente e Tags. Clique em \"Limpar Filtros\" para resetar.",
+                title: "Filtros e busca"
+            },
+            {
+                element: document.querySelector("#list-col"),
+                intro: "Aqui aparece a <strong>lista de snippets</strong>. Clique em um item para ver os detalhes no painel à direita. Use o menu para ordenar por Recentes ou A–Z.",
+                title: "Lista de snippets"
+            },
+            {
+                element: document.querySelector("#details-col .empty-state"),
+                intro: "No <strong>painel à direita</strong> (ao selecionar um snippet) aparecem os detalhes: <strong>Como fica no livro</strong> (preview), <strong>Código</strong> (HTML para copiar) e <strong>Notas</strong>. Use o botão \"Copiar Código\" para usar no seu material.",
+                title: "Detalhes e cópia",
+                position: "left"
+            },
+            {
+                intro: "Pronto! Selecione um snippet na lista e explore. Você pode refazer este tour a qualquer momento pelo botão <strong>Como usar</strong> no canto superior direito da página.",
+                title: "Tudo certo"
+            }
+        ]
+    });
+    tour.oncomplete(() => {
+        document.body.classList.remove("intro-step-details");
+        try { localStorage.setItem(ONBOARDING_KEY, "1"); } catch (_) {}
+    });
+    tour.onafterchange(() => {
+        const step = tour._currentStep;
+        if (step === 3) {
+            document.body.classList.add("intro-step-details");
+        } else {
+            document.body.classList.remove("intro-step-details");
+        }
+    });
+    tour.start();
+}
 
 async function initApp() {
     await loadSnippets();
@@ -25,6 +82,9 @@ async function initApp() {
     listDiv.onscroll = () => {
         document.getElementById("btn-up").style.display = listDiv.scrollTop > 200 ? "block" : "none";
     };
+    try {
+        if (!localStorage.getItem(ONBOARDING_KEY)) startOnboarding();
+    } catch (_) {}
 }
 
 function refreshAdminUI() {
@@ -448,3 +508,4 @@ window.openModal = openModal;
 window.closeModal = closeModal;
 window.verifyAccess = verifyAccess;
 window.saveSnippet = saveSnippet;
+window.startOnboarding = startOnboarding;

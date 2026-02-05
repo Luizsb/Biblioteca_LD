@@ -425,3 +425,156 @@ iframe { width: 100%; height: 100%; border: none; }
 .hidden { display: none !important; }
 .empty-state { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-light); opacity: 0.6; }
 .scroll-top { position: fixed; bottom: 20px; right: 20px; z-index: 50; display: none; background: var(--accent); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; }
+
+/* Intro.js – tema escuro, layout alinhado e legível */
+.introjs-overlay { background: rgba(0, 0, 0, 0.75); }
+.introjs-helperLayer { background: transparent; border: 2px solid var(--accent); border-radius: 8px; }
+.introjs-helperNumberLayer {
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    min-width: 20px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Tooltip = card alinhado */
+.ld-intro-tooltip.introjs-tooltip,
+.introjs-tooltip.ld-intro-tooltip {
+    position: relative;
+    min-width: 340px;
+    max-width: 440px;
+    padding: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.ld-intro-tooltip .introjs-tooltip-title {
+    margin: 0;
+    padding: 1.25rem 5.5rem 1rem 1.25rem;
+    padding-left: 0.05rem;
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--text-main);
+    line-height: 1.35;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    box-sizing: border-box;
+}
+
+.ld-intro-tooltip .introjs-skipbutton {
+    position: absolute;
+    top: 1rem;
+    right: 1.25rem;
+    margin: 0;
+    min-width: 4rem;
+    padding: 0.5rem 0.875rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--text-light);
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    white-space: nowrap;
+    box-sizing: border-box;
+}
+.ld-intro-tooltip .introjs-skipbutton:hover {
+    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--text-light);
+}
+
+.ld-intro-tooltip .introjs-tooltiptext {
+    padding: 1.25rem 1.25rem 1.5rem;
+    font-size: 0.9375rem;
+    line-height: 1.85;
+    color: var(--text-main);
+}
+.ld-intro-tooltip .introjs-tooltiptext p { margin: 0 0 0.75rem 0; }
+.ld-intro-tooltip .introjs-tooltiptext p:last-child { margin-bottom: 0; }
+
+.ld-intro-tooltip .introjs-tooltiptext strong { color: var(--accent); font-weight: 600; }
+
+.ld-intro-tooltip .introjs-tooltipbuttons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    padding: 1.25rem 1.25rem 1.25rem;
+    margin-top: 1rem;
+    border-top: 1px solid var(--border);
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 0 0 12px 12px;
+}
+
+.ld-intro-tooltip .introjs-tooltipbuttons .introjs-button {
+    margin: 0;
+    padding: 0.5rem 1.125rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-main);
+}
+.ld-intro-tooltip .introjs-tooltipbuttons .introjs-button:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--text-light);
+    color: var(--text-main);
+}
+
+.ld-intro-tooltip .introjs-tooltipbuttons .introjs-nextbutton,
+.ld-intro-tooltip .introjs-tooltipbuttons .introjs-donebutton {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff !important;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    text-shadow: 0 0 0 transparent;
+}
+.ld-intro-tooltip .introjs-tooltipbuttons .introjs-nextbutton:hover,
+.ld-intro-tooltip .introjs-tooltipbuttons .introjs-donebutton:hover {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+    color: #fff !important;
+}
+
+/* Esconder barra de progresso (a faixa azul/branca) */
+.ld-intro-tooltip .introjs-tooltipprogress,
+.introjs-tooltip .introjs-tooltipprogress,
+.introjs-tooltipprogress { display: none !important; }
+.ld-intro-tooltip .introjs-bullets,
+.introjs-tooltip .introjs-bullets { display: none !important; }
+
+/* Passo 4 (Detalhes e cópia): forçar modal centralizado na tela */
+body.intro-step-details .introjs-tooltip {
+    position: fixed !important;
+    left: 50% !important;
+    top: 50% !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: translate(-50%, -50%) !important;
+    margin: 0 !important;
+}
