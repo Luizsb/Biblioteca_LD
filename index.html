@@ -244,7 +244,10 @@
                 </div>
 
                 <div style="margin-bottom: 1rem;">
-                    <label class="filter-label">Código HTML</label>
+                    <div style="display:flex; align-items:center; justify-content:space-between; gap:0.5rem; margin-bottom:0.25rem;">
+                        <label class="filter-label" style="margin-bottom:0;">Código HTML</label>
+                        <button type="button" class="btn btn-ghost" style="font-size:0.7rem; padding:0.1rem 0.6rem;" onclick="formatCurrentCode()">Identar código</button>
+                    </div>
                     <textarea id="f-code" class="search-input" style="padding-left:1rem; min-height:150px; font-family:monospace;"></textarea>
                 </div>
 

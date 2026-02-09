@@ -247,8 +247,12 @@ function viewSnippet(id) {
         ${currentItem.discipline ? `<span class="badge badge-segmento">${currentItem.discipline}</span>` : ""}
         ${(currentItem.tags || []).map((t) => `<span class="badge badge-segmento" style="border-style:dashed;">#${t}</span>`).join("")}
     `;
-    document.getElementById("code-view-block").textContent = currentItem.code;
-    Prism.highlightElement(document.getElementById("code-view-block"));
+    const codeBlock = document.getElementById("code-view-block");
+    if (codeBlock) {
+        const formatted = tryFormatHtml(currentItem.code || "");
+        codeBlock.textContent = formatted;
+        Prism.highlightElement(codeBlock);
+    }
     const hasNotes = currentItem.notes?.length > 0;
     const tabNotes = document.getElementById("tab-link-notes");
     tabNotes.classList.toggle("hidden", !hasNotes);
@@ -269,6 +273,54 @@ function showTab(tab) {
     if (tab === "preview") updatePreview();
 }
 
+function tryFormatHtml(source) {
+    const src = (source || "").trim();
+    if (!src) return source || "";
+    try {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(`<div id="__root_format_wrapper__">${src}</div>`, "text/html");
+        const root = doc.getElementById("__root_format_wrapper__");
+        if (!root) return source || "";
+        const voidTags = new Set(["area","base","br","col","embed","hr","img","input","link","meta","param","source","track","wbr"]);
+        const indentUnit = "  ";
+        let out = "";
+        function serialize(node, depth) {
+            const indent = indentUnit.repeat(depth);
+            node.childNodes.forEach((child) => {
+                if (child.nodeType === Node.TEXT_NODE) {
+                    const text = child.textContent.replace(/\s+/g, " ").trim();
+                    if (text) out += `${indent}${text}\n`;
+                    return;
+                }
+                if (child.nodeType !== Node.ELEMENT_NODE) return;
+                const tag = child.tagName.toLowerCase();
+                let open = `<${tag}`;
+                for (const attr of child.attributes) {
+                    open += ` ${attr.name}="${attr.value}"`;
+                }
+                if (voidTags.has(tag)) {
+                    out += `${indent}${open}>\n`;
+                    return;
+                }
+                out += `${indent}${open}>\n`;
+                serialize(child, depth + 1);
+                out += `${indent}</${tag}>\n`;
+            });
+        }
+        serialize(root, 0);
+        return out.trimEnd();
+    } catch (e) {
+        console.error("[LD] tryFormatHtml erro", e);
+        return source || "";
+    }
+}
+function formatCurrentCode() {
+    const textarea = document.getElementById("f-code");
+    if (!textarea) return;
+    const source = textarea.value || "";
+    const formatted = tryFormatHtml(source);
+    if (formatted && formatted !== source) textarea.value = formatted;
+}
 function getPreviewImageSrc(item) {
     let src = (item && item.previewImage) || "";
     src = src.trim();
@@ -656,4 +708,5 @@ window.closeModal = closeModal;
 window.verifyAccess = verifyAccess;
 window.saveSnippet = saveSnippet;
 window.uploadPreviewImage = uploadPreviewImage;
+window.formatCurrentCode = formatCurrentCode;
 window.startOnboarding = startOnboarding;
