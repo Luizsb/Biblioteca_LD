@@ -122,44 +122,49 @@ function adminLogout() {
 }
 
 async function loadSnippets() {
+    const opts = { cache: "no-store", headers: { "Cache-Control": "no-cache", "Pragma": "no-cache" } };
     try {
         if (BASE) {
+            // GitHub Pages: usar API (CORS permitido); fallback para raw se API falhar
             const apiUrl = GH_API + "?ref=" + encodeURIComponent(GH_BRANCH) + "&t=" + Date.now();
-            console.log("[LD] loadSnippets: via API (sem cache)", apiUrl);
-            const resp = await fetch(apiUrl, {
-                cache: "no-store",
-                headers: { "Cache-Control": "no-cache", "Pragma": "no-cache" },
-            });
-            console.log("[LD] loadSnippets: status", resp.status, resp.statusText);
+            console.log("[LD] loadSnippets: via API", apiUrl);
+            let resp = await fetch(apiUrl, opts);
             if (!resp.ok) {
-                if (resp.status === 404) {
-                    snippets = [];
-                    console.log("[LD] loadSnippets: arquivo não existe, 0 snippets");
-                    return;
-                }
-                throw new Error(resp.status + " " + resp.statusText);
+                console.warn("[LD] loadSnippets: API", resp.status, ", tentando raw");
+                resp = await fetch(SNIPPETS_RAW + "?t=" + Date.now(), opts);
             }
-            const file = await resp.json();
-            const content = file.content && file.encoding === "base64"
-                ? decodeURIComponent(escape(atob(file.content.replace(/\s/g, ""))))
-                : "";
-            const json = content ? JSON.parse(content) : { snippets: [] };
+            if (!resp.ok) {
+                snippets = [];
+                return;
+            }
+            let json;
+            if (resp.url && resp.url.indexOf("api.github.com") !== -1) {
+                const file = await resp.json();
+                const content = file.content && file.encoding === "base64"
+                    ? decodeURIComponent(escape(atob(file.content.replace(/\s/g, ""))))
+                    : "";
+                json = content ? JSON.parse(content) : { snippets: [] };
+            } else {
+                json = await resp.json();
+            }
             const raw = Array.isArray(json?.snippets) ? json.snippets : [];
-            // Preservar todos os campos de cada snippet (ex.: previewImage) ao copiar
             snippets = raw.map((s) => ({ ...s }));
-            console.log("[LD] loadSnippets: carregados", snippets.length, "snippets (via API)");
+            console.log("[LD] loadSnippets: carregados", snippets.length, "snippets");
             return;
         }
-        // Local/dev: carregar do repositório (raw) para que F5 mostre o que foi salvo no GitHub
+        // Local: carregar do raw do repositório
         const url = SNIPPETS_RAW + "?t=" + Date.now();
-        console.log("[LD] loadSnippets: buscando (repo)", url);
-        const resp = await fetch(url, { cache: "no-store", headers: { "Cache-Control": "no-cache", "Pragma": "no-cache" } });
-        console.log("[LD] loadSnippets: status", resp.status, resp.statusText, "url:", resp.url);
-        const json = resp.ok ? await resp.json() : { snippets: [] };
+        console.log("[LD] loadSnippets: buscando", url);
+        const resp = await fetch(url, opts);
+        console.log("[LD] loadSnippets: status", resp.status, resp.url);
+        if (!resp.ok) {
+            snippets = [];
+            return;
+        }
+        const json = await resp.json();
         const raw = Array.isArray(json?.snippets) ? json.snippets : [];
         snippets = raw.map((s) => ({ ...s }));
-        console.log("[LD] loadSnippets: carregados", snippets.length, "snippets (repo)");
-        if (!resp.ok) console.warn("[LD] loadSnippets: resposta não ok, usando lista vazia");
+        console.log("[LD] loadSnippets: carregados", snippets.length, "snippets");
     } catch (e) {
         console.error("[LD] loadSnippets: erro", e);
         snippets = [];
