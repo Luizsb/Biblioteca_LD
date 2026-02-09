@@ -16,6 +16,8 @@ let snippets = [];
 let currentItem = null;
 /** Imagem anexada com "Enviar imagem" a ser enviada no mesmo commit ao salvar o snippet. */
 let pendingPreviewImage = null;
+/** Arquivos anexados para download (a ser enviados no mesmo commit). { filename, base64 }[] */
+let pendingAssets = [];
 
 window.onload = () => initApp();
 
@@ -262,6 +264,21 @@ function viewSnippet(id) {
     if (hasNotes) {
         document.getElementById("notes-view-content").innerHTML = `<ul style="color:var(--text-light);">${currentItem.notes.map((n) => `<li>${n}</li>`).join("")}</ul>`;
     }
+    const hasAssets = currentItem.assets && currentItem.assets.length > 0;
+    const tabAssets = document.getElementById("tab-link-assets");
+    if (tabAssets) {
+        tabAssets.style.display = hasAssets ? "inline-flex" : "none";
+        const assetsContent = document.getElementById("assets-view-content");
+        if (assetsContent) {
+            if (hasAssets) {
+                const base = BASE || "";
+                assetsContent.innerHTML = currentItem.assets.map((name) => {
+                    const url = base + "/geral/image/snippet/" + encodeURIComponent(currentItem.id) + "/" + encodeURIComponent(name);
+                    return `<a href="${url}" download="${name}" class="asset-download-link">${escapeHtml(name)}</a>`;
+                }).join("");
+            } else assetsContent.innerHTML = "";
+        }
+    }
     showTab("preview");
     handleFilterChange();
 }
@@ -407,20 +424,28 @@ function closeModal(id) {
     document.getElementById(id).style.display = "none";
 }
 
+/** Lista de nomes de arquivos já existentes no snippet (ao editar). */
+let editorExistingAssets = [];
+
 function openEditorModal() {
     pendingPreviewImage = null;
+    pendingAssets = [];
+    editorExistingAssets = [];
     document.getElementById("modal-title").innerText = "Adicionar Novo Snippet";
     ["f-id", "f-title", "f-type", "f-desc", "f-discipline", "f-tags", "f-preview-image", "f-code", "f-notes", "f-css"].forEach((id) => {
         const el = document.getElementById(id);
         if (el) el.value = "";
     });
     document.querySelectorAll(".f-seg-checkbox").forEach((cb) => (cb.checked = false));
+    renderEditorAssetsList();
     openModal("modal-editor");
 }
 
 function openEditEditor() {
     if (!currentItem) return;
     pendingPreviewImage = null;
+    pendingAssets = [];
+    editorExistingAssets = currentItem.assets ? [...currentItem.assets] : [];
     document.getElementById("modal-title").innerText = "Editar Snippet Existente";
     document.getElementById("f-id").value = currentItem.id;
     document.getElementById("f-title").value = currentItem.title;
@@ -436,7 +461,64 @@ function openEditEditor() {
     document.querySelectorAll(".f-seg-checkbox").forEach((cb) => {
         cb.checked = (currentItem.segment || []).includes(cb.value);
     });
+    renderEditorAssetsList();
     openModal("modal-editor");
+}
+
+function renderEditorAssetsList() {
+    const container = document.getElementById("f-assets-list");
+    if (!container) return;
+    const existing = editorExistingAssets || [];
+    const items = [
+        ...existing.map((name) => `<span class="asset-chip existing">${escapeHtml(name)}</span>`),
+        ...pendingAssets.map((a, i) => `<span class="asset-chip">${escapeHtml(a.filename)} <button type="button" class="btn-remove-asset" onclick="removePendingAsset(${i})" aria-label="Remover">×</button></span>`),
+    ];
+    container.innerHTML = items.join("");
+}
+
+function escapeHtml(s) {
+    const div = document.createElement("div");
+    div.textContent = s;
+    return div.innerHTML;
+}
+
+function addPendingAssets(inputEl) {
+    const files = inputEl.files;
+    if (!files || !files.length) {
+        inputEl.value = "";
+        return;
+    }
+    const token = getGitHubToken();
+    if (!token) {
+        alert("Informe o token do GitHub (com permissão repo) para anexar arquivos.");
+        inputEl.value = "";
+        return;
+    }
+    let done = 0;
+    const total = files.length;
+    for (let i = 0; i < total; i++) {
+        const file = files[i];
+        const rawName = (file.name.replace(/\s+/g, "-").replace(/[^a-zA-Z0-9._-]/g, "") || "arquivo-" + i);
+        if (pendingAssets.some((a) => a.filename === rawName)) {
+            if (++done === total) { renderEditorAssetsList(); inputEl.value = ""; }
+            continue;
+        }
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            let base64 = e.target.result;
+            if (typeof base64 === "string" && base64.indexOf("base64,") >= 0) base64 = base64.split("base64,")[1];
+            if (base64) pendingAssets.push({ filename: rawName, base64 });
+            if (++done === total) { renderEditorAssetsList(); inputEl.value = ""; }
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+function removePendingAsset(index) {
+    if (index >= 0 && index < pendingAssets.length) {
+        pendingAssets.splice(index, 1);
+        renderEditorAssetsList();
+    }
 }
 
 async function saveSnippet() {
@@ -452,6 +534,7 @@ async function saveSnippet() {
     const notes = document.getElementById("f-notes").value.split("\n").map((n) => n.trim()).filter(Boolean);
     const existing = snippets.find((s) => s.id === id);
     const previewVal = (document.getElementById("f-preview-image")?.value ?? existing?.previewImage ?? "").trim();
+    const assetsList = [...(existing?.assets || []), ...pendingAssets.map((a) => a.filename)];
     const data = {
         ...(existing || {}),
         id,
@@ -465,15 +548,17 @@ async function saveSnippet() {
         code: document.getElementById("f-code").value || "",
         notes,
         css: (document.getElementById("f-css").value || "").trim(),
+        assets: assetsList.length ? assetsList : undefined,
     };
     const next = [...snippets];
     const idx = next.findIndex((s) => s.id === id);
     if (idx >= 0) next[idx] = data;
     else next.push(data);
     const pendingImage = pendingPreviewImage && (document.getElementById("f-preview-image")?.value || "").trim() === pendingPreviewImage.filename ? pendingPreviewImage : null;
-    const ok = await saveToGitHub(next, pendingImage);
+    const ok = await saveToGitHub(next, pendingImage, pendingAssets.length ? pendingAssets : null, id);
     if (!ok) return;
     if (pendingImage) pendingPreviewImage = null;
+    if (pendingAssets.length) pendingAssets = [];
     snippets = next;
     refreshUI();
     closeModal("modal-editor");
@@ -517,8 +602,9 @@ function getGitHubToken() {
     return t?.trim() || null;
 }
 
-async function saveToGitHub(nextSnippets, pendingImage) {
-    console.log("[LD] saveToGitHub: iniciando, branch=" + GH_BRANCH + ", snippets=" + nextSnippets.length + (pendingImage ? ", imagem pendente" : ""));
+async function saveToGitHub(nextSnippets, pendingImage, pendingAssets, snippetId) {
+    const useGitApi = (pendingImage && pendingImage.filename && pendingImage.base64) || (pendingAssets && pendingAssets.length && snippetId);
+    console.log("[LD] saveToGitHub: iniciando, branch=" + GH_BRANCH + ", snippets=" + nextSnippets.length + (pendingImage ? ", imagem pendente" : "") + (pendingAssets && pendingAssets.length ? ", " + pendingAssets.length + " arquivo(s)" : ""));
     const token = getGitHubToken();
     if (!token) {
         console.warn("[LD] saveToGitHub: sem token, abortando");
@@ -535,7 +621,7 @@ async function saveToGitHub(nextSnippets, pendingImage) {
         Authorization: `Bearer ${token}`,
     };
 
-    if (pendingImage && pendingImage.filename && pendingImage.base64) {
+    if (useGitApi) {
         try {
             const refRes = await fetch(GH_GIT + "/refs/heads/" + GH_BRANCH, { headers });
             if (!refRes.ok) {
@@ -555,17 +641,20 @@ async function saveToGitHub(nextSnippets, pendingImage) {
             const blobJsonRes = await fetch(GH_GIT + "/blobs", { method: "POST", headers, body: JSON.stringify({ content: jsonBase64, encoding: "base64" }) });
             if (!blobJsonRes.ok) throw new Error("blob JSON " + blobJsonRes.status);
             const jsonBlobSha = (await blobJsonRes.json()).sha;
-            const blobImgRes = await fetch(GH_GIT + "/blobs", { method: "POST", headers, body: JSON.stringify({ content: pendingImage.base64, encoding: "base64" }) });
-            if (!blobImgRes.ok) throw new Error("blob imagem " + blobImgRes.status);
-            const imageBlobSha = (await blobImgRes.json()).sha;
-            const imagePath = PREVIEW_IMAGE_FOLDER + "/" + pendingImage.filename;
-            const treeBody = {
-                base_tree: treeSha,
-                tree: [
-                    { path: "snippetsNetlify.json", mode: "100644", type: "blob", sha: jsonBlobSha },
-                    { path: imagePath, mode: "100644", type: "blob", sha: imageBlobSha },
-                ],
-            };
+            const treeEntries = [{ path: "snippetsNetlify.json", mode: "100644", type: "blob", sha: jsonBlobSha }];
+            if (pendingImage && pendingImage.filename && pendingImage.base64) {
+                const blobImgRes = await fetch(GH_GIT + "/blobs", { method: "POST", headers, body: JSON.stringify({ content: pendingImage.base64, encoding: "base64" }) });
+                if (!blobImgRes.ok) throw new Error("blob imagem " + blobImgRes.status);
+                treeEntries.push({ path: PREVIEW_IMAGE_FOLDER + "/" + pendingImage.filename, mode: "100644", type: "blob", sha: (await blobImgRes.json()).sha });
+            }
+            if (pendingAssets && pendingAssets.length && snippetId) {
+                for (const a of pendingAssets) {
+                    const blobRes = await fetch(GH_GIT + "/blobs", { method: "POST", headers, body: JSON.stringify({ content: a.base64, encoding: "base64" }) });
+                    if (!blobRes.ok) throw new Error("blob asset " + blobRes.status);
+                    treeEntries.push({ path: PREVIEW_IMAGE_FOLDER + "/" + snippetId + "/" + a.filename, mode: "100644", type: "blob", sha: (await blobRes.json()).sha });
+                }
+            }
+            const treeBody = { base_tree: treeSha, tree: treeEntries };
             const treeRes = await fetch(GH_GIT + "/trees", { method: "POST", headers, body: JSON.stringify(treeBody) });
             if (!treeRes.ok) throw new Error("tree " + treeRes.status);
             const newTreeSha = (await treeRes.json()).sha;
@@ -573,14 +662,13 @@ async function saveToGitHub(nextSnippets, pendingImage) {
             const commitPostRes = await fetch(GH_GIT + "/commits", { method: "POST", headers, body: JSON.stringify(commitBody) });
             if (!commitPostRes.ok) throw new Error("commit " + commitPostRes.status);
             const newCommit = await commitPostRes.json();
-            const newCommitSha = newCommit.sha;
-            const patchRes = await fetch(GH_GIT + "/refs/heads/" + GH_BRANCH, { method: "PATCH", headers, body: JSON.stringify({ sha: newCommitSha }) });
+            const patchRes = await fetch(GH_GIT + "/refs/heads/" + GH_BRANCH, { method: "PATCH", headers, body: JSON.stringify({ sha: newCommit.sha }) });
             if (!patchRes.ok) throw new Error("PATCH ref " + patchRes.status);
-            console.log("[LD] saveToGitHub: um único commit (snippet + imagem)", newCommitSha);
+            console.log("[LD] saveToGitHub: um único commit", newCommit.sha);
             return true;
         } catch (e) {
             console.error("[LD] saveToGitHub: Git Data API falhou", e);
-            alert("Erro ao salvar em um único commit: " + (e?.message || "Rede") + ". Tente salvar sem imagem ou tente novamente.");
+            alert("Erro ao salvar em um único commit: " + (e?.message || "Rede") + ". Tente novamente.");
             return false;
         }
     }
@@ -754,4 +842,6 @@ window.verifyAccess = verifyAccess;
 window.saveSnippet = saveSnippet;
 window.uploadPreviewImage = uploadPreviewImage;
 window.formatCurrentCode = formatCurrentCode;
+window.addPendingAssets = addPendingAssets;
+window.removePendingAsset = removePendingAsset;
 window.startOnboarding = startOnboarding;

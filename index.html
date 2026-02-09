@@ -114,6 +114,7 @@
                     <a class="tab-link active" onclick="showTab('preview')">Como fica no livro</a>
                     <a class="tab-link" onclick="showTab('code')">Código</a>
                     <a class="tab-link" id="tab-link-notes" onclick="showTab('notes')">Notas</a>
+                    <a class="tab-link" id="tab-link-assets" onclick="showTab('assets')" style="display:none;">Arquivos</a>
                 </nav>
 
                 <div class="tab-panel active" id="panel-preview">
@@ -145,6 +146,10 @@
 
                 <div class="tab-panel" id="panel-notes" style="padding:2rem; line-height:1.6;">
                     <div id="notes-view-content"></div>
+                </div>
+                <div class="tab-panel" id="panel-assets" style="padding:2rem;">
+                    <p style="color:var(--text-light); margin-bottom:1rem;">Imagens ou arquivos que este snippet usa. Baixe e use no seu material.</p>
+                    <div id="assets-view-content"></div>
                 </div>
             </div>
         </section>
@@ -261,6 +266,14 @@
                 <div style="margin-top: 1rem;">
                     <label class="filter-label">CSS do Snippet (Opcional)</label>
                     <textarea id="f-css" class="search-input" style="padding-left:1rem; min-height:120px; font-family:monospace;"></textarea>
+                </div>
+
+                <div style="margin-top: 1rem;">
+                    <label class="filter-label">Arquivos para download (opcional)</label>
+                    <p style="font-size:0.8rem; color:var(--text-light); margin-bottom:0.5rem;">Imagens ou outros arquivos que o código usa. Quem usar o snippet poderá baixá-los aqui.</p>
+                    <div id="f-assets-list" style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.5rem;"></div>
+                    <input type="file" id="f-assets-file" multiple style="display:none;" onchange="addPendingAssets(this)">
+                    <button type="button" class="btn btn-ghost" style="font-size:0.8rem;" onclick="document.getElementById('f-assets-file').click()">+ Adicionar arquivo</button>
                 </div>
             </div>
             <div class="modal-footer">

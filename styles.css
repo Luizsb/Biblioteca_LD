@@ -375,6 +375,42 @@ iframe { width: 100%; height: 100%; border: none; }
 .btn-danger { background: #ef4444; color: white; border-color: #ef4444; }
 .btn-danger:hover { background: #dc2626; border-color: #dc2626; }
 
+.asset-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-main);
+}
+.asset-chip.existing { opacity: 0.9; }
+.btn-remove-asset {
+    background: none;
+    border: none;
+    color: var(--text-light);
+    cursor: pointer;
+    padding: 0 0.15rem;
+    font-size: 1rem;
+    line-height: 1;
+}
+.btn-remove-asset:hover { color: #ef4444; }
+.asset-download-link {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    margin: 0.25rem 0.5rem 0.25rem 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: 0.2s;
+}
+.asset-download-link:hover { background: rgba(59, 130, 246, 0.1); border-color: var(--accent); }
+
 .form-select { padding: 0.4rem; border: 1px solid var(--border); border-radius: 6px; font-size: 0.85rem; background: var(--bg-input); color: var(--text-main); }
 
 /* Modal */
