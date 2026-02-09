@@ -122,7 +122,7 @@ function adminLogout() {
 }
 
 async function loadSnippets() {
-    const opts = { cache: "no-store", headers: { "Cache-Control": "no-cache", "Pragma": "no-cache" } };
+    const opts = { cache: "no-store" };
     try {
         if (BASE) {
             // GitHub Pages: usar API (CORS permitido); fallback para raw se API falhar
