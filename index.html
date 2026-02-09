@@ -129,6 +129,7 @@
                                     <div class="browser-url">book-preview</div>
                                 </div>
                                 <div class="browser-body">
+                                    <img id="preview-image" alt="Preview do snippet" draggable="false" style="display:none;" />
                                     <iframe id="preview-iframe" title="Preview do Livro Digital"></iframe>
                                 </div>
                             </div>
@@ -230,6 +231,16 @@
                         <label class="filter-label">Tags (separadas por vírgula)</label>
                         <input type="text" id="f-tags" class="search-input" style="padding-left:1rem;" placeholder="Ex: tab, grid, fix">
                     </div>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label class="filter-label">Imagem de preview (Opcional)</label>
+                    <div style="display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap;">
+                        <input type="text" id="f-preview-image" class="search-input" style="padding-left:1rem; flex:1; min-width:180px;" placeholder="Nome do arquivo (ex.: glossario.png) ou URL">
+                        <input type="file" id="f-preview-image-file" accept="image/*" style="display:none;" onchange="uploadPreviewImage(this)">
+                        <button type="button" class="btn btn-ghost" onclick="document.getElementById('f-preview-image-file').click()">Enviar imagem</button>
+                    </div>
+                    <small style="color:var(--text-light); font-size:0.75rem;">Enviar imagem: grava em geral/image/snippet/ e preenche o campo.</small>
                 </div>
 
                 <div style="margin-bottom: 1rem;">

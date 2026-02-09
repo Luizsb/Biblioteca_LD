@@ -1,14 +1,14 @@
 const SEG_LIST = ["EI", "EF1", "EF2", "EM", "EXT"];
 const TYPE_LIST = ["Estrutura", "Atividade", "Tabela", "Mídia", "Link/QR", "Estilo", "Outros"];
 const BASE = location.pathname.startsWith("/Biblioteca_LD") ? "/Biblioteca_LD" : "";
-// No GitHub Pages: carregar do repositório (raw) para refletir saves/exclusões em tempo real
-const SNIPPETS_JSON = BASE
-    ? "https://raw.githubusercontent.com/Luizsb/Biblioteca_LD/master/snippetsNetlify.json"
-    : "./snippetsNetlify.json";
+// Sempre carregar do repositório para que F5 mostre os mesmos dados que foram salvos (incl. previewImage)
+const SNIPPETS_RAW = "https://raw.githubusercontent.com/Luizsb/Biblioteca_LD/master/snippetsNetlify.json";
 const ADMIN_KEY = "LD_ADMIN_LOGGED";
 const GH_TOKEN_KEY = "LD_GH_TOKEN";
 const GH_BRANCH = "master";
 const GH_API = "https://api.github.com/repos/Luizsb/Biblioteca_LD/contents/snippetsNetlify.json";
+const GH_REPO_CONTENTS = "https://api.github.com/repos/Luizsb/Biblioteca_LD/contents";
+const PREVIEW_IMAGE_FOLDER = "geral/image/snippet";
 const ONBOARDING_KEY = "LD_ONBOARDING_SEEN";
 
 let snippets = [];
@@ -126,7 +126,10 @@ async function loadSnippets() {
         if (BASE) {
             const apiUrl = GH_API + "?ref=" + encodeURIComponent(GH_BRANCH) + "&t=" + Date.now();
             console.log("[LD] loadSnippets: via API (sem cache)", apiUrl);
-            const resp = await fetch(apiUrl, { cache: "no-store" });
+            const resp = await fetch(apiUrl, {
+                cache: "no-store",
+                headers: { "Cache-Control": "no-cache", "Pragma": "no-cache" },
+            });
             console.log("[LD] loadSnippets: status", resp.status, resp.statusText);
             if (!resp.ok) {
                 if (resp.status === 404) {
@@ -141,17 +144,21 @@ async function loadSnippets() {
                 ? decodeURIComponent(escape(atob(file.content.replace(/\s/g, ""))))
                 : "";
             const json = content ? JSON.parse(content) : { snippets: [] };
-            snippets = Array.isArray(json?.snippets) ? json.snippets : [];
+            const raw = Array.isArray(json?.snippets) ? json.snippets : [];
+            // Preservar todos os campos de cada snippet (ex.: previewImage) ao copiar
+            snippets = raw.map((s) => ({ ...s }));
             console.log("[LD] loadSnippets: carregados", snippets.length, "snippets (via API)");
             return;
         }
-        const url = SNIPPETS_JSON + "?t=" + Date.now();
-        console.log("[LD] loadSnippets: buscando", url);
-        const resp = await fetch(url, { cache: "no-store" });
+        // Local/dev: carregar do repositório (raw) para que F5 mostre o que foi salvo no GitHub
+        const url = SNIPPETS_RAW + "?t=" + Date.now();
+        console.log("[LD] loadSnippets: buscando (repo)", url);
+        const resp = await fetch(url, { cache: "no-store", headers: { "Cache-Control": "no-cache", "Pragma": "no-cache" } });
         console.log("[LD] loadSnippets: status", resp.status, resp.statusText, "url:", resp.url);
         const json = resp.ok ? await resp.json() : { snippets: [] };
-        snippets = Array.isArray(json?.snippets) ? json.snippets : [];
-        console.log("[LD] loadSnippets: carregados", snippets.length, "snippets");
+        const raw = Array.isArray(json?.snippets) ? json.snippets : [];
+        snippets = raw.map((s) => ({ ...s }));
+        console.log("[LD] loadSnippets: carregados", snippets.length, "snippets (repo)");
         if (!resp.ok) console.warn("[LD] loadSnippets: resposta não ok, usando lista vazia");
     } catch (e) {
         console.error("[LD] loadSnippets: erro", e);
@@ -257,8 +264,48 @@ function showTab(tab) {
     if (tab === "preview") updatePreview();
 }
 
+function getPreviewImageSrc(item) {
+    let src = (item && item.previewImage) || "";
+    src = src.trim();
+    if (!src) return "";
+
+    // URL absoluta
+    if (/^https?:\/\//i.test(src)) return src;
+
+    // Caminho absoluto (começa com /): respeita o caminho informado
+    if (src.startsWith("/")) {
+        return BASE ? `${BASE}${src}` : src;
+    }
+
+    // Caminho relativo com pastas (ex.: geral/image/foo.png)
+    if (src.includes("/")) {
+        return BASE ? `${BASE}/${src}` : src;
+    }
+
+    // Apenas nome de arquivo (ex.: glossario.png) → assume pasta padrão de previews
+    const basePath = "geral/image/snippet";
+    return BASE ? `${BASE}/${basePath}/${src}` : `${basePath}/${src}`;
+}
+
 function updatePreview() {
     if (!currentItem) return;
+
+    const iframe = document.getElementById("preview-iframe");
+    const img = document.getElementById("preview-image");
+
+    // Se tiver imagem de preview configurada, usa a imagem em vez do mockup HTML
+    const imgSrc = getPreviewImageSrc(currentItem);
+    if (img && imgSrc) {
+        img.src = imgSrc;
+        img.alt = currentItem.title || "Preview do snippet";
+        img.style.display = "block";
+        if (iframe) iframe.style.display = "none";
+        return;
+    } else if (img) {
+        img.style.display = "none";
+    }
+    if (iframe) iframe.style.display = "block";
+
     const seg = currentItem.segment?.[0] || "EF2";
     const discipline = currentItem.discipline || document.getElementById("filter-discipline")?.value;
     const discLink = discipline && ["EF1", "EF2", "EM", "EXT"].includes(seg)
@@ -302,7 +349,7 @@ function closeModal(id) {
 
 function openEditorModal() {
     document.getElementById("modal-title").innerText = "Adicionar Novo Snippet";
-    ["f-id", "f-title", "f-type", "f-desc", "f-discipline", "f-tags", "f-code", "f-notes", "f-css"].forEach((id) => {
+    ["f-id", "f-title", "f-type", "f-desc", "f-discipline", "f-tags", "f-preview-image", "f-code", "f-notes", "f-css"].forEach((id) => {
         const el = document.getElementById(id);
         if (el) el.value = "";
     });
@@ -319,6 +366,8 @@ function openEditEditor() {
     document.getElementById("f-desc").value = currentItem.desc || "";
     document.getElementById("f-discipline").value = currentItem.discipline || "";
     document.getElementById("f-tags").value = (currentItem.tags || []).join(", ");
+    const previewInput = document.getElementById("f-preview-image");
+    if (previewInput) previewInput.value = currentItem.previewImage || "";
     document.getElementById("f-code").value = currentItem.code || "";
     document.getElementById("f-notes").value = (currentItem.notes || []).join("\n");
     document.getElementById("f-css").value = currentItem.css || "";
@@ -339,7 +388,10 @@ async function saveSnippet() {
     const segs = [...document.querySelectorAll(".f-seg-checkbox:checked")].map((cb) => cb.value);
     const tags = document.getElementById("f-tags").value.split(",").map((t) => t.trim()).filter(Boolean);
     const notes = document.getElementById("f-notes").value.split("\n").map((n) => n.trim()).filter(Boolean);
+    const existing = snippets.find((s) => s.id === id);
+    const previewVal = (document.getElementById("f-preview-image")?.value ?? existing?.previewImage ?? "").trim();
     const data = {
+        ...(existing || {}),
         id,
         title: document.getElementById("f-title").value || "Snippet Sem Título",
         type: typeVal,
@@ -347,6 +399,7 @@ async function saveSnippet() {
         discipline: document.getElementById("f-discipline").value || "",
         segment: segs,
         tags,
+        previewImage: previewVal,
         code: document.getElementById("f-code").value || "",
         notes,
         css: (document.getElementById("f-css").value || "").trim(),
@@ -473,6 +526,95 @@ async function saveToGitHub(nextSnippets) {
     }
 }
 
+/**
+ * Envia a imagem de preview para o repositório (geral/image/snippet/) via API do GitHub
+ * e preenche o campo "Imagem de preview" com o nome do arquivo.
+ * @param {HTMLInputElement} inputEl - input type="file" que disparou o evento
+ */
+async function uploadPreviewImage(inputEl) {
+    const file = inputEl.files && inputEl.files[0];
+    if (!file || !file.type.startsWith("image/")) {
+        inputEl.value = "";
+        return;
+    }
+    const token = getGitHubToken();
+    if (!token) {
+        alert("Informe o token do GitHub (com permissão repo) para enviar a imagem.");
+        inputEl.value = "";
+        return;
+    }
+    const rawName = file.name.replace(/\s+/g, "-").replace(/[^a-zA-Z0-9._-]/g, "");
+    const filename = rawName || "preview-" + Date.now() + ".png";
+    const path = PREVIEW_IMAGE_FOLDER + "/" + filename;
+
+    return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = async () => {
+            let base64 = reader.result;
+            if (typeof base64 === "string" && base64.indexOf("base64,") >= 0) {
+                base64 = base64.split("base64,")[1];
+            }
+            if (!base64) {
+                alert("Não foi possível ler a imagem.");
+                inputEl.value = "";
+                resolve();
+                return;
+            }
+            try {
+                const headers = {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                };
+                const getUrl = GH_REPO_CONTENTS + "/" + path.split("/").map(encodeURIComponent).join("/") + "?ref=" + encodeURIComponent(GH_BRANCH);
+                const getRes = await fetch(getUrl, { headers });
+                let sha = null;
+                if (getRes.ok) {
+                    const data = await getRes.json();
+                    sha = data.sha;
+                }
+                const putBody = {
+                    message: "Adicionar imagem de preview: " + filename,
+                    content: base64,
+                    branch: GH_BRANCH,
+                };
+                if (sha) putBody.sha = sha;
+                const putRes = await fetch(GH_REPO_CONTENTS + "/" + path.split("/").map(encodeURIComponent).join("/"), {
+                    method: "PUT",
+                    headers,
+                    body: JSON.stringify(putBody),
+                });
+                if (putRes.status === 401) {
+                    localStorage.removeItem(GH_TOKEN_KEY);
+                    alert("Token inválido. Tente novamente.");
+                    inputEl.value = "";
+                    resolve();
+                    return;
+                }
+                if (!putRes.ok) {
+                    const errText = await putRes.text();
+                    let msg = "Erro " + putRes.status;
+                    try {
+                        const err = JSON.parse(errText);
+                        msg = err?.message || msg;
+                    } catch (_) {}
+                    alert("Erro ao enviar imagem: " + msg);
+                    inputEl.value = "";
+                    resolve();
+                    return;
+                }
+                document.getElementById("f-preview-image").value = filename;
+                alert("Imagem enviada. Nome preenchido: " + filename + ". Salve o snippet para aplicar.");
+            } catch (e) {
+                console.error("[LD] uploadPreviewImage:", e);
+                alert("Erro: " + (e?.message || "Rede"));
+            }
+            inputEl.value = "";
+            resolve();
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
 function clearSearch() {
     const el = document.getElementById("global-search");
     el.value = "";
@@ -508,4 +650,5 @@ window.openModal = openModal;
 window.closeModal = closeModal;
 window.verifyAccess = verifyAccess;
 window.saveSnippet = saveSnippet;
+window.uploadPreviewImage = uploadPreviewImage;
 window.startOnboarding = startOnboarding;
