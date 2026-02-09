@@ -18,6 +18,7 @@ Biblioteca de códigos e snippets para a **Plataforma LD** (Arco Educação). Pe
 | Dados        | JSON (`snippetsNetlify.json`) |
 | Persistência | GitHub API (arquivo no repositório) |
 | Destaque de código | [Prism.js](https://prismjs.com/) (CDN) |
+| Onboarding / tour  | [Intro.js](https://introjs.com/) (CDN) — botão **Como usar** |
 
 ---
 
@@ -35,6 +36,9 @@ Biblioteca de códigos e snippets para a **Plataforma LD** (Arco Educação). Pe
 4. **Resumo**  
    Os dados “oficiais” são os do arquivo **snippetsNetlify.json** no GitHub. A plataforma só **lê e escreve** esse arquivo via API; não há banco de dados separado. Qualquer pessoa que abrir o site vê os mesmos dados após atualizar a página.
 
+5. **Tour de uso (onboarding)**  
+   Na primeira visita é exibido um tour guiado (Intro.js) explicando filtros, lista e preview. O botão **Como usar** no canto superior direito permite refazer o tour a qualquer momento.
+
 ---
 
 ## Rodar localmente
@@ -46,7 +50,7 @@ npm install
 npm run dev
 ```
 
-Acesse [http://localhost:3000](http://localhost:3000). Em desenvolvimento os snippets vêm do arquivo local `snippetsNetlify.json`.
+Acesse [http://localhost:3000](http://localhost:3000). Em desenvolvimento os snippets são carregados do repositório (URL raw do GitHub); o tour de onboarding usa o botão **Como usar**.
 
 ---
 

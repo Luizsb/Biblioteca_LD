@@ -8,11 +8,14 @@ const GH_TOKEN_KEY = "LD_GH_TOKEN";
 const GH_BRANCH = "master";
 const GH_API = "https://api.github.com/repos/Luizsb/Biblioteca_LD/contents/snippetsNetlify.json";
 const GH_REPO_CONTENTS = "https://api.github.com/repos/Luizsb/Biblioteca_LD/contents";
+const GH_GIT = "https://api.github.com/repos/Luizsb/Biblioteca_LD/git";
 const PREVIEW_IMAGE_FOLDER = "geral/image/snippet";
 const ONBOARDING_KEY = "LD_ONBOARDING_SEEN";
 
 let snippets = [];
 let currentItem = null;
+/** Imagem anexada com "Enviar imagem" a ser enviada no mesmo commit ao salvar o snippet. */
+let pendingPreviewImage = null;
 
 window.onload = () => initApp();
 
@@ -405,6 +408,7 @@ function closeModal(id) {
 }
 
 function openEditorModal() {
+    pendingPreviewImage = null;
     document.getElementById("modal-title").innerText = "Adicionar Novo Snippet";
     ["f-id", "f-title", "f-type", "f-desc", "f-discipline", "f-tags", "f-preview-image", "f-code", "f-notes", "f-css"].forEach((id) => {
         const el = document.getElementById(id);
@@ -416,6 +420,7 @@ function openEditorModal() {
 
 function openEditEditor() {
     if (!currentItem) return;
+    pendingPreviewImage = null;
     document.getElementById("modal-title").innerText = "Editar Snippet Existente";
     document.getElementById("f-id").value = currentItem.id;
     document.getElementById("f-title").value = currentItem.title;
@@ -465,8 +470,10 @@ async function saveSnippet() {
     const idx = next.findIndex((s) => s.id === id);
     if (idx >= 0) next[idx] = data;
     else next.push(data);
-    const ok = await saveToGitHub(next);
+    const pendingImage = pendingPreviewImage && (document.getElementById("f-preview-image")?.value || "").trim() === pendingPreviewImage.filename ? pendingPreviewImage : null;
+    const ok = await saveToGitHub(next, pendingImage);
     if (!ok) return;
+    if (pendingImage) pendingPreviewImage = null;
     snippets = next;
     refreshUI();
     closeModal("modal-editor");
@@ -510,8 +517,8 @@ function getGitHubToken() {
     return t?.trim() || null;
 }
 
-async function saveToGitHub(nextSnippets) {
-    console.log("[LD] saveToGitHub: iniciando, branch=" + GH_BRANCH + ", snippets=" + nextSnippets.length);
+async function saveToGitHub(nextSnippets, pendingImage) {
+    console.log("[LD] saveToGitHub: iniciando, branch=" + GH_BRANCH + ", snippets=" + nextSnippets.length + (pendingImage ? ", imagem pendente" : ""));
     const token = getGitHubToken();
     if (!token) {
         console.warn("[LD] saveToGitHub: sem token, abortando");
@@ -523,11 +530,62 @@ async function saveToGitHub(nextSnippets) {
         );
         return false;
     }
+    const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+    };
+
+    if (pendingImage && pendingImage.filename && pendingImage.base64) {
+        try {
+            const refRes = await fetch(GH_GIT + "/refs/heads/" + GH_BRANCH, { headers });
+            if (!refRes.ok) {
+                if (refRes.status === 401) { localStorage.removeItem(GH_TOKEN_KEY); alert("Token inválido."); return false; }
+                throw new Error(refRes.status + " " + refRes.statusText);
+            }
+            const ref = await refRes.json();
+            const commitSha = ref.object?.sha;
+            if (!commitSha) throw new Error("ref sem object.sha");
+            const commitRes = await fetch(GH_GIT + "/commits/" + commitSha, { headers });
+            if (!commitRes.ok) throw new Error(commitRes.status + " commit");
+            const commit = await commitRes.json();
+            const treeSha = commit.tree?.sha;
+            if (!treeSha) throw new Error("commit sem tree.sha");
+            const jsonStr = JSON.stringify({ snippets: nextSnippets });
+            const jsonBase64 = btoa(unescape(encodeURIComponent(jsonStr)));
+            const blobJsonRes = await fetch(GH_GIT + "/blobs", { method: "POST", headers, body: JSON.stringify({ content: jsonBase64, encoding: "base64" }) });
+            if (!blobJsonRes.ok) throw new Error("blob JSON " + blobJsonRes.status);
+            const jsonBlobSha = (await blobJsonRes.json()).sha;
+            const blobImgRes = await fetch(GH_GIT + "/blobs", { method: "POST", headers, body: JSON.stringify({ content: pendingImage.base64, encoding: "base64" }) });
+            if (!blobImgRes.ok) throw new Error("blob imagem " + blobImgRes.status);
+            const imageBlobSha = (await blobImgRes.json()).sha;
+            const imagePath = PREVIEW_IMAGE_FOLDER + "/" + pendingImage.filename;
+            const treeBody = {
+                base_tree: treeSha,
+                tree: [
+                    { path: "snippetsNetlify.json", mode: "100644", type: "blob", sha: jsonBlobSha },
+                    { path: imagePath, mode: "100644", type: "blob", sha: imageBlobSha },
+                ],
+            };
+            const treeRes = await fetch(GH_GIT + "/trees", { method: "POST", headers, body: JSON.stringify(treeBody) });
+            if (!treeRes.ok) throw new Error("tree " + treeRes.status);
+            const newTreeSha = (await treeRes.json()).sha;
+            const commitBody = { message: "Novo snippet com imagem de preview", tree: newTreeSha, parents: [commitSha] };
+            const commitPostRes = await fetch(GH_GIT + "/commits", { method: "POST", headers, body: JSON.stringify(commitBody) });
+            if (!commitPostRes.ok) throw new Error("commit " + commitPostRes.status);
+            const newCommit = await commitPostRes.json();
+            const newCommitSha = newCommit.sha;
+            const patchRes = await fetch(GH_GIT + "/refs/heads/" + GH_BRANCH, { method: "PATCH", headers, body: JSON.stringify({ sha: newCommitSha }) });
+            if (!patchRes.ok) throw new Error("PATCH ref " + patchRes.status);
+            console.log("[LD] saveToGitHub: um único commit (snippet + imagem)", newCommitSha);
+            return true;
+        } catch (e) {
+            console.error("[LD] saveToGitHub: Git Data API falhou", e);
+            alert("Erro ao salvar em um único commit: " + (e?.message || "Rede") + ". Tente salvar sem imagem ou tente novamente.");
+            return false;
+        }
+    }
+
     try {
-        const headers = {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-        };
         const getUrl = GH_API + "?ref=" + encodeURIComponent(GH_BRANCH);
         console.log("[LD] saveToGitHub: GET arquivo atual", getUrl);
         const getRes = await fetch(getUrl, { headers });
@@ -562,6 +620,49 @@ async function saveToGitHub(nextSnippets) {
             alert("Token invalido. Tente novamente.");
             return false;
         }
+        if (putRes.status === 409) {
+            // Arquivo foi alterado no repo (ex.: outro save ou upload de imagem). Rebuscar sha, fazer merge e tentar de novo.
+            console.log("[LD] saveToGitHub: 409 conflito, rebuscando e fazendo merge");
+            const getRes2 = await fetch(getUrl, { headers });
+            if (!getRes2.ok) {
+                alert("O arquivo foi alterado no repositório. Recarregue a página e tente salvar de novo.");
+                return false;
+            }
+            const file2 = await getRes2.json();
+            const content2 = file2.content && file2.encoding === "base64"
+                ? decodeURIComponent(escape(atob(file2.content.replace(/\s/g, ""))))
+                : "";
+            const json2 = content2 ? JSON.parse(content2) : { snippets: [] };
+            const serverList = Array.isArray(json2?.snippets) ? json2.snippets : [];
+            const merged = [...serverList];
+            for (const s of nextSnippets) {
+                const idx = merged.findIndex((x) => x.id === s.id);
+                if (idx >= 0) merged[idx] = s;
+                else merged.push(s);
+            }
+            const contentRetry = btoa(unescape(encodeURIComponent(JSON.stringify({ snippets: merged }))));
+            const putBodyRetry = {
+                message: "Atualizar snippets",
+                content: contentRetry,
+                branch: GH_BRANCH,
+                sha: file2.sha,
+            };
+            const putRes2 = await fetch(GH_API, { method: "PUT", headers, body: JSON.stringify(putBodyRetry) });
+            console.log("[LD] saveToGitHub: PUT retry status", putRes2.status);
+            if (!putRes2.ok) {
+                const putText2 = await putRes2.text();
+                let msg = "Erro " + putRes2.status;
+                try {
+                    const err = JSON.parse(putText2);
+                    msg = err?.message || msg;
+                } catch (_) {}
+                alert("Erro ao salvar no repositório (após tentativa de merge): " + msg);
+                return false;
+            }
+            const putJson = await putRes2.json();
+            console.log("[LD] saveToGitHub: sucesso após merge! commit", putJson?.commit?.sha);
+            return true;
+        }
         if (!putRes.ok) {
             const putText = await putRes.text();
             console.error("[LD] saveToGitHub: PUT falhou", putRes.status, putText);
@@ -584,92 +685,36 @@ async function saveToGitHub(nextSnippets) {
 }
 
 /**
- * Envia a imagem de preview para o repositório (geral/image/snippet/) via API do GitHub
- * e preenche o campo "Imagem de preview" com o nome do arquivo.
+ * Anexa imagem de preview para ser enviada no mesmo commit ao salvar o snippet (um único commit).
+ * Preenche o campo "Imagem de preview" com o nome do arquivo.
  * @param {HTMLInputElement} inputEl - input type="file" que disparou o evento
  */
-async function uploadPreviewImage(inputEl) {
+function uploadPreviewImage(inputEl) {
     const file = inputEl.files && inputEl.files[0];
     if (!file || !file.type.startsWith("image/")) {
         inputEl.value = "";
         return;
     }
-    const token = getGitHubToken();
-    if (!token) {
-        alert("Informe o token do GitHub (com permissão repo) para enviar a imagem.");
-        inputEl.value = "";
-        return;
-    }
     const rawName = file.name.replace(/\s+/g, "-").replace(/[^a-zA-Z0-9._-]/g, "");
     const filename = rawName || "preview-" + Date.now() + ".png";
-    const path = PREVIEW_IMAGE_FOLDER + "/" + filename;
-
-    return new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onload = async () => {
-            let base64 = reader.result;
-            if (typeof base64 === "string" && base64.indexOf("base64,") >= 0) {
-                base64 = base64.split("base64,")[1];
-            }
-            if (!base64) {
-                alert("Não foi possível ler a imagem.");
-                inputEl.value = "";
-                resolve();
-                return;
-            }
-            try {
-                const headers = {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                };
-                const getUrl = GH_REPO_CONTENTS + "/" + path.split("/").map(encodeURIComponent).join("/") + "?ref=" + encodeURIComponent(GH_BRANCH);
-                const getRes = await fetch(getUrl, { headers });
-                let sha = null;
-                if (getRes.ok) {
-                    const data = await getRes.json();
-                    sha = data.sha;
-                }
-                const putBody = {
-                    message: "Adicionar imagem de preview: " + filename,
-                    content: base64,
-                    branch: GH_BRANCH,
-                };
-                if (sha) putBody.sha = sha;
-                const putRes = await fetch(GH_REPO_CONTENTS + "/" + path.split("/").map(encodeURIComponent).join("/"), {
-                    method: "PUT",
-                    headers,
-                    body: JSON.stringify(putBody),
-                });
-                if (putRes.status === 401) {
-                    localStorage.removeItem(GH_TOKEN_KEY);
-                    alert("Token inválido. Tente novamente.");
-                    inputEl.value = "";
-                    resolve();
-                    return;
-                }
-                if (!putRes.ok) {
-                    const errText = await putRes.text();
-                    let msg = "Erro " + putRes.status;
-                    try {
-                        const err = JSON.parse(errText);
-                        msg = err?.message || msg;
-                    } catch (_) {}
-                    alert("Erro ao enviar imagem: " + msg);
-                    inputEl.value = "";
-                    resolve();
-                    return;
-                }
-                document.getElementById("f-preview-image").value = filename;
-                alert("Imagem enviada. Nome preenchido: " + filename + ". Salve o snippet para aplicar.");
-            } catch (e) {
-                console.error("[LD] uploadPreviewImage:", e);
-                alert("Erro: " + (e?.message || "Rede"));
-            }
+    const reader = new FileReader();
+    reader.onload = () => {
+        let base64 = reader.result;
+        if (typeof base64 === "string" && base64.indexOf("base64,") >= 0) {
+            base64 = base64.split("base64,")[1];
+        }
+        if (!base64) {
+            alert("Não foi possível ler a imagem.");
             inputEl.value = "";
-            resolve();
-        };
-        reader.readAsDataURL(file);
-    });
+            return;
+        }
+        pendingPreviewImage = { filename, base64 };
+        const el = document.getElementById("f-preview-image");
+        if (el) el.value = filename;
+        alert("Imagem anexada. Será enviada junto com o snippet em um único commit ao salvar.");
+        inputEl.value = "";
+    };
+    reader.readAsDataURL(file);
 }
 
 function clearSearch() {
