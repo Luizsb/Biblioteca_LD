@@ -64,6 +64,9 @@ function startOnboarding() {
     });
     tour.oncomplete(() => {
         document.body.classList.remove("intro-step-details");
+    });
+    tour.onexit(() => {
+        document.body.classList.remove("intro-step-details");
         try { localStorage.setItem(ONBOARDING_KEY, "1"); } catch (_) {}
     });
     tour.onafterchange(() => {
