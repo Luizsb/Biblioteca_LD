@@ -33,7 +33,8 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 /* Scrollbar */
@@ -77,6 +78,7 @@ main {
     flex: 1;
     overflow-x: auto;
     overflow-y: hidden;
+    scrollbar-gutter: stable;
     min-height: 0;
     min-width: 1240px;
     transition: grid-template-columns 0.3s ease;
