@@ -46,6 +46,11 @@ function startOnboarding() {
                 title: "Filtros e busca"
             },
             {
+                element: document.querySelector("#btn-toggle-filters"),
+                intro: "Você pode <strong>recolher o menu de filtros</strong> neste botão para ganhar mais espaço na visualização. Para abrir novamente, use o botão de expandir que aparece ao lado da lista.",
+                title: "Recolher/expandir filtros"
+            },
+            {
                 element: document.querySelector("#list-col"),
                 intro: "Aqui aparece a <strong>lista de snippets</strong>. Clique em um item para ver os detalhes no painel à direita. Use o menu para ordenar por Recentes ou A–Z.",
                 title: "Lista de snippets"
@@ -71,7 +76,7 @@ function startOnboarding() {
     });
     tour.onafterchange(() => {
         const step = tour._currentStep;
-        if (step === 3) {
+        if (step === 4) {
             document.body.classList.add("intro-step-details");
         } else {
             document.body.classList.remove("intro-step-details");
@@ -207,6 +212,20 @@ function handleFilterChange() {
     const activeSegs = [...document.querySelectorAll("#filter-segments .active")].map((e) => e.innerText);
     const activeTypes = [...document.querySelectorAll("#filter-types .active")].map((e) => e.innerText);
     const activeTags = [...document.querySelectorAll("#filter-tags .active")].map((e) => e.innerText);
+    const hasActiveFilters = Boolean(
+        search ||
+        discipline ||
+        activeSegs.length ||
+        activeTypes.length ||
+        activeTags.length
+    );
+    const clearBtn = document.getElementById("btn-clear-filters");
+    if (clearBtn) {
+        clearBtn.classList.toggle("is-active", hasActiveFilters);
+        clearBtn.classList.toggle("is-inactive", !hasActiveFilters);
+        clearBtn.disabled = !hasActiveFilters;
+        clearBtn.setAttribute("aria-disabled", String(!hasActiveFilters));
+    }
     document.getElementById("discipline-box").classList.toggle("hidden", !activeSegs.includes("EF2") && activeSegs.length > 0);
     let filtered = snippets.filter((s) => {
         const ms = !search || s.title.toLowerCase().includes(search) || s.code?.toLowerCase().includes(search) || (s.tags || []).some((t) => t.toLowerCase().includes(search));
@@ -816,13 +835,21 @@ function clearSearch() {
 }
 
 function clearFilters() {
+    const clearBtn = document.getElementById("btn-clear-filters");
+    if (clearBtn?.disabled) return;
     document.getElementById("global-search").value = "";
+    const disciplineEl = document.getElementById("filter-discipline");
+    if (disciplineEl) disciplineEl.value = "";
     document.querySelectorAll(".tag-item.active").forEach((el) => el.classList.remove("active"));
     handleFilterChange();
 }
 
 function goUp() {
     document.querySelector("#list-col .column-content").scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function toggleFilters() {
+    document.body.classList.toggle("filters-collapsed");
 }
 
 // Expor funções usadas por onclick/oninput/onchange no HTML (necessário com type="module")
@@ -832,6 +859,7 @@ window.handleFilterChange = handleFilterChange;
 window.clearSearch = clearSearch;
 window.clearFilters = clearFilters;
 window.goUp = goUp;
+window.toggleFilters = toggleFilters;
 window.adminLogin = adminLogin;
 window.adminLogout = adminLogout;
 window.openEditorModal = openEditorModal;
